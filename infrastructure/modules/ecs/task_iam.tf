@@ -12,7 +12,11 @@ resource "aws_iam_role" "task_exec" {
               "ecs-tasks.amazonaws.com"
             ]
           },
-          "Action" : "sts:AssumeRole"
+          "Action" : [
+            "sts:AssumeRole",
+            "apigateway:PATCH",
+            "ecs:TagResource"
+          ]
         }
       ]
     }

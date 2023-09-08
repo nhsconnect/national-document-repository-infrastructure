@@ -64,8 +64,6 @@ resource "aws_ecr_repository_policy" "ndr_ecr_repository_policy" {
                 "ecr:BatchDeleteImage",
                 "ecr:SetRepositoryPolicy",
                 "ecr:DeleteRepositoryPolicy",
-                "apigateway:PATCH",
-                "ecs:TagResource"
             ]
         }
     ]
