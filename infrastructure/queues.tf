@@ -5,7 +5,7 @@ module "sqs-splunk-queue" {
 
 module "sqs-nems-queue" {
   source = "./modules/sqs"
-  name   = "sqs-splunk-queue"
+  name   = "sqs-nems-queue"
 }
 
 # module "sqs-nems-queue-subscription" {
