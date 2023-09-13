@@ -20,6 +20,46 @@ module "search-document-references-gateway" {
   ]
 }
 
+module "search_doc_alarm" {
+  source               = "./modules/alarm"
+  lambda_function_name = module.search-document-references-lambda.function_name
+  lambda_timeout       = module.search-document-references-lambda.timeout
+  lambda_name          = "search_document_references_handler"
+  namespace            = "AWS/Lambda"
+  alarm_actions        = [module.search_doc_alarm_topic.arn]
+  ok_actions           = [module.search_doc_alarm_topic.arn]
+  depends_on           = [module.search-document-references-lambda, module.search_doc_alarm_topic]
+}
+
+
+module "search_doc_alarm_topic" {
+  source         = "./modules/sns"
+  topic_name     = "search_doc_references-alarms-topic"
+  topic_protocol = "lambda"
+  topic_endpoint = module.search-document-references-lambda.endpoint
+  delivery_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "cloudwatch.amazonaws.com"
+        },
+        "Action" : [
+          "SNS:Publish",
+        ],
+        "Condition" : {
+          "ArnLike" : {
+            "aws:SourceArn" : "arn:aws:cloudwatch:eu-west-2:${data.aws_caller_identity.current.account_id}:alarm:*"
+          }
+        }
+        "Resource" : "*"
+      }
+    ]
+  })
+}
+
+
 module "search-document-references-lambda" {
   source  = "./modules/lambda"
   name    = "SearchDocumentReferencesLambda"

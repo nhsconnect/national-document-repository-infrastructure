@@ -20,6 +20,45 @@ module "search-patient-details-gateway" {
   ]
 }
 
+module "search_patient_alarm" {
+  source               = "./modules/alarm"
+  lambda_function_name = module.search-patient-details-lambda.function_name
+  lambda_timeout       = module.search-patient-details-lambda.timeout
+  lambda_name          = "search_patient_details_handler"
+  namespace            = "AWS/Lambda"
+  alarm_actions        = [module.search_patient_alarm_topic.arn]
+  ok_actions           = [module.search_patient_alarm_topic.arn]
+  depends_on           = [module.search-patient-details-lambda, module.search_patient_alarm_topic]
+}
+
+
+module "search_patient_alarm_topic" {
+  source         = "./modules/sns"
+  topic_name     = "search_patient_details_alarms-topic"
+  topic_protocol = "lambda"
+  topic_endpoint = module.search-patient-details-lambda.endpoint
+  delivery_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "cloudwatch.amazonaws.com"
+        },
+        "Action" : [
+          "SNS:Publish",
+        ],
+        "Condition" : {
+          "ArnLike" : {
+            "aws:SourceArn" : "arn:aws:cloudwatch:eu-west-2:${data.aws_caller_identity.current.account_id}:alarm:*"
+          }
+        }
+        "Resource" : "*"
+      }
+    ]
+  })
+}
+
 module "search-patient-details-lambda" {
   source  = "./modules/lambda"
   name    = "SearchPatientDetailsLambda"
