@@ -25,6 +25,9 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
       module.search-patient-details-lambda,
       module.search-document-references-gateway,
       module.search-document-references-lambda,
+      module.login_redirect_lambda,
+      module.authoriser-lambda,
+      module.create-token-lambda
     ]))
   }
 
@@ -36,6 +39,9 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
     module.search-patient-details-lambda,
     module.search-document-references-gateway,
     module.search-document-references-lambda,
+    module.login_redirect_lambda,
+    module.authoriser-lambda,
+    module.create-token-lambda
   ]
 }
 

@@ -39,6 +39,10 @@ variable "zip_store_dynamodb_table_name" {
   default = "ZipStoreReferenceMetadata"
 }
 
+variable "auth_dynamodb_table_name" {
+  type    = string
+  default = "AuthStateReferenceMetadata"
+}
 # Gateway Variables
 variable "cors_require_credentials" {
   type        = bool
