@@ -28,6 +28,8 @@
 | <a name="module_document_manifest_alarm"></a> [document\_manifest\_alarm](#module\_document\_manifest\_alarm) | ./modules/alarm | n/a |
 | <a name="module_document_manifest_alarm_topic"></a> [document\_manifest\_alarm\_topic](#module\_document\_manifest\_alarm\_topic) | ./modules/sns | n/a |
 | <a name="module_document_reference_dynamodb_table"></a> [document\_reference\_dynamodb\_table](#module\_document\_reference\_dynamodb\_table) | ./modules/dynamo_db | n/a |
+| <a name="module_jwt_signing_key_private"></a> [jwt\_signing\_key\_private](#module\_jwt\_signing\_key\_private) | ./modules/secrets_manager | n/a |
+| <a name="module_jwt_signing_key_public"></a> [jwt\_signing\_key\_public](#module\_jwt\_signing\_key\_public) | ./modules/secrets_manager | n/a |
 | <a name="module_lloyd_george_reference_dynamodb_table"></a> [lloyd\_george\_reference\_dynamodb\_table](#module\_lloyd\_george\_reference\_dynamodb\_table) | ./modules/dynamo_db | n/a |
 | <a name="module_login_redirect_lambda"></a> [login\_redirect\_lambda](#module\_login\_redirect\_lambda) | ./modules/lambda | n/a |
 | <a name="module_logout_redirect_lambda"></a> [logout\_redirect\_lambda](#module\_logout\_redirect\_lambda) | ./modules/lambda | n/a |

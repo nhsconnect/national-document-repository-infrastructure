@@ -74,5 +74,8 @@ jobs:
     - name: Terraform Apply 
       run: terraform apply -auto-approve -input=false tf.plan
       working-directory: ./infrastructure
-        
+
+    - name: Rotate RSA Keys
+      run: make rotate-key workspace=${{ github.event.inputs.sandboxWorkspace}}
+      working-directory: .
         

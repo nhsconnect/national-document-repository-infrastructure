@@ -42,11 +42,11 @@ apply-bootstrap:
 # This assume that the secret is already created by terraform.
 .PHONY: rotate-key
 rotate-key:
-ifdef env
-	ssh-keygen -t rsa -b 4096 -m PEM -f $(env)_jwt_signing_key.rsa -q -N ""
-	-aws secretsmanager update-secret --secret-id $(env)_jwt_signing_key --secret-string file://$(env)_jwt_signing_key.rsa
-	-aws secretsmanager update-secret --secret-id $(env)_jwt_signing_key_pub --secret-string file://$(env)_jwt_signing_key.rsa.pub
-	rm $(env)_jwt_signing_key.rsa $(env)_jwt_signing_key.rsa.pub
+ifdef workspace
+	ssh-keygen -t rsa -b 4096 -m PEM -f $(workspace)_jwt_signing_key.rsa -q -N ""
+	-aws secretsmanager update-secret --secret-id /ndr/$(workspace)/jwt_signing_key  --secret-string file://$(workspace)_jwt_signing_key.rsa >/dev/null
+	-aws secretsmanager update-secret --secret-id /ndr/$(workspace)/jwt_signing_key_pub --secret-string file://$(workspace)_jwt_signing_key.rsa.pub >/dev/null
+	rm $(workspace)_jwt_signing_key.rsa $(workspace)_jwt_signing_key.rsa.pub
 else
-	@echo 'Please provide the env to rotate_key. Example:  make rotate_key env=ndra'
+	@echo 'Please provide the workspace to rotate_key. Example:  make rotate_key workspace=ndra'
 endif
