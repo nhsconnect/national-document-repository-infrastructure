@@ -32,3 +32,7 @@ tfplan
 
 .idea/
 .vscode/
+
+# to prevent accidental commit of signing keys
+*.rsa
+*.rsa.pub
