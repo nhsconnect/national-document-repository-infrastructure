@@ -17,6 +17,7 @@ variable "rest_api_id" {
 
 variable "resource_id" {
   type = string
+  default = ""
 }
 
 variable "http_method" {
@@ -34,4 +35,8 @@ variable "iam_role_policies" {
 variable "lambda_timeout" {
   type    = number
   default = 30
+}
+
+output "lambda_arn" {
+  value = aws_lambda_function.lambda.arn
 }
