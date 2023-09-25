@@ -60,3 +60,21 @@ module "ndr-lloyd-george-store" {
   ]
 }
 
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket = module.ndr-document-store.s3_bucket_id
+
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.fake_virus_scanned_event_lambda.arn
+    events              = ["s3:ObjectCreated:*"]
+  }
+
+  depends_on = [aws_lambda_permission.s3_permission_for_fake_virus_scanned_event]
+}
+
+#resource "aws_lambda_permission" "s3_permission_for_fake_virus_scanned_event" {
+#  statement_id  = "AllowFakeScanExecutionFromS3Bucket"
+#  action        = "lambda:InvokeFunction"
+#  function_name = aws_lambda_function.fake_virus_scanned_event_lambda.arn
+#  principal     = "s3.amazonaws.com"
+#  source_arn    = module.ndr-document-store.s3_bucket_arn
+#}
