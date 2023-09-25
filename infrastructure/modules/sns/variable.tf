@@ -3,35 +3,11 @@ variable "topic_name" {
   description = "Name of the SNS topic"
 }
 
-variable "protocol" {
-  type        = string
-  description = "SNS protocol type, most commonly https or lambda"
-}
 
 variable "delivery_policy" {
   type        = string
   description = "Attach delivery or IAM policy"
-  default     = <<EOF
-{
-  "http": {
-    "defaultHealthyRetryPolicy": {
-      "minDelayTarget": 20,
-      "maxDelayTarget": 20,
-      "numRetries": 3,
-      "numMaxDelayRetries": 0,
-      "numNoDelayRetries": 0,
-      "numMinDelayRetries": 0,
-      "backoffFunction": "linear"
-    },
-    "disableSubscriptionOverrides": false,
-    "defaultThrottlePolicy": {
-      "maxReceivesPerSecond": 1
-    }
-  }
 }
-EOF
-}
-
 variable "enable_fifo" {
   type        = bool
   default     = false
@@ -45,7 +21,11 @@ variable "enable_deduplication" {
 
 }
 
-variable "function_arn" {
-  type        = string
-  description = "Provide the AWS ARN to link the SNS module to the path of the Lambda / Service"
+variable "topic_protocol" {
+  type = string
+}
+
+
+variable "topic_endpoint" {
+  type = string
 }

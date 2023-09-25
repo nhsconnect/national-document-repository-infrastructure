@@ -20,15 +20,56 @@ module "document-manifest-by-nhs-gateway" {
   ]
 }
 
+module "document_manifest_alarm" {
+  source               = "./modules/alarm"
+  lambda_function_name = module.document-manifest-by-nhs-number-lambda.function_name
+  lambda_timeout       = module.document-manifest-by-nhs-number-lambda.timeout
+  lambda_name          = "create_document_manifest_handler"
+  namespace            = "AWS/Lambda"
+  alarm_actions        = [module.document_manifest_alarm_topic.arn]
+  ok_actions           = [module.document_manifest_alarm_topic.arn]
+  depends_on           = [module.document-manifest-by-nhs-number-lambda, module.document_manifest_alarm_topic]
+}
+
+
+module "document_manifest_alarm_topic" {
+  source         = "./modules/sns"
+  topic_name     = "create_doc_manifest-alarms-topic"
+  topic_protocol = "lambda"
+  topic_endpoint = module.document-manifest-by-nhs-number-lambda.endpoint
+  delivery_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "cloudwatch.amazonaws.com"
+        },
+        "Action" : [
+          "SNS:Publish",
+        ],
+        "Condition" : {
+          "ArnLike" : {
+            "aws:SourceArn" : "arn:aws:cloudwatch:eu-west-2:${data.aws_caller_identity.current.account_id}:alarm:*"
+          }
+        }
+        "Resource" : "*"
+      }
+    ]
+  })
+}
+
 module "document-manifest-by-nhs-number-lambda" {
   source  = "./modules/lambda"
   name    = "DocumentManifestByNHSNumberLambda"
   handler = "handlers.document_manifest_by_nhs_number_handler.lambda_handler"
   iam_role_policies = [
     module.document_reference_dynamodb_table.dynamodb_policy,
-    module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
     module.ndr-document-store.s3_object_access_policy,
+    module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
     module.ndr-lloyd-george-store.s3_object_access_policy,
+    module.zip_store_reference_dynamodb_table.dynamodb_policy,
+    module.ndr-zip-request-store.s3_object_access_policy,
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy"
   ]
@@ -38,9 +79,11 @@ module "document-manifest-by-nhs-number-lambda" {
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     DOCUMENT_STORE_BUCKET_NAME   = "${terraform.workspace}-${var.docstore_bucket_name}"
-    LLOYD_GEORGE_BUCKET_NAME     = "${terraform.workspace}-${var.lloyd_george_bucket_name}"
     DOCUMENT_STORE_DYNAMODB_NAME = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
+    LLOYD_GEORGE_BUCKET_NAME     = "${terraform.workspace}-${var.lloyd_george_bucket_name}"
     LLOYD_GEORGE_DYNAMODB_NAME   = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
+    ZIPPED_STORE_BUCKET_NAME     = "${terraform.workspace}-${var.zip_store_bucket_name}"
+    ZIPPED_STORE_DYNAMODB_NAME   = "${terraform.workspace}_${var.zip_store_dynamodb_table_name}"
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,

@@ -61,3 +61,15 @@ data "archive_file" "lambda" {
   source_file = "placeholder_lambda.py"
   output_path = "placeholder_lambda_payload.zip"
 }
+
+output "function_name" {
+  value = aws_lambda_function.lambda.function_name
+}
+
+output "timeout" {
+  value = aws_lambda_function.lambda.timeout
+}
+
+output "endpoint" {
+  value = aws_lambda_function.lambda.arn
+}

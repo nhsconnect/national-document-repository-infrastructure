@@ -11,6 +11,10 @@ resource "aws_sqs_queue" "sqs_queue" {
   content_based_deduplication = var.enable_deduplication
 }
 
+output "endpoint" {
+  value = aws_sqs_queue.sqs_queue.arn
+}
+
 data "aws_iam_policy_document" "sqs_queue_policy" {
   statement {
     sid    = "shsqsstatement"

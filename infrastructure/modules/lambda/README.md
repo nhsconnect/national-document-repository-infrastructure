@@ -41,4 +41,8 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_endpoint"></a> [endpoint](#output\_endpoint) | n/a |
+| <a name="output_function_name"></a> [function\_name](#output\_function\_name) | n/a |
+| <a name="output_timeout"></a> [timeout](#output\_timeout) | n/a |
