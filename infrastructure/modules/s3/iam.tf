@@ -7,6 +7,7 @@ resource "aws_iam_policy" "s3_document_data_policy" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "s3:CopyObject",
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject",
