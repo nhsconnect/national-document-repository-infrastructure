@@ -4,30 +4,34 @@ name: 'Deploy Feature Branch to Sandbox with Dispatch'
 on:
   workflow_dispatch:
     inputs:
-      buildBranch:
+      build_branch:
         default: "main"
         description: "Feature branch to push to sandbox."
         required: true
         type: "string"
-      sandboxWorkspace:
+      sandbox:
         description: "Which Sandbox to push to."
         required: true
         type: "string"
-      terraformVars:
+      terraform_vars:
         default: "dev.tfvars"
         description: "Which vars file is required? For test, change to test.tfvars"
         required: true
         type: "string"
       environment:
         default: "development"
-        description: "This is the environement the aciton will run in, for ndr-test, set to 'test'"
+        description: "This is the environement the action will run in, for ndr-test, set to 'test'"
         required: true
         type: "string"
+    secrets:
+      AWS_ASSUME_ROLE:
+        required: true
 
 permissions:
   pull-requests: write
   id-token: write # This is required for requesting the JWT
-  contents: read  # This is required for actions/checkout
+  contents: write  # This is required for actions/checkout
+  repository-projects: write
     
 jobs:
   terraform_process:
@@ -39,7 +43,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        ref: ${{ github.event.inputs.buildBranch}}
+        ref: ${{ github.event.inputs.build_branch}}
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -66,7 +70,7 @@ jobs:
 
     - name: Terraform Set Workspace
       id: workspace
-      run:  terraform workspace select ${{ github.event.inputs.sandboxWorkspace}}
+      run:  terraform workspace select ${{ github.event.inputs.sandbox}}
       working-directory: ./infrastructure 
       shell: bash
       
@@ -86,20 +90,25 @@ jobs:
       run: terraform apply -auto-approve -input=false tf.plan
       working-directory: ./infrastructure
 
-  dispatch_to_main_repo:
-    runs-on: ubuntu-latest
-    environment: development
+  run_main_repo_deploy_lambdas:
+    name: Deploy Lambdas on NDR Functional Repo
+    needs: ['terraform_process']
+    uses: nhsconnect/national-document-repository/.github/workflows/new_lambdas-deploy-feature-to-sandbox.yml@main
+    with:
+      build_branch: main
+      sandbox: ${{ inputs.sandbox }}
+      environment: ${{ inputs.environment }}
+    secrets:
+      AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
+  
+  run_main_repo_deploy_ui:
+    name: Deploy Lambdas on NDR Functional Repo
+    needs: ['terraform_process']
+    uses: nhsconnect/national-document-repository/.github/workflows/new-ui-deploy-feature-to-sandbox-manual.yml@main
+    with:
+      build_branch: main
+      sandbox: ${{ inputs.sandbox }}
+      environment: ${{ inputs.environment }}
+    secrets:
+      AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
 
-    steps:
-
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.PAT }}
-          repository: nhsconnect/national-document-repository
-          event-type: full-deploy-dispatch-event
-          client-payload: '{"environment": "${{ github.event.inputs.environment }}", "sandbox":"${{ github.event.inputs.sandboxWorkspace }}"}'
-
-
-        
-        

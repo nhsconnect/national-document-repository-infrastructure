@@ -8,6 +8,10 @@ resource "aws_lambda_function" "lambda" {
   source_code_hash = data.archive_file.lambda.output_base64sha256
   runtime          = "python3.11"
   timeout          = var.lambda_timeout
+  memory_size      = var.memory_size
+  ephemeral_storage {
+    size = var.lambda_ephemeral_storage
+  }
 
   environment {
     variables = var.lambda_environment_variables
@@ -15,6 +19,7 @@ resource "aws_lambda_function" "lambda" {
 }
 
 resource "aws_api_gateway_integration" "lambda_integration" {
+  count                   = var.is_gateway_integration_needed ? 1 : 0
   rest_api_id             = var.rest_api_id
   resource_id             = var.resource_id
   http_method             = var.http_method
@@ -24,6 +29,7 @@ resource "aws_api_gateway_integration" "lambda_integration" {
 }
 
 resource "aws_lambda_permission" "lambda_permission" {
+  count         = var.is_invoked_from_gateway ? 1 : 0
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda.arn
@@ -60,16 +66,4 @@ data "archive_file" "lambda" {
   type        = "zip"
   source_file = "placeholder_lambda.py"
   output_path = "placeholder_lambda_payload.zip"
-}
-
-output "function_name" {
-  value = aws_lambda_function.lambda.function_name
-}
-
-output "timeout" {
-  value = aws_lambda_function.lambda.timeout
-}
-
-output "endpoint" {
-  value = aws_lambda_function.lambda.arn
 }

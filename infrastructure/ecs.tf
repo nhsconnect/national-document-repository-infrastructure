@@ -11,5 +11,6 @@ module "ndr-ecs-fargate" {
   environment              = var.environment
   owner                    = var.owner
   domain                   = var.domain
+  certificate_domain       = var.certificate_domain
   container_port           = 80
 }

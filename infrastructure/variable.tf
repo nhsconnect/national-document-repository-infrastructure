@@ -9,8 +9,9 @@ variable "owner" {
 
 # Bucket Variables
 variable "docstore_bucket_name" {
-  type    = string
-  default = "document-store"
+  type        = string
+  description = "The name of S3 bucket to store ARF documents"
+  default     = "document-store"
 }
 
 variable "zip_store_bucket_name" {
@@ -18,20 +19,28 @@ variable "zip_store_bucket_name" {
   default = "zip-request-store"
 }
 
-variable "lloyd_george_bucket_name" {
+variable "staging_store_bucket_name" {
   type    = string
-  default = "lloyd-george-store"
+  default = "staging-bulk-store"
+}
+
+variable "lloyd_george_bucket_name" {
+  type        = string
+  description = "The name of S3 bucket to store Lloyd George documents"
+  default     = "lloyd-george-store"
 }
 
 # DynamoDB Table Variables
 variable "docstore_dynamodb_table_name" {
-  type    = string
-  default = "DocumentReferenceMetadata"
+  type        = string
+  description = "The name of dynamodb table to store the metadata of ARF documents"
+  default     = "DocumentReferenceMetadata"
 }
 
 variable "lloyd_george_dynamodb_table_name" {
-  type    = string
-  default = "LloydGeorgeReferenceMetadata"
+  type        = string
+  description = "The name of dynamodb table to store the metadata of Lloyd George documents"
+  default     = "LloydGeorgeReferenceMetadata"
 }
 
 variable "zip_store_dynamodb_table_name" {
@@ -39,13 +48,17 @@ variable "zip_store_dynamodb_table_name" {
   default = "ZipStoreReferenceMetadata"
 }
 
-# Gateway Variables
-variable "cors_require_credentials" {
-  type        = bool
-  description = "Sets the value of 'Access-Control-Allow-Credentials' which controls whether auth cookies are needed"
-  default     = true
+variable "auth_state_dynamodb_table_name" {
+  type        = string
+  description = "The name of dynamodb table to store the state values (for CIS2 authorisation)"
+  default     = "AuthStateReferenceMetadata"
 }
 
+variable "auth_session_dynamodb_table_name" {
+  type        = string
+  description = "The name of dynamodb table to store user login sessions"
+  default     = "AuthSessionReferenceMetadata"
+}
 # VPC Variables
 variable "availability_zones" {
   type        = list(string)
@@ -84,5 +97,9 @@ variable "enable_dns_hostnames" {
 }
 
 variable "domain" {
+  type = string
+}
+
+variable "certificate_domain" {
   type = string
 }

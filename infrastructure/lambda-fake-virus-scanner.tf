@@ -65,10 +65,10 @@ module "fake_virus_scan_topic" {
 }
 
 resource "aws_s3_bucket_notification" "bucket_notification" {
-  bucket = module.ndr-document-store.s3_bucket_id
+  bucket = module.ndr-document-store.bucket_id
 
   lambda_function {
-    lambda_function_arn = module.fake_virus_scanned_event_lambda.lambda_arn
+    lambda_function_arn = module.fake_virus_scanned_event_lambda.endpoint
     events              = ["s3:ObjectCreated:*"]
   }
 
@@ -78,7 +78,7 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
 resource "aws_lambda_permission" "s3_permission_for_fake_virus_scanned_event" {
   statement_id  = "AllowFakeScanExecutionFromS3Bucket"
   action        = "lambda:InvokeFunction"
-  function_name = module.fake_virus_scanned_event_lambda.lambda_arn
+  function_name = module.fake_virus_scanned_event_lambda.endpoint
   principal     = "s3.amazonaws.com"
   source_arn    = module.ndr-document-store.s3_bucket_arn
 }

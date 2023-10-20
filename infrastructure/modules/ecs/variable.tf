@@ -45,6 +45,10 @@ variable "domain" {
   type = string
 }
 
+variable "certificate_domain" {
+  type = string
+}
+
 variable "container_port" {
   type    = number
   default = 8080

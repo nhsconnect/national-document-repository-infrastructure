@@ -11,6 +11,12 @@ resource "aws_api_gateway_rest_api" "ndr_doc_store_api" {
   }
 }
 
+resource "aws_api_gateway_resource" "auth_resource" {
+  rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  parent_id   = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
+  path_part   = "Auth"
+}
+
 # API Config
 resource "aws_api_gateway_deployment" "ndr_api_deploy" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
@@ -25,6 +31,9 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
       module.search-patient-details-lambda,
       module.search-document-references-gateway,
       module.search-document-references-lambda,
+      module.login_redirect_lambda,
+      module.authoriser-lambda,
+      module.create-token-lambda
     ]))
   }
 
@@ -36,6 +45,9 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
     module.search-patient-details-lambda,
     module.search-document-references-gateway,
     module.search-document-references-lambda,
+    module.login_redirect_lambda,
+    module.authoriser-lambda,
+    module.create-token-lambda
   ]
 }
 
@@ -50,8 +62,8 @@ resource "aws_api_gateway_gateway_response" "unauthorised_response" {
   response_parameters = {
     "gatewayresponse.header.Access-Control-Allow-Origin"      = "'https://${terraform.workspace}.${var.domain}'"
     "gatewayresponse.header.Access-Control-Allow-Methods"     = "'*'"
-    "gatewayresponse.header.Access-Control-Allow-Headers"     = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Auth-Cookie,Accept'"
-    "gatewayresponse.header.Access-Control-Allow-Credentials" = var.cors_require_credentials ? "'true'" : "'false'"
+    "gatewayresponse.header.Access-Control-Allow-Headers"     = "'Content-Type,X-Amz-Date,Authorization,X-Auth,X-Api-Key,X-Amz-Security-Token,X-Auth-Cookie,Accept'"
+    "gatewayresponse.header.Access-Control-Allow-Credentials" = "'true'"
   }
 }
 
@@ -66,8 +78,8 @@ resource "aws_api_gateway_gateway_response" "bad_gateway_response" {
   response_parameters = {
     "gatewayresponse.header.Access-Control-Allow-Origin"      = "'https://${terraform.workspace}.${var.domain}'"
     "gatewayresponse.header.Access-Control-Allow-Methods"     = "'*'"
-    "gatewayresponse.header.Access-Control-Allow-Headers"     = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Auth-Cookie,Accept'"
-    "gatewayresponse.header.Access-Control-Allow-Credentials" = var.cors_require_credentials ? "'true'" : "'false'"
+    "gatewayresponse.header.Access-Control-Allow-Headers"     = "'Content-Type,X-Amz-Date,Authorization,X-Auth,X-Api-Key,X-Amz-Security-Token,X-Auth-Cookie,Accept'"
+    "gatewayresponse.header.Access-Control-Allow-Credentials" = "'true'"
   }
 }
 

@@ -46,15 +46,6 @@ resource "aws_iam_policy" "dynamodb_policy" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "dynamodb:Scan",
-        ],
-        "Resource" : [
-          aws_dynamodb_table.ndr_dynamodb_table.arn
-        ]
-      },
-      {
-        "Effect" : "Allow",
-        "Action" : [
           "dynamodb:Query",
         ],
         "Resource" : [
@@ -65,9 +56,11 @@ resource "aws_iam_policy" "dynamodb_policy" {
       {
         "Effect" : "Allow",
         "Action" : [
+          "dynamodb:Query",
           "dynamodb:GetItem",
           "dynamodb:PutItem",
           "dynamodb:UpdateItem",
+          "dynamodb:DeleteItem",
         ],
         "Resource" : [
           aws_dynamodb_table.ndr_dynamodb_table.arn,

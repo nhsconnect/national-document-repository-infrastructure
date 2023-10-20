@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         # Can't use an env var here unfortunatly, we will have to update here with new sandbox environments
-        sandbox-name: [ndra, ndrb]
+        sandbox-name: [ndra, ndrb, ndrc, ndrd]
 
     steps:
     # Checkout the repository to the GitHub Actions runner

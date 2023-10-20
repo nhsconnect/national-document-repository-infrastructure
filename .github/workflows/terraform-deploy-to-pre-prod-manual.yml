@@ -71,7 +71,7 @@ jobs:
       
     - name: Terraform Init
       id: init
-      run: terraform init -backend-config=backend.conf
+      run: terraform init -backend-config=backend-pre-prod.conf
       working-directory: ./infrastructure 
       shell: bash
 

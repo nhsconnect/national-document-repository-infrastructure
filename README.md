@@ -10,7 +10,7 @@ brew install terraform-docs
 ```
 - [findutils](https://www.gnu.org/software/findutils/) - Needed for scripts running on MacOSX
 ```bash
-brew intsall findutils
+brew install findutils
 ```
 
 ## Repository best practices
@@ -30,3 +30,8 @@ terraform init -backend-config=backend.conf
 The following commands currently exist in the make file:
 
 - `make pre-commit` -> runs both the `make generate-docs` and `make format-all` commands.
+
+
+### Deploying to a new AWS Account
+
+The details on how to run this terraform process on a new AWS account can be found on our confluence guides found [here](https://gpitbjss.atlassian.net/wiki/spaces/TW/pages/12581568619/Infrastructure+-+Deploy+to+a+new+Account)

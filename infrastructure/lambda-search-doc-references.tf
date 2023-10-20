@@ -1,14 +1,14 @@
 module "search-document-references-gateway" {
   # Gateway Variables
-  source                   = "./modules/gateway"
-  api_gateway_id           = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  parent_id                = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
-  http_method              = "GET"
-  authorization            = "NONE" // "CUSTOM"
-  gateway_path             = "SearchDocumentReferences"
-  authorizer_id            = null
-  cors_require_credentials = var.cors_require_credentials
-  origin                   = "'https://${terraform.workspace}.${var.domain}'"
+  source              = "./modules/gateway"
+  api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  parent_id           = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
+  http_method         = "GET"
+  authorization       = "CUSTOM"
+  gateway_path        = "SearchDocumentReferences"
+  authorizer_id       = aws_api_gateway_authorizer.repo_authoriser.id
+  require_credentials = true
+  origin              = "'https://${terraform.workspace}.${var.domain}'"
 
   # Lambda Variables
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
@@ -75,8 +75,7 @@ module "search-document-references-lambda" {
   http_method       = "GET"
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
-    DOCUMENT_STORE_DYNAMODB_NAME = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
-    LLOYD_GEORGE_DYNAMODB_NAME   = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
+    DYNAMODB_TABLE_LIST = "[\u0022${terraform.workspace}_${var.docstore_dynamodb_table_name}\u0022, \u0022${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}\u0022]"
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,

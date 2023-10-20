@@ -8,6 +8,20 @@ module "sqs-nems-queue" {
   name   = "nems-queue"
 }
 
+module "sqs-lg-bulk-upload-metadata-queue" {
+  source            = "./modules/sqs"
+  name              = "lg-bulk-upload-metadata-queue"
+  max_message       = 256 * 1024        # allow message size up to 256 KB
+  message_retention = 60 * 60 * 24 * 14 # 14 days
+}
+
+module "sqs-lg-bulk-upload-invalid-queue" {
+  source            = "./modules/sqs"
+  name              = "lg-bulk-upload-invalid-queue"
+  max_message       = 256 * 1024        # 256 KB
+  message_retention = 60 * 60 * 24 * 14 # 14 days
+}
+
 module "sqs-nems-queue-topic" {
   source         = "./modules/sns"
   topic_name     = "nems-queue-topic"

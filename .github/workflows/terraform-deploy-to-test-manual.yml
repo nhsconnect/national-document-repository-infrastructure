@@ -4,7 +4,7 @@ name: 'Deploy Feature Branch to Test'
 on:
   workflow_dispatch:
     inputs:
-      buildBranch:
+      build_branch:
         description: "Feature branch to push to test?"
         required: true
         type: "string"
@@ -24,7 +24,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        ref: ${{ github.event.inputs.buildBranch}}
+        ref: ${{ github.event.inputs.build_branch}}
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -70,5 +70,27 @@ jobs:
     - name: Terraform Apply 
       run: terraform apply -auto-approve -input=false tf.plan
       working-directory: ./infrastructure
+  
+  run_main_repo_deploy_lambdas:
+    name: Deploy Lambdas on NDR Functional Repo
+    needs: ['terraform_process']
+    uses: nhsconnect/national-document-repository/.github/workflows/new_lambdas-deploy-feature-to-sandbox.yml@main
+    with:
+      build_branch: main
+      sandbox: ndr-test
+      environment: test
+    secrets:
+      AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
+  
+  run_main_repo_deploy_ui:
+    name: Deploy Lambdas on NDR Functional Repo
+    needs: ['terraform_process']
+    uses: nhsconnect/national-document-repository/.github/workflows/new-ui-deploy-feature-to-sandbox-manual.yml@main
+    with:
+      build_branch: main
+      sandbox: ndr-test
+      environment: test
+    secrets:
+      AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
         
         

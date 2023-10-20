@@ -30,14 +30,14 @@ No modules.
 | <a name="input_api_execution_arn"></a> [api\_execution\_arn](#input\_api\_execution\_arn) | n/a | `string` | n/a | yes |
 | <a name="input_api_gateway_id"></a> [api\_gateway\_id](#input\_api\_gateway\_id) | n/a | `string` | n/a | yes |
 | <a name="input_authorization"></a> [authorization](#input\_authorization) | n/a | `string` | n/a | yes |
-| <a name="input_authorizer_id"></a> [authorizer\_id](#input\_authorizer\_id) | n/a | `string` | n/a | yes |
-| <a name="input_cors_require_credentials"></a> [cors\_require\_credentials](#input\_cors\_require\_credentials) | n/a | `bool` | n/a | yes |
+| <a name="input_authorizer_id"></a> [authorizer\_id](#input\_authorizer\_id) | Required resource id when setting authorization to 'CUSTOM' | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
 | <a name="input_gateway_path"></a> [gateway\_path](#input\_gateway\_path) | n/a | `string` | n/a | yes |
 | <a name="input_http_method"></a> [http\_method](#input\_http\_method) | n/a | `string` | n/a | yes |
 | <a name="input_origin"></a> [origin](#input\_origin) | n/a | `string` | n/a | yes |
 | <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
 | <a name="input_parent_id"></a> [parent\_id](#input\_parent\_id) | n/a | `string` | n/a | yes |
+| <a name="input_require_credentials"></a> [require\_credentials](#input\_require\_credentials) | Sets the value of 'Access-Control-Allow-Credentials' which controls whether auth cookies are needed | `bool` | n/a | yes |
 
 ## Outputs
 

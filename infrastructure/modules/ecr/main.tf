@@ -7,7 +7,7 @@ resource "aws_ecr_repository" "ndr-ecr" {
   encryption_configuration {
     encryption_type = "KMS"
   }
-  force_delete = contains(["ndra", "ndrb", "ndr-test"], terraform.workspace)
+  force_delete = contains(["ndra", "ndrb", "ndrc", "ndrd", "ndr-test"], terraform.workspace)
   tags = {
     Name        = "${terraform.workspace}-${var.app_name}"
     Owner       = var.owner

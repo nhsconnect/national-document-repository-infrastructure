@@ -35,6 +35,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
       }
     ]
   })
+  depends_on = [aws_s3_bucket.bucket]
 }
 
 resource "aws_s3_bucket_acl" "bucket_acl" {
@@ -49,6 +50,7 @@ resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
   rule {
     object_ownership = "ObjectWriter"
   }
+  depends_on = [aws_s3_bucket.bucket, aws_s3_bucket_policy.bucket_policy]
 }
 
 resource "aws_s3_bucket_cors_configuration" "document_store_bucket_cors_config" {
@@ -64,4 +66,5 @@ resource "aws_s3_bucket_cors_configuration" "document_store_bucket_cors_config" 
       max_age_seconds = try(cors_rule.value.max_age_seconds, null)
     }
   }
+  depends_on = [aws_s3_bucket.bucket, aws_s3_bucket_acl.bucket_acl]
 }

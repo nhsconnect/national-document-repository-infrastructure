@@ -16,9 +16,8 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [aws_iam_policy.sqs_queue_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_sqs_queue.sqs_queue](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue) | resource |
-| [aws_sqs_queue_policy.sqs_queue_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue_policy) | resource |
-| [aws_iam_policy_document.sqs_queue_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
@@ -36,4 +35,9 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_endpoint"></a> [endpoint](#output\_endpoint) | Same as sqs queue arn. For use when setting the queue as endpoint of sns topic |
+| <a name="output_sqs_arn"></a> [sqs\_arn](#output\_sqs\_arn) | n/a |
+| <a name="output_sqs_policy"></a> [sqs\_policy](#output\_sqs\_policy) | Arn for the iam policy for accessing this queue |
+| <a name="output_sqs_url"></a> [sqs\_url](#output\_sqs\_url) | n/a |

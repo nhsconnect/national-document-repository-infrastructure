@@ -31,12 +31,16 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_api_execution_arn"></a> [api\_execution\_arn](#input\_api\_execution\_arn) | n/a | `string` | n/a | yes |
 | <a name="input_handler"></a> [handler](#input\_handler) | n/a | `string` | n/a | yes |
-| <a name="input_http_method"></a> [http\_method](#input\_http\_method) | n/a | `string` | n/a | yes |
+| <a name="input_http_method"></a> [http\_method](#input\_http\_method) | n/a | `string` | `"GET"` | no |
 | <a name="input_iam_role_policies"></a> [iam\_role\_policies](#input\_iam\_role\_policies) | n/a | `list(string)` | n/a | yes |
+| <a name="input_is_gateway_integration_needed"></a> [is\_gateway\_integration\_needed](#input\_is\_gateway\_integration\_needed) | Indicate whether the lambda need an aws\_api\_gateway\_integration resource block | `bool` | `true` | no |
+| <a name="input_is_invoked_from_gateway"></a> [is\_invoked\_from\_gateway](#input\_is\_invoked\_from\_gateway) | Indicate whether the lambda is supposed to be invoked by API gateway. Should be true for authoriser lambda. | `bool` | `true` | no |
 | <a name="input_lambda_environment_variables"></a> [lambda\_environment\_variables](#input\_lambda\_environment\_variables) | n/a | `map(string)` | `{}` | no |
+| <a name="input_lambda_ephemeral_storage"></a> [lambda\_ephemeral\_storage](#input\_lambda\_ephemeral\_storage) | n/a | `number` | `512` | no |
 | <a name="input_lambda_timeout"></a> [lambda\_timeout](#input\_lambda\_timeout) | n/a | `number` | `30` | no |
+| <a name="input_memory_size"></a> [memory\_size](#input\_memory\_size) | n/a | `number` | `128` | no |
 | <a name="input_name"></a> [name](#input\_name) | n/a | `string` | n/a | yes |
-| <a name="input_resource_id"></a> [resource\_id](#input\_resource\_id) | n/a | `string` | n/a | yes |
+| <a name="input_resource_id"></a> [resource\_id](#input\_resource\_id) | n/a | `string` | `""` | no |
 | <a name="input_rest_api_id"></a> [rest\_api\_id](#input\_rest\_api\_id) | n/a | `string` | n/a | yes |
 
 ## Outputs
@@ -45,4 +49,5 @@ No modules.
 |------|-------------|
 | <a name="output_endpoint"></a> [endpoint](#output\_endpoint) | n/a |
 | <a name="output_function_name"></a> [function\_name](#output\_function\_name) | n/a |
+| <a name="output_invoke_arn"></a> [invoke\_arn](#output\_invoke\_arn) | n/a |
 | <a name="output_timeout"></a> [timeout](#output\_timeout) | n/a |

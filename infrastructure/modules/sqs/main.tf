@@ -1,4 +1,3 @@
-
 resource "aws_sqs_queue" "sqs_queue" {
   name                        = "${terraform.workspace}-${var.name}"
   delay_seconds               = var.delay
@@ -11,31 +10,20 @@ resource "aws_sqs_queue" "sqs_queue" {
   content_based_deduplication = var.enable_deduplication
 }
 
-output "endpoint" {
-  value = aws_sqs_queue.sqs_queue.arn
-}
-
-data "aws_iam_policy_document" "sqs_queue_policy" {
-  statement {
-    sid    = "shsqsstatement"
-    effect = "Allow"
-
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-
-    actions = [
-      "sqs:SendMessage",
-      "sqs:ReceiveMessage"
-    ]
-    resources = [
-      aws_sqs_queue.sqs_queue.arn
-    ]
-  }
-}
-
-resource "aws_sqs_queue_policy" "sqs_queue_policy" {
-  queue_url = aws_sqs_queue.sqs_queue.id
-  policy    = data.aws_iam_policy_document.sqs_queue_policy.json
+resource "aws_iam_policy" "sqs_queue_policy" {
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      "Sid"    = "shsqsstatement",
+      "Effect" = "Allow",
+      "Action" = [
+        "sqs:SendMessage",
+        "sqs:ReceiveMessage",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes"
+      ],
+      "Resource" = [
+        aws_sqs_queue.sqs_queue.arn
+      ]
+  }] })
 }

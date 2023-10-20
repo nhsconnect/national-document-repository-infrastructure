@@ -38,4 +38,5 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | n/a |
 | <a name="output_s3_object_access_policy"></a> [s3\_object\_access\_policy](#output\_s3\_object\_access\_policy) | Outputs |

@@ -8,8 +8,7 @@ resource "aws_api_gateway_method" "preflight_method" {
   rest_api_id   = var.api_gateway_id
   resource_id   = aws_api_gateway_resource.gateway_resource.id
   http_method   = "OPTIONS"
-  authorization = var.authorization
-  authorizer_id = var.authorizer_id
+  authorization = "NONE"
   depends_on    = [aws_api_gateway_resource.gateway_resource]
 }
 
@@ -17,7 +16,8 @@ resource "aws_api_gateway_method" "proxy_method" {
   rest_api_id   = var.api_gateway_id
   resource_id   = aws_api_gateway_resource.gateway_resource.id
   http_method   = var.http_method
-  authorization = var.authorization // Requires authorisationId on CUSTOM
+  authorization = var.authorization
+  authorizer_id = var.authorizer_id
 }
 
 resource "aws_api_gateway_method_response" "preflight_method_response" {
@@ -32,7 +32,7 @@ resource "aws_api_gateway_method_response" "preflight_method_response" {
     "method.response.header.Access-Control-Allow-Headers"     = true,
     "method.response.header.Access-Control-Allow-Methods"     = true,
     "method.response.header.Access-Control-Allow-Origin"      = true
-    "method.response.header.Access-Control-Allow-Credentials" = true
+    "method.response.header.Access-Control-Allow-Credentials" = var.require_credentials
 
   }
   depends_on = [aws_api_gateway_method.preflight_method, aws_api_gateway_resource.gateway_resource]
@@ -59,10 +59,10 @@ resource "aws_api_gateway_integration_response" "preflight_integration_response"
   http_method = aws_api_gateway_method.preflight_method.http_method
   status_code = aws_api_gateway_method_response.preflight_method_response.status_code
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers"     = "'Content-Type,X-Amz-Date,Authorization,Cookie,X-Api-Key,X-Amz-Security-Token,X-Auth-Cookie,Accept'",
+    "method.response.header.Access-Control-Allow-Headers"     = "'Content-Type,X-Amz-Date,Authorization,X-Auth,Cookie,X-Api-Key,X-Amz-Security-Token,X-Auth-Cookie,Accept'",
     "method.response.header.Access-Control-Allow-Methods"     = "'${var.http_method}'",
     "method.response.header.Access-Control-Allow-Origin"      = var.origin,
-    "method.response.header.Access-Control-Allow-Credentials" = "'true'"
+    "method.response.header.Access-Control-Allow-Credentials" = "'${var.require_credentials}'"
 
   }
   depends_on = [aws_api_gateway_method_response.preflight_method_response, aws_api_gateway_resource.gateway_resource]
