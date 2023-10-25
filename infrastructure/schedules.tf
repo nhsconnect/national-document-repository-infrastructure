@@ -47,7 +47,7 @@ resource "aws_lambda_permission" "bulk_upload_report_schedule_permission" {
   statement_id  = "AllowExecutionFromCloudWatch"
   action        = [
     "lambda:InvokeFunction",
-    "events:PutRole"
+    "events:PutRule"
     ]
   function_name = module.bulk-upload-report-lambda.function_name
   principal     = "events.amazonaws.com"
