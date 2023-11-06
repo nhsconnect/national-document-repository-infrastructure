@@ -24,8 +24,8 @@ resource "aws_iam_role" "splunk_sqs_forwarder" {
       Version = "2012-10-17"
       Statement = [
         {
-          effect = "Allow"
-          actions = [
+          Effect = "Allow"
+          Action = [
             "sqs:GetQueueAttributes",
             "sqs:ListQueues",
             "sqs:ReceiveMessage",
@@ -33,11 +33,11 @@ resource "aws_iam_role" "splunk_sqs_forwarder" {
             "sqs:SendMessage",
             "sqs:DeleteMessage"
           ]
-          resources = [
+          Resource = [
             module.sqs-splunk-queue.sqs_arn,
             module.sqs-nems-queue.sqs_arn
           ]
-        }
+        },
       ]
     })
   }
