@@ -30,6 +30,12 @@ resource "aws_iam_policy" "s3_document_data_policy" {
           "s3:GetObjectVersion",
         ],
         "Resource" : ["${aws_s3_bucket.bucket.arn}/*", "${aws_s3_bucket.bucket.arn}/*"]
+        }, {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:ListBucket",
+        ],
+        "Resource" : ["${aws_s3_bucket.bucket.arn}"]
       }
     ]
   })
