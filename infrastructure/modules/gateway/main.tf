@@ -33,11 +33,11 @@ resource "aws_api_gateway_method_response" "preflight_method_response" {
     "method.response.header.Access-Control-Allow-Methods"      = true,
     "method.response.header.Access-Control-Allow-Origin"       = true
     "method.response.header.Access-Control-Allow-Credentials"  = var.require_credentials
-    "method.response.header.Content-Security-Policy"           = "script-src 'self'"
-    "method.response.header.Referrer-Policy"                   = "no-referrer"
-    "method.response.header.X-Frame-Options"                   = "SAMEORIGIN"
-    "method.response.header.X-Content-Type-Options"            = "nosniff"
-    "method.response.header.X-Permitted-Cross-Domain-Policies" = "none"
+    "method.response.header.Content-Security-Policy"           = true
+    "method.response.header.Referrer-Policy"                   = true
+    "method.response.header.X-Frame-Options"                   = true
+    "method.response.header.X-Content-Type-Options"            = true
+    "method.response.header.X-Permitted-Cross-Domain-Policies" = true
 
   }
   depends_on = [aws_api_gateway_method.preflight_method, aws_api_gateway_resource.gateway_resource]
