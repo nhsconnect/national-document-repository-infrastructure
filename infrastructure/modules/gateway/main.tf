@@ -70,7 +70,6 @@ resource "aws_api_gateway_integration_response" "preflight_integration_response"
     "method.response.header.Access-Control-Allow-Credentials"  = "'${var.require_credentials}'"
     "method.response.header.Content-Security-Policy"           = "script-src 'self'"
     "method.response.header.Referrer-Policy"                   = "no-referrer"
-    "method.response.header.X-Frame-Options"                   = "SAMEORIGIN"
     "method.response.header.X-Content-Type-Options"            = "nosniff"
     "method.response.header.X-Permitted-Cross-Domain-Policies" = "none"
 
