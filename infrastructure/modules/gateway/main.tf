@@ -29,15 +29,10 @@ resource "aws_api_gateway_method_response" "preflight_method_response" {
     "application/json" = "Empty"
   }
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers"      = true,
-    "method.response.header.Access-Control-Allow-Methods"      = true,
-    "method.response.header.Access-Control-Allow-Origin"       = true
-    "method.response.header.Access-Control-Allow-Credentials"  = var.require_credentials
-    "method.response.header.Content-Security-Policy"           = true
-    "method.response.header.Referrer-Policy"                   = true
-    "method.response.header.X-Frame-Options"                   = true
-    "method.response.header.X-Content-Type-Options"            = true
-    "method.response.header.X-Permitted-Cross-Domain-Policies" = true
+    "method.response.header.Access-Control-Allow-Headers"     = true,
+    "method.response.header.Access-Control-Allow-Methods"     = true,
+    "method.response.header.Access-Control-Allow-Origin"      = true
+    "method.response.header.Access-Control-Allow-Credentials" = var.require_credentials
 
   }
   depends_on = [aws_api_gateway_method.preflight_method, aws_api_gateway_resource.gateway_resource]
