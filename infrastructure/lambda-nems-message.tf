@@ -23,7 +23,7 @@ module "nems-message-lambda" {
     aws_api_gateway_rest_api.ndr_doc_store_api,
     module.lloyd_george_reference_dynamodb_table,
     module.sqs-nems-queue,
-    data.aws_iam_policy_document.kms_policy_doc,
-    module.sns_encryption_key.kms_arn
+    module.sns-nems-queue-topic,
+    aws_ecs_service.mesh_forwarder
   ]
 }
