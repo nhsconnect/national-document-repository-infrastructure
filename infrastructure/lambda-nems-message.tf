@@ -1,4 +1,5 @@
 module "nems-message-lambda" {
+  count          = local.is_mesh_forwarder_enable ? 1 : 0
   source         = "./modules/lambda"
   name           = "NemsMessageLamba"
   handler        = "handlers.nems_message_handler.lambda_handler"

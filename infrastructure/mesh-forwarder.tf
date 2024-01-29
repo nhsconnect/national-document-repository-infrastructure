@@ -1,5 +1,5 @@
 locals {
-  is_mesh_forwarder_enable         = !contains(["ndra", "ndrb", "ndrc", "ndrd", "ndr-test"], terraform.workspace)
+  is_mesh_forwarder_enable         = contains(["ndra", "ndrb", "ndrc", "ndrd", "ndr-test"], terraform.workspace)
   inbox_message_count_metric_name  = "MeshInboxMessageCount"
   error_logs_metric_name           = "ErrorCountInLogs"
   sns_topic_error_logs_metric_name = "NumberOfNotificationsFailed"
