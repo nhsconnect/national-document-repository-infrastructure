@@ -19,8 +19,8 @@ data "aws_vpc" "vpc" {
 }
 
 locals {
-  subnet_1_cidr_block = tolist(data.aws_ssm_parameter.virus_scanning_subnet_cidr_range)[0]
-  subnet_2_cidr_block = tolist(data.aws_ssm_parameter.virus_scanning_subnet_cidr_range)[1]
+  subnet_1_cidr_block = split(",", data.aws_ssm_parameter.virus_scanning_subnet_cidr_range.value)[0]
+  subnet_2_cidr_block = split(",", data.aws_ssm_parameter.virus_scanning_subnet_cidr_range.value)[1]
 }
 
 resource "aws_subnet" "virus_scanning_subnet1" {
