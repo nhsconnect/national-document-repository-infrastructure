@@ -2,13 +2,13 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >=5.11 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.12.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.16.0 |
 
 ## Modules
 
@@ -100,6 +100,10 @@
 | <a name="module_sqs-nems-queue"></a> [sqs-nems-queue](#module\_sqs-nems-queue) | ./modules/sqs | n/a |
 | <a name="module_sqs-splunk-queue"></a> [sqs-splunk-queue](#module\_sqs-splunk-queue) | ./modules/sqs | n/a |
 | <a name="module_token-gateway"></a> [token-gateway](#module\_token-gateway) | ./modules/gateway | n/a |
+| <a name="module_update-upload-state-gateway"></a> [update-upload-state-gateway](#module\_update-upload-state-gateway) | ./modules/gateway | n/a |
+| <a name="module_update-upload-state-lambda"></a> [update-upload-state-lambda](#module\_update-upload-state-lambda) | ./modules/lambda | n/a |
+| <a name="module_update_upload_state_alarm"></a> [update\_upload\_state\_alarm](#module\_update\_upload\_state\_alarm) | ./modules/lambda_alarms | n/a |
+| <a name="module_update_upload_state_alarm_topic"></a> [update\_upload\_state\_alarm\_topic](#module\_update\_upload\_state\_alarm\_topic) | ./modules/sns | n/a |
 | <a name="module_zip_store_reference_dynamodb_table"></a> [zip\_store\_reference\_dynamodb\_table](#module\_zip\_store\_reference\_dynamodb\_table) | ./modules/dynamo_db | n/a |
 
 ## Resources
@@ -170,6 +174,7 @@
 | [aws_s3_bucket.logs_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_lifecycle_configuration.doc-store-lifecycle-rules](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_lifecycle_configuration.lg-lifecycle-rules](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
+| [aws_s3_bucket_lifecycle_configuration.staging-store-lifecycle-rules](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_policy.logs_bucket_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_security_group.ndr_mesh_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_sns_topic.alarm_notifications_topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |

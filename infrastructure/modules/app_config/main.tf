@@ -1,7 +1,7 @@
 locals {
   is_sandbox_or_test = contains(["ndra", "ndrb", "ndrc", "ndrd", "ndr-test"], terraform.workspace)
   current_config_path = (local.is_sandbox_or_test ? "${path.module}/configurations/2024-02-21-dev.json" :
-      "${path.module}/configurations/2024-02-21.json")
+  "${path.module}/configurations/2024-02-21.json")
 }
 
 resource "aws_appconfig_application" "ndr-app-config-application" {
