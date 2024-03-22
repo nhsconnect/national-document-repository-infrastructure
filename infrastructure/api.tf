@@ -56,7 +56,9 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
       module.logout_lambda,
       module.back_channel_logout_lambda,
       module.send-feedback-lambda,
-      module.feature-flags-lambda
+      module.feature-flags-lambda,
+      module.update-upload-state-gateway,
+      module.update-upload-state-lambda,
     ]))
   }
 
@@ -77,7 +79,9 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
     module.back_channel_logout_lambda,
     module.send-feedback-gateway,
     module.send-feedback-lambda,
-    module.feature-flags-lambda
+    module.feature-flags-lambda,
+    module.update-upload-state-gateway,
+    module.update-upload-state-lambda,
   ]
 
   lifecycle {
