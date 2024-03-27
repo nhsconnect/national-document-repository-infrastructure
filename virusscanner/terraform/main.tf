@@ -14,7 +14,7 @@ provider "aws" {
 
 data "aws_vpc" "vpc" {
   tags = {
-    Name = "${terraform.workspace}-vpc"
+    Name = "${var.standalone_vpc_tag}-vpc"
   }
 }
 
@@ -49,7 +49,7 @@ resource "aws_subnet" "virus_scanning_subnet2" {
 
 data "aws_internet_gateway" "ig" {
   tags = {
-    Name = "${terraform.workspace}-vpc-internet-gateway"
+    Name = "${var.standalone_vpc_tag}-vpc-internet-gateway"
   }
 }
 
@@ -79,7 +79,7 @@ resource "aws_route_table_association" "virus_scanning_subnet2_route_table_assoc
 }
 
 data "aws_ssm_parameter" "cloud_security_admin_email" {
-  name = "/prs/${terraform.workspace}/user-input/cloud-security-admin-email"
+  name = "/prs/${var.standalone_vpc_tag}/user-input/cloud-security-admin-email"
 }
 
 data "aws_ssm_parameter" "virus_scanning_subnet_cidr_range" {
@@ -92,7 +92,7 @@ resource "aws_cloudformation_stack" "s3_virus_scanning_stack" {
     VPC                                = data.aws_vpc.vpc.id
     SubnetA                            = aws_subnet.virus_scanning_subnet1.id
     SubnetB                            = aws_subnet.virus_scanning_subnet2.id
-    ConsoleSecurityGroupCidrBlock      = var.black_hole_address
+    ConsoleSecurityGroupCidrBlock      = var.public_address
     Email                              = data.aws_ssm_parameter.cloud_security_admin_email.value
     OnlyScanWhenQueueThresholdExceeded = "Yes"
     MinRunningAgents                   = 0

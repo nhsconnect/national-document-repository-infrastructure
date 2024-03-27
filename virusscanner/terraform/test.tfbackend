@@ -1,0 +1,5 @@
+bucket          = "virus-scanner-terraform-state-211125386286"
+dynamodb_table  = "virus-scanner-terraform-lock-211125386286"
+region          = "eu-west-2"
+key             = "virusScanner/terraform.tfstate"
+encrypt         = true

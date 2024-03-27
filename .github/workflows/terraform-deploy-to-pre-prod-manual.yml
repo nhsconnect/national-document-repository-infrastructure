@@ -13,7 +13,6 @@ jobs:
 
   tag_and_release:
     runs-on: ubuntu-latest
-    environment: pre-prod
     outputs:
       tag: ${{steps.versioning.outputs.tag}}
       new_tag: ${{steps.versioning.outputs.new_tag}}
@@ -41,9 +40,8 @@ jobs:
 
   terraform_process:
     runs-on: ubuntu-latest
-    environment: pre-prod
     needs: ['tag_and_release']
-
+    environment: pre-prod
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout

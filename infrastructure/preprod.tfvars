@@ -14,3 +14,5 @@ mesh_shared_key_ssm_param_name  = "/repo/pre-prod/user-input/external/mesh-mailb
 mesh_client_cert_ssm_param_name = "/repo/pre-prod/user-input/external/mesh-mailbox-client-cert"
 mesh_client_key_ssm_param_name  = "/repo/pre-prod/user-input/external/mesh-mailbox-client-key"
 mesh_ca_cert_ssm_param_name     = "/repo/pre-prod/user-input/external/mesh-mailbox-ca-cert"
+
+standalone_vpc_tag = "ndr-pre-prod-vpc"

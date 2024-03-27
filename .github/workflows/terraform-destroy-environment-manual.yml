@@ -1,8 +1,13 @@
-name: 'Destroy (Dev Account) Environment'
+name: 'Destroy (Select Account) Environment'
 
 on:
   workflow_dispatch:
     inputs:
+      build_branch:
+        default: "main"
+        description: "Feature branch to push to sandbox."
+        required: true
+        type: "string"
       sandboxWorkspace:
         description: "Which Sandbox to push destroy."
         required: true
@@ -10,6 +15,16 @@ on:
       terraformVars:
         default: "dev.tfvars"
         description: "Which vars file is required? For test, change to test.tfvars"
+        required: true
+        type: "string"
+      environment:
+        default: "development"
+        description: "Which environment should this run against"
+        required: true
+        type: "string"
+      backend:
+        default: "backend.conf"
+        description: "Which backend configuration should be used?"
         required: true
         type: "string"
 
@@ -21,14 +36,14 @@ permissions:
 jobs:
   terraform_process:
     runs-on: ubuntu-latest
-    environment: development
+    environment: ${{ github.event.inputs.environment }}
 
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        ref: main
+        ref: ${{ github.event.inputs.buildBranch}}
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -49,7 +64,7 @@ jobs:
       
     - name: Terraform Init
       id: init
-      run: terraform init -backend-config=backend.conf
+      run: terraform init -backend-config=${{ github.event.inputs.backend }}
       working-directory: ./infrastructure 
       shell: bash
 

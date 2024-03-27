@@ -1,4 +1,9 @@
 # Availability zones for Amazon region
+variable "standalone_vpc_tag" {
+  type        = string
+  description = "This is the tag assigned to the standalone vpc that should be created manaully before the first run of the infrastructure"
+}
+
 variable "availability_zones" {
   type        = list(string)
   description = "This is a list that specifies all the Availability Zones that will have a pair of public and private subnets"

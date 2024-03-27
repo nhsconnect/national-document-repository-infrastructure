@@ -1,6 +1,6 @@
 resource "aws_route_table" "public" {
   count  = var.num_public_subnets > 0 ? 1 : 0
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = data.aws_vpc.vpc.id
   tags = {
     Name        = "${terraform.workspace}-public-route-table"
     Zone        = "Public"
@@ -13,7 +13,7 @@ resource "aws_route_table" "public" {
 
 resource "aws_route_table" "private" {
   count  = var.num_private_subnets > 0 ? 1 : 0
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = data.aws_vpc.vpc.id
   tags = {
     Name        = "${terraform.workspace}-private-route-table"
     Zone        = "Private"
