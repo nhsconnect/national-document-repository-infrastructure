@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "assume_role_policy_for_create_lambda" {
 
     principals {
       type        = "AWS"
-      identifiers = [module.create-doc-ref-lambda.lambda_execution_role_arn]
+      identifiers = [module.create-doc-ref-lambda[0].lambda_execution_role_arn]
     }
   }
 }

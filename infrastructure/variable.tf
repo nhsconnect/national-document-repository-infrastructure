@@ -150,7 +150,6 @@ variable "cloud_only_service_instances" {
   default = 1
 }
 
-
 variable "mesh_component_name" {
   type    = string
   default = "mesh-forwarder"

@@ -1,4 +1,5 @@
 module "update-upload-state-gateway" {
+  count = local.is_production ? 0 : 1
   # Gateway Variables
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
@@ -21,24 +22,26 @@ module "update-upload-state-gateway" {
 }
 
 module "update_upload_state_alarm" {
+  count                = local.is_production ? 0 : 1
   source               = "./modules/lambda_alarms"
-  lambda_function_name = module.update-upload-state-lambda.function_name
-  lambda_timeout       = module.update-upload-state-lambda.timeout
+  lambda_function_name = module.update-upload-state-lambda[0].function_name
+  lambda_timeout       = module.update-upload-state-lambda[0].timeout
   lambda_name          = "update_upload_state_handler"
   namespace            = "AWS/Lambda"
-  alarm_actions        = [module.update_upload_state_alarm_topic.arn]
-  ok_actions           = [module.update_upload_state_alarm_topic.arn]
-  depends_on           = [module.update-upload-state-lambda, module.update_upload_state_alarm_topic]
+  alarm_actions        = [module.update_upload_state_alarm_topic[0].arn]
+  ok_actions           = [module.update_upload_state_alarm_topic[0].arn]
+  depends_on           = [module.update-upload-state-lambda[0], module.update_upload_state_alarm_topic[0]]
 }
 
 
 module "update_upload_state_alarm_topic" {
+  count                 = local.is_production ? 0 : 1
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "update-upload-state-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.update-upload-state-lambda.endpoint
+  topic_endpoint        = module.update-upload-state-lambda[0].endpoint
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -60,9 +63,10 @@ module "update_upload_state_alarm_topic" {
     ]
   })
 
-  depends_on = [module.update-upload-state-lambda, module.sns_encryption_key]
+  depends_on = [module.update-upload-state-lambda[0], module.sns_encryption_key]
 }
 module "update-upload-state-lambda" {
+  count   = local.is_production ? 0 : 1
   source  = "./modules/lambda"
   name    = "UpdateUploadStateLambda"
   handler = "handlers.update_upload_state_handler.lambda_handler"
@@ -74,7 +78,7 @@ module "update-upload-state-lambda" {
     module.ndr-app-config.app_config_policy_arn,
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.update-upload-state-gateway.gateway_resource_id
+  resource_id       = module.update-upload-state-gateway[0].gateway_resource_id
   http_method       = "POST"
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
@@ -87,7 +91,7 @@ module "update-upload-state-lambda" {
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
-    module.update-upload-state-gateway,
+    module.update-upload-state-gateway[0],
     module.ndr-app-config,
     module.document_reference_dynamodb_table,
     module.lloyd_george_reference_dynamodb_table,

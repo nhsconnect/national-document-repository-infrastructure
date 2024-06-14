@@ -42,8 +42,8 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
   triggers = {
     redeployment = sha1(jsonencode([
       aws_api_gateway_rest_api.ndr_doc_store_api.body,
-      module.create-doc-ref-gateway,
-      module.create-doc-ref-lambda,
+      module.create-doc-ref-gateway[0],
+      module.create-doc-ref-lambda[0],
       module.search-patient-details-gateway,
       module.search-patient-details-lambda,
       module.search-document-references-gateway,
@@ -57,15 +57,15 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
       module.back_channel_logout_lambda,
       module.send-feedback-lambda,
       module.feature-flags-lambda,
-      module.update-upload-state-gateway,
-      module.update-upload-state-lambda,
+      module.update-upload-state-gateway[0],
+      module.update-upload-state-lambda[0],
     ]))
   }
 
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
-    module.create-doc-ref-gateway,
-    module.create-doc-ref-lambda,
+    module.create-doc-ref-gateway[0],
+    module.create-doc-ref-lambda[0],
     module.search-patient-details-gateway,
     module.search-patient-details-lambda,
     module.search-document-references-gateway,
@@ -80,8 +80,8 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
     module.send-feedback-gateway,
     module.send-feedback-lambda,
     module.feature-flags-lambda,
-    module.update-upload-state-gateway,
-    module.update-upload-state-lambda,
+    module.update-upload-state-gateway[0],
+    module.update-upload-state-lambda[0],
   ]
 
   lifecycle {

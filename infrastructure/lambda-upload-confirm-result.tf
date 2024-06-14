@@ -1,4 +1,5 @@
 module "upload_confirm_result_gateway" {
+  count               = local.is_production ? 0 : 1
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
@@ -19,24 +20,26 @@ module "upload_confirm_result_gateway" {
 }
 
 module "upload_confirm_result_alarm" {
+  count                = local.is_production ? 0 : 1
   source               = "./modules/lambda_alarms"
-  lambda_function_name = module.upload_confirm_result_lambda.function_name
-  lambda_timeout       = module.upload_confirm_result_lambda.timeout
+  lambda_function_name = module.upload_confirm_result_lambda[0].function_name
+  lambda_timeout       = module.upload_confirm_result_lambda[0].timeout
   lambda_name          = "upload_confirm_result_handler"
   namespace            = "AWS/Lambda"
-  alarm_actions        = [module.upload_confirm_result_alarm_topic.arn]
-  ok_actions           = [module.upload_confirm_result_alarm_topic.arn]
-  depends_on           = [module.upload_confirm_result_lambda, module.upload_confirm_result_alarm_topic]
+  alarm_actions        = [module.upload_confirm_result_alarm_topic[0].arn]
+  ok_actions           = [module.upload_confirm_result_alarm_topic[0].arn]
+  depends_on           = [module.upload_confirm_result_lambda[0], module.upload_confirm_result_alarm_topic[0]]
 }
 
 
 module "upload_confirm_result_alarm_topic" {
+  count                 = local.is_production ? 0 : 1
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "upload_confirm_result_alarm-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.upload_confirm_result_lambda.endpoint
+  topic_endpoint        = module.upload_confirm_result_lambda[0].endpoint
   depends_on            = [module.sns_encryption_key]
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -61,6 +64,7 @@ module "upload_confirm_result_alarm_topic" {
 }
 
 module "upload_confirm_result_lambda" {
+  count   = local.is_production ? 0 : 1
   source  = "./modules/lambda"
   name    = "UploadConfirmResultLambda"
   handler = "handlers.upload_confirm_result_handler.lambda_handler"
@@ -75,7 +79,7 @@ module "upload_confirm_result_lambda" {
     module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.upload_confirm_result_gateway.gateway_resource_id
+  resource_id       = module.upload_confirm_result_gateway[0].gateway_resource_id
   http_method       = "POST"
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
@@ -92,7 +96,7 @@ module "upload_confirm_result_lambda" {
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
     module.ndr-bulk-staging-store,
-    module.upload_confirm_result_gateway,
+    module.upload_confirm_result_gateway[0],
     module.ndr-app-config,
     module.ndr-lloyd-george-store,
     module.ndr-document-store,
