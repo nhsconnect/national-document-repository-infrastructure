@@ -1,8 +1,12 @@
 resource "aws_config_configuration_recorder" "config_recorder" {
   name     = "${terraform.workspace}-config-recorder"
   role_arn = aws_iam_role.config_recorder_role.arn
-}
 
+  recording_group {
+    all_supported                 = true
+    include_global_resource_types = true
+  }
+}
 
 resource "aws_s3_bucket" "config_bucket" {
   bucket        = "${terraform.workspace}-config-bucket"
