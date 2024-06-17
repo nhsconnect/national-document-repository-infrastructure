@@ -3,5 +3,5 @@ module "ndr-config-backup" {
   environment      = var.environment
   owner            = var.owner
   is_force_destroy = local.is_force_destroy
-  count            = terraform.workspace == "ndra" ? 1 : 0
+  count            = terraform.workspace == "ndrd" ? 1 : 0
 }
