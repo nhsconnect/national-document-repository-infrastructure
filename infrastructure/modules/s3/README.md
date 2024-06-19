@@ -37,6 +37,8 @@ No modules.
 | <a name="input_environment"></a> [environment](#input\_environment) | Tags | `string` | n/a | yes |
 | <a name="input_force_destroy"></a> [force\_destroy](#input\_force\_destroy) | (Optional, Default:false ) A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable. | `bool` | `false` | no |
 | <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
+| <a name="input_presigned_url_ttl"></a> [presigned\_url\_ttl](#input\_presigned\_url\_ttl) | n/a | `number` | `60000` | no |
+| <a name="input_secure_transport_enabled"></a> [secure\_transport\_enabled](#input\_secure\_transport\_enabled) | n/a | `bool` | `true` | no |
 
 ## Outputs
 

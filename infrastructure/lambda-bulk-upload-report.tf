@@ -10,8 +10,9 @@ module "bulk-upload-report-lambda" {
     aws_iam_policy.dynamodb_policy_scan_bulk_report.arn,
     module.ndr-app-config.app_config_policy_arn
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  rest_api_id       = null
+  api_execution_arn = null
+
   lambda_environment_variables = {
     APPCONFIG_APPLICATION     = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT     = module.ndr-app-config.app_config_environment_id
@@ -26,7 +27,6 @@ module "bulk-upload-report-lambda" {
   lambda_timeout                = 45
 
   depends_on = [
-    aws_api_gateway_rest_api.ndr_doc_store_api,
     module.ndr-bulk-staging-store,
     module.bulk_upload_report_dynamodb_table,
     module.ndr-app-config

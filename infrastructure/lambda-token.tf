@@ -1,4 +1,4 @@
-module "token-gateway" {
+module "create-token-gateway" {
   # Gateway Variables
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
@@ -32,7 +32,7 @@ module "create-token-lambda" {
     module.ndr-app-config.app_config_policy_arn
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.token-gateway.gateway_resource_id
+  resource_id       = module.create-token-gateway.gateway_resource_id
   http_method       = "GET"
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
@@ -53,7 +53,7 @@ module "create-token-lambda" {
     aws_iam_policy.ssm_policy_token,
     module.auth_session_dynamodb_table,
     module.auth_state_dynamodb_table,
-    module.token-gateway,
+    module.create-token-gateway,
     aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0],
     module.ndr-app-config
   ]

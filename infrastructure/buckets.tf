@@ -202,6 +202,7 @@ module "ndr-bulk-staging-store" {
   environment               = var.environment
   owner                     = var.owner
   force_destroy             = local.is_force_destroy
+  presigned_url_ttl         = 900000
   cors_rules = [
     {
       allowed_headers = ["*"]

@@ -11,8 +11,9 @@ module "nems-message-lambda" {
     module.sqs-nems-queue[0].sqs_policy,
     module.ndr-app-config.app_config_policy_arn
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  rest_api_id       = null
+  api_execution_arn = null
+
   lambda_environment_variables = {
     APPCONFIG_APPLICATION      = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT      = module.ndr-app-config.app_config_environment_id
@@ -25,7 +26,6 @@ module "nems-message-lambda" {
   is_invoked_from_gateway       = false
 
   depends_on = [
-    aws_api_gateway_rest_api.ndr_doc_store_api,
     module.lloyd_george_reference_dynamodb_table,
     module.sqs-nems-queue,
     module.ndr-app-config

@@ -29,7 +29,10 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
         "Effect" : "Deny",
         "Condition" : {
           "Bool" : {
-            "aws:SecureTransport" : "false"
+            "aws:SecureTransport" : var.secure_transport_enabled
+          },
+          "NumericGreaterThan" : {
+            "s3:signatureAge" : var.presigned_url_ttl
           }
         }
       }
