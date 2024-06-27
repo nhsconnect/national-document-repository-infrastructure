@@ -14,13 +14,15 @@ terraform {
     encrypt        = true
   }
 }
+
 provider "aws" {
   region = "eu-west-2"
 }
 
-data "aws_caller_identity" "current" {
-}
+data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
 
 data "aws_elb_service_account" "main" {}
+
+data "aws_partition" "current" {}
