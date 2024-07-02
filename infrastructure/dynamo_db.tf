@@ -87,7 +87,7 @@ module "zip_store_reference_dynamodb_table" {
   table_name                  = var.zip_store_dynamodb_table_name
   hash_key                    = "ID"
   deletion_protection_enabled = false
-  stream_enabled              = false
+  stream_enabled              = true
   ttl_enabled                 = false
 
   attributes = [
@@ -96,26 +96,26 @@ module "zip_store_reference_dynamodb_table" {
       type = "S"
     },
     {
-      name = "FileLocation"
+      name = "JobId"
       type = "S"
     },
     {
       name = "NhsNumber"
       type = "S"
-    }
+    },
   ]
 
   global_secondary_indexes = [
     {
-      name            = "FileLocationsIndex"
-      hash_key        = "FileLocation"
+      name            = "JobIdIndex"
+      hash_key        = "JobId"
       projection_type = "ALL"
     },
     {
       name            = "NhsNumberIndex"
       hash_key        = "NhsNumber"
       projection_type = "ALL"
-    }
+    },
   ]
 
   environment = var.environment

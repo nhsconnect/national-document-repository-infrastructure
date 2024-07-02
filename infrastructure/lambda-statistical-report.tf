@@ -15,7 +15,7 @@ module "statistical-report-alarm-topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "statistical-report-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.statistical-report-lambda.endpoint
+  topic_endpoint        = module.statistical-report-lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -53,8 +53,9 @@ module "statistical-report-lambda" {
     module.statistical-reports-store.s3_object_access_policy,
     aws_iam_policy.cloudwatch_log_query_policy.arn
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  rest_api_id       = null
+  api_execution_arn = null
+
   lambda_environment_variables = {
     APPCONFIG_APPLICATION      = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT      = module.ndr-app-config.app_config_environment_id
@@ -68,7 +69,6 @@ module "statistical-report-lambda" {
   memory_size                   = 512
 
   depends_on = [
-    aws_api_gateway_rest_api.ndr_doc_store_api,
     module.ndr-app-config,
     module.statistics_dynamodb_table,
     module.statistical-reports-store,

@@ -3,7 +3,7 @@ module "update-upload-state-gateway" {
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
-  http_method         = "POST"
+  http_methods        = ["POST"]
   authorization       = "CUSTOM"
   gateway_path        = "UploadState"
   authorizer_id       = aws_api_gateway_authorizer.repo_authoriser.id
@@ -38,7 +38,7 @@ module "update_upload_state_alarm_topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "update-upload-state-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.update-upload-state-lambda.endpoint
+  topic_endpoint        = module.update-upload-state-lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -75,7 +75,7 @@ module "update-upload-state-lambda" {
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.update-upload-state-gateway.gateway_resource_id
-  http_method       = "POST"
+  http_methods      = ["POST"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION        = module.ndr-app-config.app_config_application_id

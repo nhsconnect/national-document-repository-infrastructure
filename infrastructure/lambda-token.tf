@@ -1,9 +1,9 @@
-module "token-gateway" {
+module "create-token-gateway" {
   # Gateway Variables
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_resource.auth_resource.id
-  http_method         = "GET"
+  http_methods        = ["GET"]
   authorization       = "NONE"
   gateway_path        = "TokenRequest"
   require_credentials = false
@@ -32,8 +32,8 @@ module "create-token-lambda" {
     module.ndr-app-config.app_config_policy_arn
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.token-gateway.gateway_resource_id
-  http_method       = "GET"
+  resource_id       = module.create-token-gateway.gateway_resource_id
+  http_methods      = ["GET"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION           = module.ndr-app-config.app_config_application_id
@@ -53,7 +53,7 @@ module "create-token-lambda" {
     aws_iam_policy.ssm_policy_token,
     module.auth_session_dynamodb_table,
     module.auth_state_dynamodb_table,
-    module.token-gateway,
+    module.create-token-gateway,
     aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0],
     module.ndr-app-config
   ]
@@ -78,7 +78,7 @@ module "create_token-alarm_topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "logout-alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.create-token-lambda.endpoint
+  topic_endpoint        = module.create-token-lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

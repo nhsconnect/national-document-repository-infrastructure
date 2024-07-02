@@ -2,6 +2,10 @@ resource "aws_api_gateway_resource" "login_resource" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id   = aws_api_gateway_resource.auth_resource.id
   path_part   = "Login"
+
+  depends_on = [
+    aws_api_gateway_rest_api.ndr_doc_store_api
+  ]
 }
 
 resource "aws_api_gateway_method" "login_proxy_method" {
@@ -24,7 +28,7 @@ module "login_redirect_lambda" {
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = aws_api_gateway_resource.login_resource.id
-  http_method       = "GET"
+  http_methods      = ["GET"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION   = module.ndr-app-config.app_config_application_id
@@ -61,7 +65,7 @@ module "login_redirect-alarm_topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "login_redirect-alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.login_redirect_lambda.endpoint
+  topic_endpoint        = module.login_redirect_lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

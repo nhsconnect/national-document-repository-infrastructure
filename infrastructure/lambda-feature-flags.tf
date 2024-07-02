@@ -3,7 +3,7 @@ module "feature-flags-gateway" {
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
-  http_method         = "GET"
+  http_methods        = ["GET"]
   authorization       = "CUSTOM"
   gateway_path        = "FeatureFlags"
   authorizer_id       = aws_api_gateway_authorizer.repo_authoriser.id
@@ -38,7 +38,7 @@ module "feature_flags_alarm_topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "feature_flags_alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.feature-flags-lambda.endpoint
+  topic_endpoint        = module.feature-flags-lambda.lambda_arn
   depends_on            = [module.sns_encryption_key]
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -73,7 +73,7 @@ module "feature-flags-lambda" {
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.feature-flags-gateway.gateway_resource_id
-  http_method       = "GET"
+  http_methods      = ["GET"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
 
   memory_size    = 512

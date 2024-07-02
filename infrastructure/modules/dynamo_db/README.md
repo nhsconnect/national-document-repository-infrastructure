@@ -33,6 +33,7 @@ No modules.
 | <a name="input_point_in_time_recovery_enabled"></a> [point\_in\_time\_recovery\_enabled](#input\_point\_in\_time\_recovery\_enabled) | n/a | `bool` | `false` | no |
 | <a name="input_sort_key"></a> [sort\_key](#input\_sort\_key) | n/a | `string` | `null` | no |
 | <a name="input_stream_enabled"></a> [stream\_enabled](#input\_stream\_enabled) | n/a | `bool` | `false` | no |
+| <a name="input_stream_view_type"></a> [stream\_view\_type](#input\_stream\_view\_type) | n/a | `string` | `"NEW_AND_OLD_IMAGES"` | no |
 | <a name="input_table_name"></a> [table\_name](#input\_table\_name) | Name of the DynamoDB table | `string` | `null` | no |
 | <a name="input_ttl_attribute_name"></a> [ttl\_attribute\_name](#input\_ttl\_attribute\_name) | n/a | `string` | `""` | no |
 | <a name="input_ttl_enabled"></a> [ttl\_enabled](#input\_ttl\_enabled) | n/a | `bool` | `false` | no |
@@ -42,4 +43,5 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_dynamodb_policy"></a> [dynamodb\_policy](#output\_dynamodb\_policy) | n/a |
+| <a name="output_dynamodb_stream_arn"></a> [dynamodb\_stream\_arn](#output\_dynamodb\_stream\_arn) | n/a |
 | <a name="output_dynamodb_table_arn"></a> [dynamodb\_table\_arn](#output\_dynamodb\_table\_arn) | n/a |

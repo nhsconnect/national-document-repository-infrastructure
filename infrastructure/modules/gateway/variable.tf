@@ -10,8 +10,8 @@ variable "gateway_path" {
   type = string
 }
 
-variable "http_method" {
-  type = string
+variable "http_methods" {
+  type = list(string)
 }
 
 variable "authorization" {

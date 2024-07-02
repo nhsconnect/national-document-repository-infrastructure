@@ -50,6 +50,11 @@ variable "stream_enabled" {
   default = false
 }
 
+variable "stream_view_type" {
+  type    = string
+  default = "NEW_AND_OLD_IMAGES"
+}
+
 variable "environment" {
   type = string
 }
@@ -69,4 +74,8 @@ output "dynamodb_policy" {
 
 output "dynamodb_table_arn" {
   value = aws_dynamodb_table.ndr_dynamodb_table.arn
+}
+
+output "dynamodb_stream_arn" {
+  value = aws_dynamodb_table.ndr_dynamodb_table.stream_arn
 }

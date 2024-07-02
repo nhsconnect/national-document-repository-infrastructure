@@ -19,7 +19,7 @@ module "authoriser-lambda" {
     SSM_PARAM_JWT_TOKEN_PUBLIC_KEY = "jwt_token_public_key"
     AUTH_SESSION_TABLE_NAME        = "${terraform.workspace}_${var.auth_session_dynamodb_table_name}"
   }
-  http_method                   = "GET"
+  http_methods                  = ["GET"]
   is_gateway_integration_needed = false
   is_invoked_from_gateway       = true
 
@@ -49,7 +49,7 @@ module "authoriser-alarm-topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "create_doc-alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.authoriser-lambda.endpoint
+  topic_endpoint        = module.authoriser-lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

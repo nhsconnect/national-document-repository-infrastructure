@@ -3,7 +3,7 @@ module "delete-doc-ref-gateway" {
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
-  http_method         = "DELETE"
+  http_methods        = ["DELETE"]
   authorization       = "CUSTOM"
   gateway_path        = "DocumentDelete"
   authorizer_id       = aws_api_gateway_authorizer.repo_authoriser.id
@@ -37,7 +37,7 @@ module "delete_doc_alarm_topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "delete_doc-alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.delete-doc-ref-lambda.endpoint
+  topic_endpoint        = module.delete-doc-ref-lambda.lambda_arn
   depends_on            = [module.sns_encryption_key]
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -76,7 +76,7 @@ module "delete-doc-ref-lambda" {
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.delete-doc-ref-gateway.gateway_resource_id
-  http_method       = "DELETE"
+  http_methods      = ["DELETE"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION        = module.ndr-app-config.app_config_application_id

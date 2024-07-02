@@ -23,10 +23,10 @@ resource "aws_lambda_function" "lambda" {
 }
 
 resource "aws_api_gateway_integration" "lambda_integration" {
-  count                   = var.is_gateway_integration_needed ? 1 : 0
+  for_each                = var.is_gateway_integration_needed ? { for idx, method in var.http_methods : idx => method } : {}
   rest_api_id             = var.rest_api_id
   resource_id             = var.resource_id
-  http_method             = var.http_method
+  http_method             = each.value
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda.invoke_arn

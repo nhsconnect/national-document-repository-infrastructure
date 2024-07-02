@@ -33,8 +33,6 @@ module "bulk-upload-lambda" {
 
   is_gateway_integration_needed  = false
   is_invoked_from_gateway        = false
-  memory_size                    = 512
-  lambda_timeout                 = 900
   reserved_concurrent_executions = local.bulk_upload_lambda_concurrent_limit
 
   depends_on = [
@@ -52,7 +50,7 @@ module "bulk-upload-lambda" {
 
 resource "aws_lambda_event_source_mapping" "bulk_upload_lambda" {
   event_source_arn = module.sqs-lg-bulk-upload-metadata-queue.endpoint
-  function_name    = module.bulk-upload-lambda.endpoint
+  function_name    = module.bulk-upload-lambda.lambda_arn
 
   scaling_config {
     maximum_concurrency = local.bulk_upload_lambda_concurrent_limit
@@ -81,7 +79,7 @@ module "bulk-upload-alarm-topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "bulk-upload-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.bulk-upload-lambda.endpoint
+  topic_endpoint        = module.bulk-upload-lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

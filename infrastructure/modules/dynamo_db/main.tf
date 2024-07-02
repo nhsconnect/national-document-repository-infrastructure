@@ -4,6 +4,7 @@ resource "aws_dynamodb_table" "ndr_dynamodb_table" {
   range_key                   = var.sort_key
   billing_mode                = var.billing_mode
   stream_enabled              = var.stream_enabled
+  stream_view_type            = var.stream_view_type
   deletion_protection_enabled = var.deletion_protection_enabled
 
   ttl {

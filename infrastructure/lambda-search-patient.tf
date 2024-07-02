@@ -3,7 +3,7 @@ module "search-patient-details-gateway" {
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
-  http_method         = "GET"
+  http_methods        = ["GET"]
   authorization       = "CUSTOM"
   gateway_path        = "SearchPatient"
   authorizer_id       = aws_api_gateway_authorizer.repo_authoriser.id
@@ -38,7 +38,7 @@ module "search_patient_alarm_topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "search_patient_details_alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.search-patient-details-lambda.endpoint
+  topic_endpoint        = module.search-patient-details-lambda.lambda_arn
   depends_on            = [module.sns_encryption_key]
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -72,9 +72,9 @@ module "search-patient-details-lambda" {
     aws_iam_policy.ssm_access_policy.arn,
     module.ndr-app-config.app_config_policy_arn
   ]
-  rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id = module.search-patient-details-gateway.gateway_resource_id
-  http_method = "GET"
+  rest_api_id  = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id  = module.search-patient-details-gateway.gateway_resource_id
+  http_methods = ["GET"]
   lambda_environment_variables = {
     APPCONFIG_APPLICATION          = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT          = module.ndr-app-config.app_config_environment_id

@@ -3,7 +3,7 @@ module "logout-gateway" {
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_resource.auth_resource.id
-  http_method         = "GET"
+  http_methods        = ["GET"]
   authorization       = "NONE"
   gateway_path        = "Logout"
   require_credentials = false
@@ -31,7 +31,7 @@ module "logout_lambda" {
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.logout-gateway.gateway_resource_id
-  http_method       = "GET"
+  http_methods      = ["GET"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION          = module.ndr-app-config.app_config_application_id
@@ -68,7 +68,7 @@ module "logout_alarm_topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "logout-alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.logout_lambda.endpoint
+  topic_endpoint        = module.logout_lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

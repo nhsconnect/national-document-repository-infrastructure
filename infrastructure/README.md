@@ -36,6 +36,7 @@
 | <a name="module_bulk_upload_report_dynamodb_table"></a> [bulk\_upload\_report\_dynamodb\_table](#module\_bulk\_upload\_report\_dynamodb\_table) | ./modules/dynamo_db | n/a |
 | <a name="module_create-doc-ref-gateway"></a> [create-doc-ref-gateway](#module\_create-doc-ref-gateway) | ./modules/gateway | n/a |
 | <a name="module_create-doc-ref-lambda"></a> [create-doc-ref-lambda](#module\_create-doc-ref-lambda) | ./modules/lambda | n/a |
+| <a name="module_create-token-gateway"></a> [create-token-gateway](#module\_create-token-gateway) | ./modules/gateway | n/a |
 | <a name="module_create-token-lambda"></a> [create-token-lambda](#module\_create-token-lambda) | ./modules/lambda | n/a |
 | <a name="module_create_doc_alarm"></a> [create\_doc\_alarm](#module\_create\_doc\_alarm) | ./modules/lambda_alarms | n/a |
 | <a name="module_create_doc_alarm_topic"></a> [create\_doc\_alarm\_topic](#module\_create\_doc\_alarm\_topic) | ./modules/sns | n/a |
@@ -58,6 +59,9 @@
 | <a name="module_feature_flags_alarm"></a> [feature\_flags\_alarm](#module\_feature\_flags\_alarm) | ./modules/lambda_alarms | n/a |
 | <a name="module_feature_flags_alarm_topic"></a> [feature\_flags\_alarm\_topic](#module\_feature\_flags\_alarm\_topic) | ./modules/sns | n/a |
 | <a name="module_firewall_waf_v2"></a> [firewall\_waf\_v2](#module\_firewall\_waf\_v2) | ./modules/firewall_waf_v2 | n/a |
+| <a name="module_generate-document-manifest-alarm"></a> [generate-document-manifest-alarm](#module\_generate-document-manifest-alarm) | ./modules/lambda_alarms | n/a |
+| <a name="module_generate-document-manifest-alarm-topic"></a> [generate-document-manifest-alarm-topic](#module\_generate-document-manifest-alarm-topic) | ./modules/sns | n/a |
+| <a name="module_generate-document-manifest-lambda"></a> [generate-document-manifest-lambda](#module\_generate-document-manifest-lambda) | ./modules/lambda | n/a |
 | <a name="module_lambda-layer-core"></a> [lambda-layer-core](#module\_lambda-layer-core) | ./modules/lambda_layers | n/a |
 | <a name="module_lambda-layer-data"></a> [lambda-layer-data](#module\_lambda-layer-data) | ./modules/lambda_layers | n/a |
 | <a name="module_lloyd-george-stitch-gateway"></a> [lloyd-george-stitch-gateway](#module\_lloyd-george-stitch-gateway) | ./modules/gateway | n/a |
@@ -109,7 +113,6 @@
 | <a name="module_statistical-report-lambda"></a> [statistical-report-lambda](#module\_statistical-report-lambda) | ./modules/lambda | n/a |
 | <a name="module_statistical-reports-store"></a> [statistical-reports-store](#module\_statistical-reports-store) | ./modules/s3/ | n/a |
 | <a name="module_statistics_dynamodb_table"></a> [statistics\_dynamodb\_table](#module\_statistics\_dynamodb\_table) | ./modules/dynamo_db | n/a |
-| <a name="module_token-gateway"></a> [token-gateway](#module\_token-gateway) | ./modules/gateway | n/a |
 | <a name="module_update-upload-state-gateway"></a> [update-upload-state-gateway](#module\_update-upload-state-gateway) | ./modules/gateway | n/a |
 | <a name="module_update-upload-state-lambda"></a> [update-upload-state-lambda](#module\_update-upload-state-lambda) | ./modules/lambda | n/a |
 | <a name="module_update_upload_state_alarm"></a> [update\_upload\_state\_alarm](#module\_update\_upload\_state\_alarm) | ./modules/lambda_alarms | n/a |
@@ -165,6 +168,7 @@
 | [aws_iam_policy.cloudwatch_log_query_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.copy_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.dynamodb_policy_scan_bulk_report](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy.dynamodb_stream_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.s3_document_data_policy_for_manifest_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.s3_document_data_policy_for_stitch_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
@@ -191,12 +195,14 @@
 | [aws_iam_role_policy_attachment.lambda_stitch-lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.policy_audit_search-patient-details-lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.policy_audit_token_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.policy_generate_manifest_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.policy_manifest_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.restore_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.s3_backup_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.s3_cross_account_restore_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.s3_restore_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_lambda_event_source_mapping.bulk_upload_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
+| [aws_lambda_event_source_mapping.dynamodb_stream_event_mapping](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_event_source_mapping.nems_message_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_permission.bulk_upload_metadata_schedule_permission](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_lambda_permission.bulk_upload_report_schedule_permission](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |

@@ -3,11 +3,12 @@ module "back-channel-logout-gateway" {
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_resource.auth_resource.id
-  http_method         = "POST"
+  http_methods        = ["POST"]
   authorization       = "NONE"
   gateway_path        = "BackChannelLogout"
   require_credentials = false
   origin              = contains(["prod"], terraform.workspace) ? "'https://${var.domain}'" : "'https://${terraform.workspace}.${var.domain}'"
+
   # Lambda Variables
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   owner             = var.owner
@@ -31,7 +32,7 @@ module "back_channel_logout_lambda" {
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.back-channel-logout-gateway.gateway_resource_id
-  http_method       = "POST"
+  http_methods      = ["POST"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION          = module.ndr-app-config.app_config_application_id
@@ -70,7 +71,7 @@ module "back_channel_logout_alarm_topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "back-channel-logout-alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.back_channel_logout_lambda.endpoint
+  topic_endpoint        = module.back_channel_logout_lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

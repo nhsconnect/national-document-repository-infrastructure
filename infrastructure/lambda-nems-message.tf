@@ -11,8 +11,9 @@ module "nems-message-lambda" {
     module.sqs-nems-queue[0].sqs_policy,
     module.ndr-app-config.app_config_policy_arn
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  rest_api_id       = null
+  api_execution_arn = null
+
   lambda_environment_variables = {
     APPCONFIG_APPLICATION      = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT      = module.ndr-app-config.app_config_environment_id
@@ -25,7 +26,6 @@ module "nems-message-lambda" {
   is_invoked_from_gateway       = false
 
   depends_on = [
-    aws_api_gateway_rest_api.ndr_doc_store_api,
     module.lloyd_george_reference_dynamodb_table,
     module.sqs-nems-queue,
     module.ndr-app-config
@@ -51,7 +51,7 @@ module "nems-message-lambda-alarm-topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "nems-message-lambda-alarm-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.nems-message-lambda[0].endpoint
+  topic_endpoint        = module.nems-message-lambda[0].lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -79,7 +79,7 @@ module "nems-message-lambda-alarm-topic" {
 resource "aws_lambda_event_source_mapping" "nems_message_lambda" {
   count                   = 1
   event_source_arn        = module.sqs-nems-queue[0].endpoint
-  function_name           = module.nems-message-lambda[0].endpoint
+  function_name           = module.nems-message-lambda[0].lambda_arn
   function_response_types = ["ReportBatchItemFailures"]
   depends_on = [
     module.sqs-nems-queue,

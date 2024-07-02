@@ -32,9 +32,9 @@ variable "is_invoked_from_gateway" {
   description = "Indicate whether the lambda is supposed to be invoked by API gateway. Should be true for authoriser lambda."
 }
 
-variable "http_method" {
-  type    = string
-  default = "GET"
+variable "http_methods" {
+  type    = list(string)
+  default = []
 }
 
 variable "api_execution_arn" {
@@ -78,7 +78,7 @@ output "timeout" {
   value = aws_lambda_function.lambda.timeout
 }
 
-output "endpoint" {
+output "lambda_arn" {
   value = aws_lambda_function.lambda.arn
 }
 

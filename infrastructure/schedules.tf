@@ -8,7 +8,7 @@ resource "aws_cloudwatch_event_target" "bulk_upload_metadata_schedule_event" {
   rule      = aws_cloudwatch_event_rule.bulk_upload_metadata_schedule.name
   target_id = "bulk_upload_metadata_schedule"
 
-  arn = module.bulk-upload-metadata-lambda.endpoint
+  arn = module.bulk-upload-metadata-lambda.lambda_arn
   depends_on = [
     module.bulk-upload-metadata-lambda,
     aws_cloudwatch_event_rule.bulk_upload_metadata_schedule
@@ -36,7 +36,7 @@ resource "aws_cloudwatch_event_rule" "bulk_upload_report_schedule" {
 resource "aws_cloudwatch_event_target" "bulk_upload_report_schedule_event" {
   rule      = aws_cloudwatch_event_rule.bulk_upload_report_schedule.name
   target_id = "bulk_upload_report_schedule"
-  arn       = module.bulk-upload-report-lambda.endpoint
+  arn       = module.bulk-upload-report-lambda.lambda_arn
   depends_on = [
     module.bulk-upload-report-lambda,
     aws_cloudwatch_event_rule.bulk_upload_report_schedule
@@ -65,7 +65,7 @@ resource "aws_cloudwatch_event_target" "data_collection_schedule_event" {
   rule      = aws_cloudwatch_event_rule.data_collection_schedule.name
   target_id = "data_collection_schedule"
 
-  arn = module.data-collection-lambda.endpoint
+  arn = module.data-collection-lambda.lambda_arn
   depends_on = [
     module.data-collection-lambda,
     aws_cloudwatch_event_rule.data_collection_schedule
@@ -94,7 +94,7 @@ resource "aws_cloudwatch_event_target" "statistical_report_schedule_event" {
   rule      = aws_cloudwatch_event_rule.statistical_report_schedule.name
   target_id = "statistical_report_schedule"
 
-  arn = module.statistical-report-lambda.endpoint
+  arn = module.statistical-report-lambda.lambda_arn
   depends_on = [
     module.statistical-report-lambda,
     aws_cloudwatch_event_rule.statistical_report_schedule

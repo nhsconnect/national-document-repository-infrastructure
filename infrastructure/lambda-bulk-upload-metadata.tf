@@ -10,8 +10,10 @@ module "bulk-upload-metadata-lambda" {
     module.sqs-lg-bulk-upload-metadata-queue.sqs_policy,
     module.ndr-app-config.app_config_policy_arn
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+
+  rest_api_id       = null
+  api_execution_arn = null
+
   lambda_environment_variables = {
     APPCONFIG_APPLICATION     = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT     = module.ndr-app-config.app_config_environment_id
@@ -25,7 +27,6 @@ module "bulk-upload-metadata-lambda" {
   memory_size                   = 512
 
   depends_on = [
-    aws_api_gateway_rest_api.ndr_doc_store_api,
     module.ndr-bulk-staging-store,
     module.sqs-lg-bulk-upload-metadata-queue,
     module.ndr-app-config
@@ -49,7 +50,7 @@ module "bulk-upload-metadata-alarm-topic" {
   current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "bulk-upload-metadata-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.bulk-upload-metadata-lambda.endpoint
+  topic_endpoint        = module.bulk-upload-metadata-lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
