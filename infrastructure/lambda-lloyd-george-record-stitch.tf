@@ -3,7 +3,7 @@ module "lloyd-george-stitch-gateway" {
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
-  http_methods        = ["GET"]
+  http_methods        = ["GET", "POST"]
   authorization       = "CUSTOM"
   gateway_path        = "LloydGeorgeStitch"
   authorizer_id       = aws_api_gateway_authorizer.repo_authoriser.id
@@ -64,7 +64,7 @@ module "lloyd-george-stitch_topic" {
 
 module "lloyd-george-stitch-lambda" {
   source  = "./modules/lambda"
-  name    = "LloydGeorgeStitchLambda"
+  name    = "LloydGeorgeStitch"
   handler = "handlers.lloyd_george_record_stitch_handler.lambda_handler"
   iam_role_policies = [
     module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
@@ -75,7 +75,7 @@ module "lloyd-george-stitch-lambda" {
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.lloyd-george-stitch-gateway.gateway_resource_id
-  http_methods      = ["GET"]
+  http_methods      = ["GET", "POST"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   memory_size       = 512
   lambda_timeout    = 450

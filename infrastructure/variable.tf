@@ -71,6 +71,11 @@ variable "zip_store_dynamodb_table_name" {
   default = "ZipStoreReferenceMetadata"
 }
 
+variable "stitch_store_dynamodb_table_name" {
+  type    = string
+  default = "StitchStoreReferenceMetadata"
+}
+
 variable "auth_state_dynamodb_table_name" {
   type        = string
   description = "The name of dynamodb table to store the state values (for CIS2 authorisation)"
