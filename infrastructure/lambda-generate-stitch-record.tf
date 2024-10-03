@@ -53,7 +53,7 @@ module "generate-stitch-record-lambda" {
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
     module.ndr-app-config.app_config_policy_arn,
-    aws_iam_policy.dynamodb_stream_policy.arn
+    aws_iam_policy.dynamodb_stream_stitch_policy.arn
   ]
   rest_api_id       = null
   api_execution_arn = null
@@ -77,7 +77,7 @@ module "generate-stitch-record-lambda" {
   ]
 }
 
-resource "aws_iam_policy" "dynamodb_stream_policy" {
+resource "aws_iam_policy" "dynamodb_stream_stitch_policy" {
   name = "${terraform.workspace}_dynamodb_stream_to_stitch_policy"
 
   policy = jsonencode({
@@ -98,7 +98,7 @@ resource "aws_iam_role_policy_attachment" "policy_generate_stitch_lambda" {
   policy_arn = try(aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0].arn, null)
 }
 
-resource "aws_lambda_event_source_mapping" "dynamodb_stream_event_mapping" {
+resource "aws_lambda_event_source_mapping" "dynamodb_stream_stitch" {
   event_source_arn  = module.stitch_store_reference_dynamodb_table.dynamodb_stream_arn
   function_name     = module.generate-stitch-record-lambda.lambda_arn
   batch_size        = 1
