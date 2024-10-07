@@ -71,7 +71,9 @@ module "lloyd-george-stitch-lambda" {
     module.ndr-lloyd-george-store.s3_object_access_policy,
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
-    module.ndr-app-config.app_config_policy_arn
+    module.ndr-app-config.app_config_policy_arn,
+    module.stitch_store_reference_dynamodb_table.dynamodb_policy
+
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.lloyd-george-stitch-gateway.gateway_resource_id
@@ -98,7 +100,8 @@ module "lloyd-george-stitch-lambda" {
     module.lloyd-george-stitch-gateway,
     aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0],
     module.ndr-app-config,
-    module.cloudfront-distribution-lg
+    module.cloudfront-distribution-lg,
+    module.stitch_store_reference_dynamodb_table
   ]
 }
 

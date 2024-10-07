@@ -53,7 +53,8 @@ module "generate-stitch-record-lambda" {
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
     module.ndr-app-config.app_config_policy_arn,
-    aws_iam_policy.dynamodb_stream_stitch_policy.arn
+    aws_iam_policy.dynamodb_stream_stitch_policy.arn,
+    module.stitch_store_reference_dynamodb_table.dynamodb_policy
   ]
   rest_api_id       = null
   api_execution_arn = null
@@ -65,6 +66,8 @@ module "generate-stitch-record-lambda" {
     STITCH_STORE_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_store_dynamodb_table_name}"
     WORKSPACE                  = terraform.workspace
     PRESIGNED_ASSUME_ROLE      = aws_iam_role.stitch_presign_url_role.arn
+    LLOYD_GEORGE_BUCKET_NAME   = "${terraform.workspace}-${var.lloyd_george_bucket_name}"
+    LLOYD_GEORGE_DYNAMODB_NAME = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
   }
   is_gateway_integration_needed = false
   is_invoked_from_gateway       = false
