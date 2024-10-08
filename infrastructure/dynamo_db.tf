@@ -119,10 +119,6 @@ module "zip_store_reference_dynamodb_table" {
     {
       name = "JobId"
       type = "S"
-    },
-    {
-      name = "NhsNumber"
-      type = "S"
     }
   ]
 
@@ -130,11 +126,6 @@ module "zip_store_reference_dynamodb_table" {
     {
       name            = "JobIdIndex"
       hash_key        = "JobId"
-      projection_type = "ALL"
-    },
-    {
-      name            = "NhsNumberIndex"
-      hash_key        = "NhsNumber"
       projection_type = "ALL"
     }
   ]
@@ -149,7 +140,8 @@ module "stitch_store_reference_dynamodb_table" {
   hash_key                    = "ID"
   deletion_protection_enabled = false
   stream_enabled              = true
-  ttl_enabled                 = false
+  ttl_enabled                 = true
+  ttl_attribute_name          = "ExpireAt"
 
   attributes = [
     {
@@ -157,15 +149,15 @@ module "stitch_store_reference_dynamodb_table" {
       type = "S"
     },
     {
-      name = "JobId"
+      name = "NhsNumber"
       type = "S"
     }
   ]
 
   global_secondary_indexes = [
     {
-      name            = "JobIdIndex"
-      hash_key        = "JobId"
+      name            = "NhsNumberIndex"
+      hash_key        = "NhsNumber"
       projection_type = "ALL"
     }
   ]
