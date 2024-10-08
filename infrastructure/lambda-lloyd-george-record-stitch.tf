@@ -67,7 +67,6 @@ module "lloyd-george-stitch-lambda" {
   name    = "LloydGeorgeStitch"
   handler = "handlers.lloyd_george_record_stitch_handler.lambda_handler"
   iam_role_policies = [
-    module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
     module.ndr-lloyd-george-store.s3_object_access_policy,
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
@@ -86,7 +85,6 @@ module "lloyd-george-stitch-lambda" {
     APPCONFIG_ENVIRONMENT      = module.ndr-app-config.app_config_environment_id
     APPCONFIG_CONFIGURATION    = module.ndr-app-config.app_config_configuration_profile_id
     LLOYD_GEORGE_BUCKET_NAME   = "${terraform.workspace}-${var.lloyd_george_bucket_name}"
-    LLOYD_GEORGE_DYNAMODB_NAME = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
     STITCH_STORE_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_store_dynamodb_table_name}"
     CLOUDFRONT_URL             = module.cloudfront-distribution-lg.cloudfront_url
     SPLUNK_SQS_QUEUE_URL       = try(module.sqs-splunk-queue[0].sqs_url, null)
@@ -96,7 +94,6 @@ module "lloyd-george-stitch-lambda" {
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
     module.ndr-lloyd-george-store,
-    module.lloyd_george_reference_dynamodb_table,
     module.lloyd-george-stitch-gateway,
     aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0],
     module.ndr-app-config,

@@ -54,7 +54,8 @@ module "generate-stitch-record-lambda" {
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
     module.ndr-app-config.app_config_policy_arn,
     aws_iam_policy.dynamodb_stream_stitch_policy.arn,
-    module.stitch_store_reference_dynamodb_table.dynamodb_policy
+    module.stitch_store_reference_dynamodb_table.dynamodb_policy,
+    module.lloyd_george_reference_dynamodb_table.dynamodb_policy
   ]
   rest_api_id       = null
   api_execution_arn = null
@@ -77,6 +78,8 @@ module "generate-stitch-record-lambda" {
     module.ndr-app-config,
     module.ndr-document-store,
     module.ndr-lloyd-george-store,
+    module.stitch_store_reference_dynamodb_table,
+    module.lloyd_george_reference_dynamodb_table
   ]
 }
 
