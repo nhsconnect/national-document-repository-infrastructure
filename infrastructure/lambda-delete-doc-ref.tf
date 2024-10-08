@@ -72,7 +72,8 @@ module "delete-doc-ref-lambda" {
     module.ndr-lloyd-george-store.s3_object_access_policy,
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
-    module.ndr-app-config.app_config_policy_arn
+    module.ndr-app-config.app_config_policy_arn,
+    module.stitch_store_reference_dynamodb_table.dynamodb_policy
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.delete-doc-ref-gateway.gateway_resource_id
@@ -84,6 +85,7 @@ module "delete-doc-ref-lambda" {
     APPCONFIG_CONFIGURATION      = module.ndr-app-config.app_config_configuration_profile_id
     DOCUMENT_STORE_DYNAMODB_NAME = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
     LLOYD_GEORGE_DYNAMODB_NAME   = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
+    STITCH_STORE_DYNAMODB_NAME   = "${terraform.workspace}_${var.stitch_store_dynamodb_table_name}"
     WORKSPACE                    = terraform.workspace
   }
   depends_on = [
