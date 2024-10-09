@@ -71,9 +71,9 @@ variable "zip_store_dynamodb_table_name" {
   default = "ZipStoreReferenceMetadata"
 }
 
-variable "stitch_store_dynamodb_table_name" {
+variable "stitch_metadata_dynamodb_table_name" {
   type    = string
-  default = "StitchStoreReferenceMetadata"
+  default = "LloydGeorgeStitchJobMetadata"
 }
 
 variable "auth_state_dynamodb_table_name" {

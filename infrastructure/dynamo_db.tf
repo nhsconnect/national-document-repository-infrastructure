@@ -134,9 +134,9 @@ module "zip_store_reference_dynamodb_table" {
   owner       = var.owner
 }
 
-module "stitch_store_reference_dynamodb_table" {
+module "stitch_metadata_reference_dynamodb_table" {
   source                      = "./modules/dynamo_db"
-  table_name                  = var.stitch_store_dynamodb_table_name
+  table_name                  = var.stitch_metadata_dynamodb_table_name
   hash_key                    = "ID"
   deletion_protection_enabled = false
   stream_enabled              = true

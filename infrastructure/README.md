@@ -123,7 +123,7 @@
 | <a name="module_statistical-report-lambda"></a> [statistical-report-lambda](#module\_statistical-report-lambda) | ./modules/lambda | n/a |
 | <a name="module_statistical-reports-store"></a> [statistical-reports-store](#module\_statistical-reports-store) | ./modules/s3/ | n/a |
 | <a name="module_statistics_dynamodb_table"></a> [statistics\_dynamodb\_table](#module\_statistics\_dynamodb\_table) | ./modules/dynamo_db | n/a |
-| <a name="module_stitch_store_reference_dynamodb_table"></a> [stitch\_store\_reference\_dynamodb\_table](#module\_stitch\_store\_reference\_dynamodb\_table) | ./modules/dynamo_db | n/a |
+| <a name="module_stitch_metadata_reference_dynamodb_table"></a> [stitch\_metadata\_reference\_dynamodb\_table](#module\_stitch\_metadata\_reference\_dynamodb\_table) | ./modules/dynamo_db | n/a |
 | <a name="module_update-upload-state-gateway"></a> [update-upload-state-gateway](#module\_update-upload-state-gateway) | ./modules/gateway | n/a |
 | <a name="module_update-upload-state-lambda"></a> [update-upload-state-lambda](#module\_update-upload-state-lambda) | ./modules/lambda | n/a |
 | <a name="module_update_upload_state_alarm"></a> [update\_upload\_state\_alarm](#module\_update\_upload\_state\_alarm) | ./modules/lambda_alarms | n/a |
@@ -309,7 +309,7 @@
 | <a name="input_standalone_vpc_tag"></a> [standalone\_vpc\_tag](#input\_standalone\_vpc\_tag) | This is the tag assigned to the standalone vpc that should be created manaully before the first run of the infrastructure | `string` | n/a | yes |
 | <a name="input_statistical_reports_bucket_name"></a> [statistical\_reports\_bucket\_name](#input\_statistical\_reports\_bucket\_name) | The name of S3 bucket to store weekly generated statistical reports | `string` | `"statistical-reports"` | no |
 | <a name="input_statistics_dynamodb_table_name"></a> [statistics\_dynamodb\_table\_name](#input\_statistics\_dynamodb\_table\_name) | The name of dynamodb table to store application statistics | `string` | `"ApplicationStatistics"` | no |
-| <a name="input_stitch_store_dynamodb_table_name"></a> [stitch\_store\_dynamodb\_table\_name](#input\_stitch\_store\_dynamodb\_table\_name) | n/a | `string` | `"StitchStoreReferenceMetadata"` | no |
+| <a name="input_stitch_metadata_dynamodb_table_name"></a> [stitch\_metadata\_dynamodb\_table\_name](#input\_stitch\_metadata\_dynamodb\_table\_name) | n/a | `string` | `"LloydGeorgeStitchJobMetadata"` | no |
 | <a name="input_zip_store_bucket_name"></a> [zip\_store\_bucket\_name](#input\_zip\_store\_bucket\_name) | n/a | `string` | `"zip-request-store"` | no |
 | <a name="input_zip_store_dynamodb_table_name"></a> [zip\_store\_dynamodb\_table\_name](#input\_zip\_store\_dynamodb\_table\_name) | n/a | `string` | `"ZipStoreReferenceMetadata"` | no |
 
