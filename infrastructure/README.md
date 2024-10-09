@@ -67,9 +67,9 @@
 | <a name="module_generate-document-manifest-alarm"></a> [generate-document-manifest-alarm](#module\_generate-document-manifest-alarm) | ./modules/lambda_alarms | n/a |
 | <a name="module_generate-document-manifest-alarm-topic"></a> [generate-document-manifest-alarm-topic](#module\_generate-document-manifest-alarm-topic) | ./modules/sns | n/a |
 | <a name="module_generate-document-manifest-lambda"></a> [generate-document-manifest-lambda](#module\_generate-document-manifest-lambda) | ./modules/lambda | n/a |
-| <a name="module_generate-stitch-record-alarm"></a> [generate-stitch-record-alarm](#module\_generate-stitch-record-alarm) | ./modules/lambda_alarms | n/a |
-| <a name="module_generate-stitch-record-alarm-topic"></a> [generate-stitch-record-alarm-topic](#module\_generate-stitch-record-alarm-topic) | ./modules/sns | n/a |
-| <a name="module_generate-stitch-record-lambda"></a> [generate-stitch-record-lambda](#module\_generate-stitch-record-lambda) | ./modules/lambda | n/a |
+| <a name="module_generate-lloyd-george-stitch-alarm"></a> [generate-lloyd-george-stitch-alarm](#module\_generate-lloyd-george-stitch-alarm) | ./modules/lambda_alarms | n/a |
+| <a name="module_generate-lloyd-george-stitch-alarm-topic"></a> [generate-lloyd-george-stitch-alarm-topic](#module\_generate-lloyd-george-stitch-alarm-topic) | ./modules/sns | n/a |
+| <a name="module_generate-lloyd-george-stitch-lambda"></a> [generate-lloyd-george-stitch-lambda](#module\_generate-lloyd-george-stitch-lambda) | ./modules/lambda | n/a |
 | <a name="module_lambda-layer-core"></a> [lambda-layer-core](#module\_lambda-layer-core) | ./modules/lambda_layers | n/a |
 | <a name="module_lambda-layer-data"></a> [lambda-layer-data](#module\_lambda-layer-data) | ./modules/lambda_layers | n/a |
 | <a name="module_lloyd-george-stitch-gateway"></a> [lloyd-george-stitch-gateway](#module\_lloyd-george-stitch-gateway) | ./modules/gateway | n/a |

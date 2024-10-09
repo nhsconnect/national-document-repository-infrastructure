@@ -1,21 +1,21 @@
-module "generate-stitch-record-alarm" {
+module "generate-lloyd-george-stitch-alarm" {
   source               = "./modules/lambda_alarms"
-  lambda_function_name = module.generate-stitch-record-lambda.function_name
-  lambda_timeout       = module.generate-stitch-record-lambda.timeout
-  lambda_name          = "generate_stitch_record_handler"
+  lambda_function_name = module.generate-lloyd-george-stitch-lambda.function_name
+  lambda_timeout       = module.generate-lloyd-george-stitch-lambda.timeout
+  lambda_name          = "generate_lloyd_george_stitch_handler"
   namespace            = "AWS/Lambda"
-  alarm_actions        = [module.generate-stitch-record-alarm-topic.arn]
-  ok_actions           = [module.generate-stitch-record-alarm-topic.arn]
-  depends_on           = [module.generate-stitch-record-lambda, module.generate-stitch-record-alarm-topic]
+  alarm_actions        = [module.generate-lloyd-george-stitch-alarm-topic.arn]
+  ok_actions           = [module.generate-lloyd-george-stitch-alarm-topic.arn]
+  depends_on           = [module.generate-lloyd-george-stitch-lambda, module.generate-lloyd-george-stitch-alarm-topic]
 }
 
-module "generate-stitch-record-alarm-topic" {
+module "generate-lloyd-george-stitch-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
   current_account_id    = data.aws_caller_identity.current.account_id
-  topic_name            = "generate-stitch-record-topic"
+  topic_name            = "generate-lloyd-george-stitch-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.generate-stitch-record-lambda.lambda_arn
+  topic_endpoint        = module.generate-lloyd-george-stitch-lambda.lambda_arn
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -37,10 +37,10 @@ module "generate-stitch-record-alarm-topic" {
     ]
   })
 
-  depends_on = [module.generate-stitch-record-lambda, module.sns_encryption_key]
+  depends_on = [module.generate-lloyd-george-stitch-lambda, module.sns_encryption_key]
 }
 
-module "generate-stitch-record-lambda" {
+module "generate-lloyd-george-stitch-lambda" {
   source                   = "./modules/lambda"
   name                     = "GenerateLloydGeorgeStitch"
   handler                  = "handlers.generate_lloyd_george_stitch_handler.lambda_handler"
@@ -100,13 +100,13 @@ resource "aws_iam_policy" "dynamodb_stream_stitch_policy" {
 
 resource "aws_iam_role_policy_attachment" "policy_generate_stitch_lambda" {
   count      = local.is_sandbox ? 0 : 1
-  role       = module.generate-stitch-record-lambda.lambda_execution_role_name
+  role       = module.generate-lloyd-george-stitch-lambda.lambda_execution_role_name
   policy_arn = try(aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0].arn, null)
 }
 
 resource "aws_lambda_event_source_mapping" "dynamodb_stream_stitch" {
   event_source_arn  = module.stitch_metadata_reference_dynamodb_table.dynamodb_stream_arn
-  function_name     = module.generate-stitch-record-lambda.lambda_arn
+  function_name     = module.generate-lloyd-george-stitch-lambda.lambda_arn
   batch_size        = 1
   starting_position = "TRIM_HORIZON"
 
