@@ -68,6 +68,7 @@ module "create-doc-ref-lambda" {
   handler = "handlers.create_document_reference_handler.lambda_handler"
   iam_role_policies = [
     module.document_reference_dynamodb_table.dynamodb_policy,
+    module.stitch_metadata_reference_dynamodb_table.dynamodb_policy,
     module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
     module.ndr-bulk-staging-store.s3_object_access_policy,
     module.ndr-lloyd-george-store.s3_object_access_policy,
@@ -82,16 +83,17 @@ module "create-doc-ref-lambda" {
   http_methods      = ["POST"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
-    STAGING_STORE_BUCKET_NAME    = "${terraform.workspace}-${var.staging_store_bucket_name}"
-    APPCONFIG_APPLICATION        = module.ndr-app-config.app_config_application_id
-    APPCONFIG_ENVIRONMENT        = module.ndr-app-config.app_config_environment_id
-    APPCONFIG_CONFIGURATION      = module.ndr-app-config.app_config_configuration_profile_id
-    DOCUMENT_STORE_BUCKET_NAME   = "${terraform.workspace}-${var.docstore_bucket_name}"
-    DOCUMENT_STORE_DYNAMODB_NAME = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
-    LLOYD_GEORGE_DYNAMODB_NAME   = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
-    PDS_FHIR_IS_STUBBED          = local.is_sandbox,
-    WORKSPACE                    = terraform.workspace
-    PRESIGNED_ASSUME_ROLE        = aws_iam_role.create_post_presign_url_role.arn
+    STAGING_STORE_BUCKET_NAME     = "${terraform.workspace}-${var.staging_store_bucket_name}"
+    APPCONFIG_APPLICATION         = module.ndr-app-config.app_config_application_id
+    APPCONFIG_ENVIRONMENT         = module.ndr-app-config.app_config_environment_id
+    APPCONFIG_CONFIGURATION       = module.ndr-app-config.app_config_configuration_profile_id
+    DOCUMENT_STORE_BUCKET_NAME    = "${terraform.workspace}-${var.docstore_bucket_name}"
+    DOCUMENT_STORE_DYNAMODB_NAME  = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
+    LLOYD_GEORGE_DYNAMODB_NAME    = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
+    STITCH_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_metadata_dynamodb_table_name}"
+    PDS_FHIR_IS_STUBBED           = local.is_sandbox,
+    WORKSPACE                     = terraform.workspace
+    PRESIGNED_ASSUME_ROLE         = aws_iam_role.create_post_presign_url_role.arn
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
@@ -101,6 +103,7 @@ module "create-doc-ref-lambda" {
     module.create-doc-ref-gateway,
     module.ndr-app-config,
     module.lloyd_george_reference_dynamodb_table,
-    module.document_reference_dynamodb_table
+    module.document_reference_dynamodb_table,
+    module.stitch_metadata_reference_dynamodb_table,
   ]
 }
