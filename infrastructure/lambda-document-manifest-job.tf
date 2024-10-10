@@ -79,6 +79,7 @@ module "document-manifest-job-lambda" {
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.document-manifest-job-gateway.gateway_resource_id
   http_methods      = ["GET", "POST"]
+  memory_size       = 256
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION        = module.ndr-app-config.app_config_application_id
