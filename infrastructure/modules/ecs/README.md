@@ -63,7 +63,7 @@ No modules.
 | <a name="input_ecs_task_definition_cpu"></a> [ecs\_task\_definition\_cpu](#input\_ecs\_task\_definition\_cpu) | n/a | `number` | `1024` | no |
 | <a name="input_ecs_task_definition_memory"></a> [ecs\_task\_definition\_memory](#input\_ecs\_task\_definition\_memory) | n/a | `number` | `2048` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
-| <a name="input_environment_vars"></a> [environment\_vars](#input\_environment\_vars) | n/a | `list` | <pre>[<br/>  null<br/>]</pre> | no |
+| <a name="input_environment_vars"></a> [environment\_vars](#input\_environment\_vars) | n/a | `list` | <pre>[<br>  null<br>]</pre> | no |
 | <a name="input_is_autoscaling_needed"></a> [is\_autoscaling\_needed](#input\_is\_autoscaling\_needed) | n/a | `bool` | `true` | no |
 | <a name="input_is_lb_needed"></a> [is\_lb\_needed](#input\_is\_lb\_needed) | n/a | `bool` | `false` | no |
 | <a name="input_is_service_needed"></a> [is\_service\_needed](#input\_is\_service\_needed) | n/a | `bool` | `true` | no |
