@@ -134,6 +134,38 @@ module "zip_store_reference_dynamodb_table" {
   owner       = var.owner
 }
 
+module "stitch_metadata_reference_dynamodb_table" {
+  source                      = "./modules/dynamo_db"
+  table_name                  = var.stitch_metadata_dynamodb_table_name
+  hash_key                    = "ID"
+  deletion_protection_enabled = local.is_production
+  stream_enabled              = true
+  ttl_enabled                 = true
+  ttl_attribute_name          = "ExpireAt"
+
+  attributes = [
+    {
+      name = "ID"
+      type = "S"
+    },
+    {
+      name = "NhsNumber"
+      type = "S"
+    }
+  ]
+
+  global_secondary_indexes = [
+    {
+      name            = "NhsNumberIndex"
+      hash_key        = "NhsNumber"
+      projection_type = "ALL"
+    }
+  ]
+
+  environment = var.environment
+  owner       = var.owner
+}
+
 module "auth_state_dynamodb_table" {
   source                      = "./modules/dynamo_db"
   table_name                  = var.auth_state_dynamodb_table_name
