@@ -78,7 +78,7 @@ data "aws_iam_policy_document" "s3_cloudfront_policy" {
 
     condition {
       test     = "StringEquals"
-      variable = "AWS:SourceArn"
+      variable = "aws:SourceArn"
       values   = [var.cloudfront_arn]
     }
   }

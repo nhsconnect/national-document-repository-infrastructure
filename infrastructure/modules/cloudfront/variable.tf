@@ -12,11 +12,3 @@ variable "qualifed_arn" {
   type        = string
   description = "Lambda@Edge function association"
 }
-
-# Managed-AllViewer Policy
-# https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html
-variable "forwarding_policy" {
-  type        = string
-  default     = "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf"
-  description = "Manged or custom policy for CloudFront distribution caching and forwarding"
-}
