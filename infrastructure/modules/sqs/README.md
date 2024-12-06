@@ -16,11 +16,12 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_iam_policy.sqs_queue_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_sqs_queue.queue_deadletter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue) | resource |
 | [aws_sqs_queue.sqs_queue](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue) | resource |
 | [aws_sqs_queue_redrive_allow_policy.terraform_queue_redrive_allow_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue_redrive_allow_policy) | resource |
 | [aws_sqs_queue_redrive_policy.dlq_redrive](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue_redrive_policy) | resource |
+| [aws_iam_policy_document.sqs_read_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.sqs_write_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
@@ -48,5 +49,6 @@ No modules.
 | <a name="output_endpoint"></a> [endpoint](#output\_endpoint) | Same as sqs queue arn. For use when setting the queue as endpoint of sns topic |
 | <a name="output_sqs_arn"></a> [sqs\_arn](#output\_sqs\_arn) | n/a |
 | <a name="output_sqs_id"></a> [sqs\_id](#output\_sqs\_id) | n/a |
-| <a name="output_sqs_policy"></a> [sqs\_policy](#output\_sqs\_policy) | Arn for the iam policy for accessing this queue |
+| <a name="output_sqs_read_policy_document"></a> [sqs\_read\_policy\_document](#output\_sqs\_read\_policy\_document) | n/a |
 | <a name="output_sqs_url"></a> [sqs\_url](#output\_sqs\_url) | n/a |
+| <a name="output_sqs_write_policy_document"></a> [sqs\_write\_policy\_document](#output\_sqs\_write\_policy\_document) | n/a |

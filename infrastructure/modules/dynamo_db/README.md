@@ -18,6 +18,8 @@ No modules.
 |------|------|
 | [aws_dynamodb_table.ndr_dynamodb_table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
 | [aws_iam_policy.dynamodb_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_policy_document.dynamodb_read_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.dynamodb_write_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
@@ -43,6 +45,8 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_dynamodb_policy"></a> [dynamodb\_policy](#output\_dynamodb\_policy) | n/a |
+| <a name="output_dynamodb_read_policy_document"></a> [dynamodb\_read\_policy\_document](#output\_dynamodb\_read\_policy\_document) | n/a |
 | <a name="output_dynamodb_stream_arn"></a> [dynamodb\_stream\_arn](#output\_dynamodb\_stream\_arn) | n/a |
 | <a name="output_dynamodb_table_arn"></a> [dynamodb\_table\_arn](#output\_dynamodb\_table\_arn) | n/a |
+| <a name="output_dynamodb_write_policy_document"></a> [dynamodb\_write\_policy\_document](#output\_dynamodb\_write\_policy\_document) | n/a |
 | <a name="output_table_name"></a> [table\_name](#output\_table\_name) | n/a |

@@ -3,12 +3,12 @@ module "bulk-upload-metadata-lambda" {
   name           = "BulkUploadMetadataLambda"
   handler        = "handlers.bulk_upload_metadata_handler.lambda_handler"
   lambda_timeout = 900
-  iam_role_policies = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
-    module.ndr-bulk-staging-store.s3_object_access_policy,
-    module.sqs-lg-bulk-upload-metadata-queue.sqs_policy,
-    module.ndr-app-config.app_config_policy_arn
+  iam_role_policy_documents = [
+    module.ndr-bulk-staging-store.s3_read_policy_document,
+    module.ndr-bulk-staging-store.s3_write_policy_document,
+    module.sqs-lg-bulk-upload-metadata-queue.sqs_read_policy_document,
+    module.sqs-lg-bulk-upload-metadata-queue.sqs_write_policy_document,
+    module.ndr-app-config.app_config_policy
   ]
 
   rest_api_id       = null

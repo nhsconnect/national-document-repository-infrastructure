@@ -17,3 +17,11 @@ output "bucket_arn" {
 output "bucket_domain_name" {
   value = aws_s3_bucket.bucket.bucket_domain_name
 }
+
+output "s3_read_policy_document" {
+  value = data.aws_iam_policy_document.s3_read_policy.json
+}
+
+output "s3_write_policy_document" {
+  value = data.aws_iam_policy_document.s3_write_policy.json
+}

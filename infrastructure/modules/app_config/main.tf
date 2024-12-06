@@ -96,3 +96,15 @@ resource "aws_iam_policy" "app_config_policy" {
     ]
   })
 }
+
+data "aws_iam_policy_document" "app_config_policy" {
+  statement {
+    actions = [
+      "appconfig:GetLatestConfiguration",
+      "appconfig:StartConfigurationSession"
+    ]
+    resources = [
+      "arn:aws:appconfig:*:*:application/${aws_appconfig_application.ndr-app-config-application.id}/environment/${aws_appconfig_environment.ndr-app-config-environment.environment_id}/configuration/${aws_appconfig_configuration_profile.ndr-app-config-profile.configuration_profile_id}"
+    ]
+  }
+}

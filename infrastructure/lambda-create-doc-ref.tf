@@ -66,21 +66,27 @@ module "create-doc-ref-lambda" {
   source  = "./modules/lambda"
   name    = "CreateDocRefLambda"
   handler = "handlers.create_document_reference_handler.lambda_handler"
-  iam_role_policies = [
-    module.document_reference_dynamodb_table.dynamodb_policy,
-    module.stitch_metadata_reference_dynamodb_table.dynamodb_policy,
-    module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
-    module.ndr-bulk-staging-store.s3_object_access_policy,
-    module.ndr-lloyd-george-store.s3_object_access_policy,
-    module.ndr-document-store.s3_object_access_policy,
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
-    aws_iam_policy.ssm_access_policy.arn,
-    module.ndr-app-config.app_config_policy_arn,
+  iam_role_policy_documents = [
+    module.ndr-bulk-staging-store.s3_read_policy_document,
+    module.ndr-bulk-staging-store.s3_write_policy_document,
+    module.ndr-lloyd-george-store.s3_write_policy_document,
+    module.ndr-lloyd-george-store.s3_read_policy_document,
+    module.ndr-document-store.s3_read_policy_document,
+    module.ndr-document-store.s3_write_policy_document,
+    module.document_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.document_reference_dynamodb_table.dynamodb_read_policy_document,
+    module.stitch_metadata_reference_dynamodb_table.dynamodb_read_policy_document,
+    module.stitch_metadata_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
+    aws_iam_policy.ssm_access_policy.policy,
+    module.ndr-app-config.app_config_policy,
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.create-doc-ref-gateway.gateway_resource_id
-  http_methods      = ["POST"]
+  rest_api_id  = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id  = module.create-doc-ref-gateway.gateway_resource_id
+  http_methods = ["POST"]
+  memory_size  = 512
+
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     STAGING_STORE_BUCKET_NAME     = "${terraform.workspace}-${var.staging_store_bucket_name}"

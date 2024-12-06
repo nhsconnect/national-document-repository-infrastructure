@@ -66,10 +66,8 @@ module "feature-flags-lambda" {
   source  = "./modules/lambda"
   name    = "FeatureFlagsLambda"
   handler = "handlers.feature_flags_handler.lambda_handler"
-  iam_role_policies = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
-    module.ndr-app-config.app_config_policy_arn
+  iam_role_policy_documents = [
+    module.ndr-app-config.app_config_policy
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.feature-flags-gateway.gateway_resource_id

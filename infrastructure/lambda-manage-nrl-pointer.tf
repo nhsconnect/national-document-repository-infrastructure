@@ -3,12 +3,11 @@ module "manage-nrl-pointer-lambda" {
   name           = "ManageNrlPointerLambda"
   handler        = "handlers.manage_nrl_pointer_handler.lambda_handler"
   lambda_timeout = 600
-  iam_role_policies = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
-    module.ndr-app-config.app_config_policy_arn,
-    module.sqs-nrl-queue.sqs_policy,
-    aws_iam_policy.ssm_access_policy.arn
+  iam_role_policy_documents = [
+    module.ndr-app-config.app_config_policy,
+    module.sqs-nrl-queue.sqs_read_policy_document,
+    module.sqs-nrl-queue.sqs_write_policy_document,
+    aws_iam_policy.ssm_access_policy.policy
   ]
   rest_api_id       = null
   api_execution_arn = null
@@ -22,6 +21,10 @@ module "manage-nrl-pointer-lambda" {
   }
   is_gateway_integration_needed = false
   is_invoked_from_gateway       = false
+
+  depends_on = [
+    module.ndr-app-config
+  ]
 }
 
 module "manage-nrl-pointer-alarm" {
@@ -32,6 +35,7 @@ module "manage-nrl-pointer-alarm" {
   namespace            = "AWS/Lambda"
   alarm_actions        = [module.manage-nrl-pointer-alarm-topic.arn]
   ok_actions           = [module.manage-nrl-pointer-alarm-topic.arn]
+  depends_on           = [module.manage-nrl-pointer-lambda, module.manage-nrl-pointer-alarm-topic]
 }
 
 module "manage-nrl-pointer-alarm-topic" {
@@ -61,6 +65,8 @@ module "manage-nrl-pointer-alarm-topic" {
       }
     ]
   })
+
+  depends_on = [module.manage-nrl-pointer-lambda, module.sns_encryption_key]
 }
 
 resource "aws_lambda_event_source_mapping" "nrl_pointer_lambda" {
@@ -76,6 +82,15 @@ resource "aws_lambda_event_source_mapping" "nrl_pointer_lambda" {
       })
     }
   }
+
+  scaling_config {
+    maximum_concurrency = local.bulk_upload_lambda_concurrent_limit
+  }
+
+  depends_on = [
+    module.sqs-nrl-queue,
+    module.manage-nrl-pointer-lambda
+  ]
 }
 
 

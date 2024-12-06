@@ -83,3 +83,41 @@ resource "aws_iam_policy" "dynamodb_policy" {
     )
   })
 }
+
+data "aws_iam_policy_document" "dynamodb_read_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:GetItem",
+    ]
+    resources = [
+      aws_dynamodb_table.ndr_dynamodb_table.arn,
+    ]
+  }
+
+  dynamic "statement" {
+    for_each = var.global_secondary_indexes
+    content {
+      effect    = "Allow"
+      actions   = ["dynamodb:Query"]
+      resources = ["${aws_dynamodb_table.ndr_dynamodb_table.arn}/index/${statement.value.name}"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "dynamodb_write_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:BatchWriteItem"
+    ]
+    resources = [
+      aws_dynamodb_table.ndr_dynamodb_table.arn,
+    ]
+  }
+}

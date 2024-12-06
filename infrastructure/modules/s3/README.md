@@ -27,6 +27,8 @@ No modules.
 | [aws_s3_bucket_versioning.bucket_versioning](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_iam_policy_document.s3_cloudfront_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.s3_defaut_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.s3_read_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.s3_write_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
@@ -51,3 +53,5 @@ No modules.
 | <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | n/a |
 | <a name="output_s3_list_object_policy"></a> [s3\_list\_object\_policy](#output\_s3\_list\_object\_policy) | n/a |
 | <a name="output_s3_object_access_policy"></a> [s3\_object\_access\_policy](#output\_s3\_object\_access\_policy) | n/a |
+| <a name="output_s3_read_policy_document"></a> [s3\_read\_policy\_document](#output\_s3\_read\_policy\_document) | n/a |
+| <a name="output_s3_write_policy_document"></a> [s3\_write\_policy\_document](#output\_s3\_write\_policy\_document) | n/a |

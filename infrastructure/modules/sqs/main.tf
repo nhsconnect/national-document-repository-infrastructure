@@ -18,24 +18,6 @@ resource "aws_sqs_queue" "sqs_queue" {
   }
 }
 
-resource "aws_iam_policy" "sqs_queue_policy" {
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      "Sid"    = "shsqsstatement",
-      "Effect" = "Allow",
-      "Action" = [
-        "sqs:SendMessage",
-        "sqs:ReceiveMessage",
-        "sqs:DeleteMessage",
-        "sqs:GetQueueAttributes"
-      ],
-      "Resource" = [
-        aws_sqs_queue.sqs_queue.arn
-      ]
-  }] })
-}
-
 resource "aws_sqs_queue" "queue_deadletter" {
   count                       = var.enable_dlq ? 1 : 0
   name                        = "${terraform.workspace}-${var.name}-deadletter-queue"
@@ -74,4 +56,33 @@ resource "aws_sqs_queue_redrive_policy" "dlq_redrive" {
     deadLetterTargetArn = aws_sqs_queue.queue_deadletter[0].arn
     maxReceiveCount     = var.max_receive_count
   })
+}
+
+data "aws_iam_policy_document" "sqs_read_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:ReceiveMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:GetQueueUrl"
+    ]
+    resources = concat(
+      [aws_sqs_queue.sqs_queue.arn],
+      var.enable_dlq ? [aws_sqs_queue.queue_deadletter[0].arn] : []
+    )
+  }
+}
+
+data "aws_iam_policy_document" "sqs_write_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:SendMessage",
+      "sqs:DeleteMessage"
+    ]
+    resources = concat(
+      [aws_sqs_queue.sqs_queue.arn],
+      var.enable_dlq ? [aws_sqs_queue.queue_deadletter[0].arn] : []
+    )
+  }
 }

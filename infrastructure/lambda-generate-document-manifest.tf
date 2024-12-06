@@ -46,15 +46,18 @@ module "generate-document-manifest-lambda" {
   handler                  = "handlers.generate_document_manifest_handler.lambda_handler"
   lambda_timeout           = 900
   lambda_ephemeral_storage = 512
-  iam_role_policies = [
-    module.ndr-document-store.s3_object_access_policy,
-    module.ndr-lloyd-george-store.s3_object_access_policy,
-    module.zip_store_reference_dynamodb_table.dynamodb_policy,
-    module.ndr-zip-request-store.s3_object_access_policy,
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
-    module.ndr-app-config.app_config_policy_arn,
-    aws_iam_policy.dynamodb_stream_manifest.arn
+  memory_size              = 512
+  iam_role_policy_documents = [
+    module.ndr-document-store.s3_read_policy_document,
+    module.ndr-document-store.s3_write_policy_document,
+    module.ndr-lloyd-george-store.s3_read_policy_document,
+    module.ndr-lloyd-george-store.s3_write_policy_document,
+    module.zip_store_reference_dynamodb_table.dynamodb_read_policy_document,
+    module.zip_store_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.ndr-zip-request-store.s3_read_policy_document,
+    module.ndr-zip-request-store.s3_write_policy_document,
+    module.ndr-app-config.app_config_policy,
+    aws_iam_policy.dynamodb_stream_manifest.policy
   ]
   rest_api_id       = null
   api_execution_arn = null

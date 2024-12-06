@@ -65,16 +65,20 @@ module "delete-doc-ref-lambda" {
   source  = "./modules/lambda"
   name    = "DeleteDocRefLambda"
   handler = "handlers.delete_document_reference_handler.lambda_handler"
-  iam_role_policies = [
-    module.document_reference_dynamodb_table.dynamodb_policy,
-    module.ndr-document-store.s3_object_access_policy,
-    module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
-    module.ndr-lloyd-george-store.s3_object_access_policy,
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
-    module.ndr-app-config.app_config_policy_arn,
-    module.stitch_metadata_reference_dynamodb_table.dynamodb_policy,
-    module.sqs-nrl-queue.sqs_policy
+  iam_role_policy_documents = [
+    module.document_reference_dynamodb_table.dynamodb_read_policy_document,
+    module.document_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.ndr-document-store.s3_read_policy_document,
+    module.ndr-document-store.s3_write_policy_document,
+    module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
+    module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.ndr-lloyd-george-store.s3_read_policy_document,
+    module.ndr-lloyd-george-store.s3_write_policy_document,
+    module.ndr-app-config.app_config_policy,
+    module.stitch_metadata_reference_dynamodb_table.dynamodb_read_policy_document,
+    module.stitch_metadata_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.sqs-nrl-queue.sqs_read_policy_document,
+    module.sqs-nrl-queue.sqs_write_policy_document
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.delete-doc-ref-gateway.gateway_resource_id
@@ -88,7 +92,6 @@ module "delete-doc-ref-lambda" {
     LLOYD_GEORGE_DYNAMODB_NAME    = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
     STITCH_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_metadata_dynamodb_table_name}"
     WORKSPACE                     = terraform.workspace
-    NRL_SQS_QUEUE_URL             = module.sqs-nrl-queue.sqs_url
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,

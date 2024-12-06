@@ -45,16 +45,19 @@ module "data-collection-lambda" {
   name           = "DataCollectionLambda"
   handler        = "handlers.data_collection_handler.lambda_handler"
   lambda_timeout = 900
-  iam_role_policies = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
-    module.ndr-app-config.app_config_policy_arn,
-    module.statistics_dynamodb_table.dynamodb_policy,
-    module.ndr-lloyd-george-store.s3_list_object_policy,
-    module.ndr-document-store.s3_list_object_policy,
-    module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
-    module.document_reference_dynamodb_table.dynamodb_policy,
-    aws_iam_policy.cloudwatch_log_query_policy.arn
+  iam_role_policy_documents = [
+    module.ndr-app-config.app_config_policy,
+    module.statistics_dynamodb_table.dynamodb_read_policy_document,
+    module.statistics_dynamodb_table.dynamodb_write_policy_document,
+    module.ndr-lloyd-george-store.s3_read_policy_document,
+    module.ndr-lloyd-george-store.s3_write_policy_document,
+    module.ndr-document-store.s3_read_policy_document,
+    module.ndr-document-store.s3_write_policy_document,
+    module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
+    module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.document_reference_dynamodb_table.dynamodb_read_policy_document,
+    module.document_reference_dynamodb_table.dynamodb_write_policy_document,
+    aws_iam_policy.cloudwatch_log_query_policy.policy
   ]
   rest_api_id       = null
   api_execution_arn = null

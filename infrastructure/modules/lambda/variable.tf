@@ -41,8 +41,9 @@ variable "api_execution_arn" {
   type = string
 }
 
-variable "iam_role_policies" {
-  type = list(string)
+variable "iam_role_policy_documents" {
+  type    = list(string)
+  default = []
 }
 
 variable "lambda_timeout" {
@@ -64,6 +65,13 @@ variable "reserved_concurrent_executions" {
   type        = number
   description = "The number of concurrent execution allowed for lambda. A value of 0 will stop lambda from running, and -1 removes any concurrency limitations. Default to -1."
   default     = -1
+}
+
+variable "default_policies" {
+  default = [
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+    "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy"
+  ]
 }
 
 output "invoke_arn" {
