@@ -5,14 +5,13 @@ module "bulk-upload-lambda" {
   iam_role_policies = [
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy",
+    module.ndr-app-config.app_config_policy_arn,
+    aws_iam_policy.ssm_access_policy.arn,
+    aws_iam_policy.lambda_sqs_combined_policy.arn,
     module.ndr-bulk-staging-store.s3_object_access_policy,
     module.ndr-lloyd-george-store.s3_object_access_policy,
     module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
     module.bulk_upload_report_dynamodb_table.dynamodb_policy,
-    module.sqs-lg-bulk-upload-metadata-queue.sqs_policy,
-    module.sqs-lg-bulk-upload-invalid-queue.sqs_policy,
-    aws_iam_policy.ssm_access_policy.arn,
-    module.ndr-app-config.app_config_policy_arn
   ]
   rest_api_id       = null
   api_execution_arn = null
@@ -29,6 +28,8 @@ module "bulk-upload-lambda" {
     METADATA_SQS_QUEUE_URL     = module.sqs-lg-bulk-upload-metadata-queue.sqs_url
     INVALID_SQS_QUEUE_URL      = module.sqs-lg-bulk-upload-invalid-queue.sqs_url
     PDS_FHIR_IS_STUBBED        = local.is_sandbox
+    NRL_SQS_URL                = module.sqs-nrl-queue.sqs_url
+    APIM_API_URL               = data.aws_ssm_parameter.apim_url.value
   }
 
   is_gateway_integration_needed  = false

@@ -93,6 +93,11 @@ output "sqs_policy" {
   description = "Arn for the iam policy for accessing this queue"
 }
 
+output "sqs_policy_json" {
+  value       = aws_iam_policy.sqs_queue_policy.policy
+  description = "JSON for the iam policy for accessing this queue"
+}
+
 output "sqs_url" {
   value = aws_sqs_queue.sqs_queue.url
 }
