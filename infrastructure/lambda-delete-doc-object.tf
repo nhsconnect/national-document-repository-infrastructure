@@ -49,7 +49,8 @@ module "delete-document-object-lambda" {
     module.ndr-document-store.s3_object_access_policy,
     module.ndr-lloyd-george-store.s3_object_access_policy,
     module.document_reference_dynamodb_table.dynamodb_policy,
-    module.lloyd_george_reference_dynamodb_table.dynamodb_policy
+    module.lloyd_george_reference_dynamodb_table.dynamodb_policy,
+    aws_iam_policy.dynamodb_stream_delete_object_policy.arn
   ]
   rest_api_id       = null
   api_execution_arn = null
