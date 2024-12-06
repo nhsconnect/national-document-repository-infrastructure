@@ -100,36 +100,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "lg-lifecycle-rules" {
     }
   }
   rule {
-    id     = "Delete LG records after soft delete"
-    status = "Enabled"
-
-    expiration {
-      days = 56
-    }
-
-    filter {
-      tag {
-        key   = "soft-delete"
-        value = "true"
-      }
-    }
-  }
-  rule {
-    id     = "Delete LG records after death"
-    status = "Enabled"
-
-    expiration {
-      days = 3650
-    }
-
-    filter {
-      tag {
-        key   = "patient-death"
-        value = "true"
-      }
-    }
-  }
-  rule {
     id     = "default-to-intelligent-tiering"
     status = "Enabled"
     transition {
@@ -140,36 +110,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "lg-lifecycle-rules" {
 
 resource "aws_s3_bucket_lifecycle_configuration" "doc-store-lifecycle-rules" {
   bucket = module.ndr-document-store.bucket_id
-  rule {
-    id     = "Delete DS records after soft delete"
-    status = "Enabled"
-
-    expiration {
-      days = 56
-    }
-
-    filter {
-      tag {
-        key   = "soft-delete"
-        value = "true"
-      }
-    }
-  }
-  rule {
-    id     = "Delete DS records after death"
-    status = "Enabled"
-
-    expiration {
-      days = 3650
-    }
-
-    filter {
-      tag {
-        key   = "patient-death"
-        value = "true"
-      }
-    }
-  }
   rule {
     id     = "default-to-intelligent-tiering"
     status = "Enabled"
