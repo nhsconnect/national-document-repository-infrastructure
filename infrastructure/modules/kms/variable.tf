@@ -23,8 +23,23 @@ variable "owner" {
   type = string
 }
 
-variable "identifiers" {
+variable "service_identifiers" {
   type = list(string)
+}
+
+variable "aws_identifiers" {
+  type    = list(string)
+  default = []
+}
+
+variable "allow_decrypt_for_arn" {
+  type    = bool
+  default = false
+}
+
+variable "allowed_arn" {
+  type    = list(string)
+  default = []
 }
 
 output "kms_arn" {
