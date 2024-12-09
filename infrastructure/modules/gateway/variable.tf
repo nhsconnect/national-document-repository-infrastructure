@@ -48,3 +48,8 @@ output "gateway_resource_id" {
 variable "origin" {
   type = string
 }
+
+variable "api_key_required" {
+  type    = bool
+  default = false
+}
