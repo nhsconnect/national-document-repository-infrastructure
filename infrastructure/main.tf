@@ -28,3 +28,7 @@ data "aws_caller_identity" "current" {
 data "aws_region" "current" {}
 
 data "aws_elb_service_account" "main" {}
+
+data "aws_ssm_parameter" "apim_url" {
+  name = "/repo/${var.environment}/user-input/apim-api-url"
+}
