@@ -92,6 +92,7 @@ module "delete-doc-ref-lambda" {
     LLOYD_GEORGE_DYNAMODB_NAME    = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
     STITCH_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_metadata_dynamodb_table_name}"
     WORKSPACE                     = terraform.workspace
+    NRL_SQS_QUEUE_URL             = module.sqs-nrl-queue.sqs_url
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
