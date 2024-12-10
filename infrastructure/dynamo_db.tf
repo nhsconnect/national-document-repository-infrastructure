@@ -3,7 +3,8 @@ module "document_reference_dynamodb_table" {
   table_name                     = var.docstore_dynamodb_table_name
   hash_key                       = "ID"
   deletion_protection_enabled    = local.is_production
-  stream_enabled                 = false
+  stream_enabled                 = true
+  stream_view_type               = "OLD_IMAGE"
   ttl_enabled                    = true
   ttl_attribute_name             = "TTL"
   point_in_time_recovery_enabled = !local.is_sandbox
@@ -66,7 +67,8 @@ module "lloyd_george_reference_dynamodb_table" {
   table_name                     = var.lloyd_george_dynamodb_table_name
   hash_key                       = "ID"
   deletion_protection_enabled    = local.is_production
-  stream_enabled                 = false
+  stream_enabled                 = true
+  stream_view_type               = "OLD_IMAGE"
   ttl_enabled                    = true
   ttl_attribute_name             = "TTL"
   point_in_time_recovery_enabled = !local.is_sandbox
