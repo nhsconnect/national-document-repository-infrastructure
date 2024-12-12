@@ -5,5 +5,5 @@ module "sns_encryption_key" {
   current_account_id  = data.aws_caller_identity.current.account_id
   environment         = var.environment
   owner               = var.owner
-  identifiers         = ["sns.amazonaws.com", "cloudwatch.amazonaws.com"]
+  service_identifiers = ["sns.amazonaws.com", "cloudwatch.amazonaws.com"]
 }
