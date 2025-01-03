@@ -90,10 +90,10 @@ module "ndr-ecs-fargate-ods-update" {
       "value" : terraform.workspace
     }
   ]
-  ecs_container_definition_memory = 512
-  ecs_container_definition_cpu    = 256
-  ecs_task_definition_memory      = 512
-  ecs_task_definition_cpu         = 256
+  ecs_container_definition_memory = 5120
+  ecs_container_definition_cpu    = 1024
+  ecs_task_definition_memory      = 5120
+  ecs_task_definition_cpu         = 1024
 }
 
 resource "aws_iam_role" "ods_weekly_update_task_role" {
