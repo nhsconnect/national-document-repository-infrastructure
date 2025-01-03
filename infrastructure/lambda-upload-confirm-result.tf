@@ -77,6 +77,9 @@ module "upload_confirm_result_lambda" {
     module.document_reference_dynamodb_table.dynamodb_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.sqs-nrl-queue.sqs_read_policy_document,
+    module.sqs-nrl-queue.sqs_write_policy_document,
+    aws_iam_policy.ssm_access_policy.policy,
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.upload_confirm_result_gateway.gateway_resource_id
@@ -92,6 +95,8 @@ module "upload_confirm_result_lambda" {
     DOCUMENT_STORE_DYNAMODB_NAME = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
     LLOYD_GEORGE_DYNAMODB_NAME   = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
     WORKSPACE                    = terraform.workspace
+    APIM_API_URL                 = data.aws_ssm_parameter.apim_url.value
+    NRL_SQS_URL                  = module.sqs-nrl-queue.sqs_url
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
