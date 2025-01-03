@@ -29,4 +29,3 @@ module "sqs-lg-bulk-upload-invalid-queue" {
   owner             = var.owner
   max_visibility    = 1020
 }
-

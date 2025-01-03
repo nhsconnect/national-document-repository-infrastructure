@@ -53,8 +53,8 @@ resource "aws_iam_policy" "dynamodb_policy" {
     Statement = concat(
       [
         {
-          "Effect" : "Allow",
-          "Action" : [
+          Effect : "Allow",
+          Action : [
             "dynamodb:Query",
             "dynamodb:Scan",
             "dynamodb:GetItem",
@@ -63,18 +63,18 @@ resource "aws_iam_policy" "dynamodb_policy" {
             "dynamodb:DeleteItem",
             "dynamodb:BatchWriteItem",
           ],
-          "Resource" : [
+          Resource : [
             aws_dynamodb_table.ndr_dynamodb_table.arn,
           ]
         }
       ],
       length(coalesce(var.global_secondary_indexes, [])) > 0 ? [
         {
-          "Effect" : "Allow",
-          "Action" : [
+          Effect : "Allow",
+          Action : [
             "dynamodb:Query",
           ],
-          "Resource" : [
+          Resource : [
             for index in var.global_secondary_indexes :
             "${aws_dynamodb_table.ndr_dynamodb_table.arn}/index/${index.name}"
           ]
