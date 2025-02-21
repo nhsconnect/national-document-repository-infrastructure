@@ -4,12 +4,11 @@ resource "aws_cognito_identity_pool" "rum_identity_pool" {
   allow_unauthenticated_identities = true
 }
 
-resource "aws_cloudwatch_rum_app_monitor" "app_monitor" {
-  count            = local.is_production ? 0 : 1
-  name             = "${terraform.workspace}-app-monitor"
-  domain           = "*.patient-deductions.nhs.uk"
-  cw_log_enabled   = true
-  identity_pool_id = aws_cognito_identity_pool.rum_identity_pool[count.index].id
+resource "aws_rum_app_monitor" "app_monitor" {
+  count          = local.is_production ? 0 : 1
+  name           = "${terraform.workspace}-app-monitor"
+  domain         = "*.patient-deductions.nhs.uk"
+  cw_log_enabled = true
 
   app_monitor_configuration {
     allow_cookies       = true
