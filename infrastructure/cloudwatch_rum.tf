@@ -7,7 +7,7 @@ resource "aws_iam_role" "cognito_unauth_role" {
   name = local.cognito_role_name
 
   assume_role_policy = jsonencode({
-     "Version" : "2012-10-17",
+    "Version" : "2012-10-17",
     "Statement" : [
       {
         "Effect" : "Allow",
