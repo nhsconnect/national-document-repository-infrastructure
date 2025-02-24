@@ -10,18 +10,16 @@ resource "aws_iam_role" "cognito_unauth_role" {
     "Version" : "2012-10-17",
     "Statement" : [
       {
-        "Effect" : "Allow",
-
-        "Principal" : "*"
-
+        "Sid" : "Stmt1740405056930",
         "Action" : [
-          "cognito-identity:*",
+          "cognito-identity:CreateIdentityPool",
+          "cognito-identity:DeleteIdentityPool",
+          "cognito-identity:DescribeIdentityPool",
+          "cognito-identity:ListIdentityPools",
+          "cognito-identity:TagResource"
         ],
-        "Condition" : {
-          "ArnLike" : {
-            "aws:SourceArn" : "arn:aws:cognito-idp:eu-west-2:${data.aws_caller_identity.current.account_id}:*"
-          }
-        }
+        "Effect" : "Allow",
+        "Resource" : "arn:aws:cognito-identity:eu-west-2:${data.aws_caller_identity.current.account_id}:*"
       }
     ]
   })
