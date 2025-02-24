@@ -28,8 +28,8 @@ resource "aws_iam_role" "cognito_unauth_role" {
     Statement = [
       {
         Effect = "Allow",
-        Principal = {
-          Service = "cognito-identity.amazonaws.com"
+        Principal : {
+          Federated : "cognito-identity.amazonaws.com"
         },
         Action = "sts:AssumeRole"
       }
@@ -93,14 +93,14 @@ resource "aws_iam_role_policy_attachment" "rum_policy_attachment" {
   policy_arn = aws_iam_policy.rum_management_policy.arn
 }
 
-# resource "aws_cognito_identity_pool_roles_attachment" "rum_identity_pool_roles" {
-#   count            = local.is_production ? 0 : 1
-#   identity_pool_id = aws_cognito_identity_pool.rum_identity_pool[0].id
+resource "aws_cognito_identity_pool_roles_attachment" "identity_role_attachment" {
+  count            = local.is_production ? 0 : 1
+  identity_pool_id = aws_cognito_identity_pool.rum_identity_pool[0].id
 
-#   roles = {
-#     unauthenticated = aws_iam_role.cognito_unauth_role.arn
-#   }
-# }
+  roles = {
+    unauthenticated = aws_iam_role.cognito_unauth_role.arn
+  }
+}
 
 resource "aws_cognito_identity_pool" "rum_identity_pool" {
   count                            = local.is_production ? 0 : 1
