@@ -7,22 +7,22 @@ resource "aws_iam_role" "cognito_unauth_role" {
   name = local.cognito_role_name
 
   assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
+     "Version" : "2012-10-17",
+    "Statement" : [
       {
-        Effect = "Allow",
-        Principal = {
-          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "cognito-identity.amazonaws.com"
         },
-        Action = "sts:AssumeRoleWithWebIdentity",
-        Condition = {
-          StringEquals = {
-            "cognito-identity.amazonaws.com:aud" = aws_cognito_identity_pool.rum_identity_pool[0].id
-          },
-          "ForAnyValue:StringLike" = {
-            "cognito-identity.amazonaws.com:amr" = "unauthenticated"
+        "Action" : [
+          "cognito-identity:*",
+        ],
+        "Condition" : {
+          "ArnLike" : {
+            "aws:SourceArn" : "arn:aws:cognito-idp:eu-west-2:${data.aws_caller_identity.current.account_id}:*"
           }
         }
+        "Resource" : "*"
       }
     ]
   })
@@ -57,7 +57,7 @@ resource "aws_iam_policy" "cognito_access_policy" {
         Action = [
           "mobileanalytics:PutEvents",
           "cognito-sync:*",
-          "cognito-identity:*"
+          "cognito-identity:*",
         ],
         Resource = "*"
       }
@@ -118,7 +118,7 @@ resource "aws_cognito_identity_pool_roles_attachment" "rum_identity_pool_roles" 
 
 resource "aws_rum_app_monitor" "app_monitor" {
   count          = local.is_production ? 0 : 1
-  name           = "${var.environment}-app-monitor"
+  name           = "${terraform.workspace}-app-monitor"
   domain         = "*.patient-deductions.nhs.uk"
   cw_log_enabled = true
 
