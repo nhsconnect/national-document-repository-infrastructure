@@ -75,8 +75,8 @@ resource "aws_iam_role_policy" "cognito_unauth_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "cognito_rum_policy_attachment" {
-  role       = aws_iam_role.cognito_rum_policy.id
-  policy_arn = aws_iam_policy.github_actions_cognito_rum_policy.arn
+  role       = aws_iam_role.cognito_unauth_role.id
+  policy_arn = aws_iam_policy.cognito_rum_policy.arn
 }
 
 
