@@ -9,7 +9,7 @@ resource "aws_iam_role" "cognito_unauth_role" {
         Principal = {
           Federated = "cognito-identity.amazonaws.com"
         },
-        Action = "sts:AssumeRoleWithWebIdentity",
+        Action = "sts:AssumeRole",
         Condition = {
           StringEquals = {
             "cognito-identity.amazonaws.com:aud" = aws_cognito_identity_pool.rum_identity_pool[0].id
@@ -24,8 +24,8 @@ resource "aws_iam_role" "cognito_unauth_role" {
 }
 
 resource "aws_iam_policy" "cognito_rum_policy" {
-  name        = "${terraform.workspace}-github-actions-cognito-rum-policy"
-  description = "Allows GitHub Actions to create Cognito Identity Pools and RUM App Monitors"
+  name        = "${terraform.workspace}-cognito-rum-policy"
+  description = "Allows Cognito Identity Pools and RUM App Monitors to be Created"
 
   policy = jsonencode({
     Version = "2012-10-17",
