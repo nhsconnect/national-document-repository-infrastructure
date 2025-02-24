@@ -1,7 +1,61 @@
+resource "aws_iam_role" "cognito_unauth_role" {
+  name = "${terraform.workspace}-cognito-unauth-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Federated = "cognito-identity.amazonaws.com"
+        },
+        Action = "sts:AssumeRoleWithWebIdentity",
+        Condition = {
+          StringEquals = {
+            "cognito-identity.amazonaws.com:aud" = aws_cognito_identity_pool.rum_identity_pool[0].id
+          },
+          "ForAnyValue:StringLike" = {
+            "cognito-identity.amazonaws.com:amr" = "unauthenticated"
+          }
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "cognito_unauth_policy" {
+  name = "${terraform.workspace}-cognito-unauth-policy"
+  role = aws_iam_role.cognito_unauth_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "mobileanalytics:PutEvents",
+          "cognito-sync:*",
+          "cognito-identity:*"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 resource "aws_cognito_identity_pool" "rum_identity_pool" {
   count                            = local.is_production ? 0 : 1
   identity_pool_name               = "${terraform.workspace}-rum-identity-pool"
   allow_unauthenticated_identities = true
+}
+
+resource "aws_cognito_identity_pool_roles_attachment" "rum_identity_pool_roles" {
+  count            = local.is_production ? 0 : 1
+  identity_pool_id = aws_cognito_identity_pool.rum_identity_pool[0].id
+
+  roles = {
+    unauthenticated = aws_iam_role.cognito_unauth_role.arn
+  }
 }
 
 resource "aws_rum_app_monitor" "app_monitor" {
