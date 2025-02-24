@@ -22,7 +22,6 @@ resource "aws_iam_role" "cognito_unauth_role" {
             "aws:SourceArn" : "arn:aws:cognito-idp:eu-west-2:${data.aws_caller_identity.current.account_id}:*"
           }
         }
-        "Resource" : "*"
       }
     ]
   })
