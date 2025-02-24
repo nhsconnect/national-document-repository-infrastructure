@@ -112,7 +112,7 @@ resource "aws_rum_app_monitor" "app_monitor" {
   count          = local.is_production ? 0 : 1
   name           = "${terraform.workspace}-app-monitor"
   domain         = "*.patient-deductions.nhs.uk"
-  cw_log_enabled = true
+  cw_log_enabled = false
 
   app_monitor_configuration {
     allow_cookies       = true
