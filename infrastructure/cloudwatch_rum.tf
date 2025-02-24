@@ -23,6 +23,37 @@ resource "aws_iam_role" "cognito_unauth_role" {
   })
 }
 
+resource "aws_iam_policy" "cognito_rum_policy" {
+  name        = "${terraform.workspace}-github-actions-cognito-rum-policy"
+  description = "Allows GitHub Actions to create Cognito Identity Pools and RUM App Monitors"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "cognito-identity:CreateIdentityPool",
+          "cognito-identity:DescribeIdentityPool",
+          "cognito-identity:DeleteIdentityPool",
+          "cognito-identity:UpdateIdentityPool"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "rum:CreateAppMonitor",
+          "rum:DescribeAppMonitor",
+          "rum:DeleteAppMonitor",
+          "rum:UpdateAppMonitor"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role_policy" "cognito_unauth_policy" {
   name = "${terraform.workspace}-cognito-unauth-policy"
   role = aws_iam_role.cognito_unauth_role.id
@@ -42,6 +73,12 @@ resource "aws_iam_role_policy" "cognito_unauth_policy" {
     ]
   })
 }
+
+resource "aws_iam_role_policy_attachment" "cognito_rum_policy_attachment" {
+  role       = aws_iam_role.cognito_rum_policy.id 
+  policy_arn = aws_iam_policy.github_actions_cognito_rum_policy.arn
+}
+
 
 resource "aws_cognito_identity_pool" "rum_identity_pool" {
   count                            = local.is_production ? 0 : 1
