@@ -3,28 +3,6 @@ locals {
   rum_role_name     = "${terraform.workspace}-rum-service-role"
 }
 
-resource "aws_iam_role" "cognito_unauth_role" {
-  name = local.cognito_role_name
-
-  assume_role_policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Sid" : "Stmt1740405056930",
-        "Action" : [
-          "cognito-identity:CreateIdentityPool",
-          "cognito-identity:DeleteIdentityPool",
-          "cognito-identity:DescribeIdentityPool",
-          "cognito-identity:ListIdentityPools",
-          "cognito-identity:TagResource"
-        ],
-        "Effect" : "Allow",
-        "Resource" : "arn:aws:cognito-identity:eu-west-2:${data.aws_caller_identity.current.account_id}:*"
-      }
-    ]
-  })
-}
-
 resource "aws_iam_role" "rum_service_role" {
   name = local.rum_role_name
 
@@ -35,6 +13,23 @@ resource "aws_iam_role" "rum_service_role" {
         Effect = "Allow",
         Principal = {
           Service = "rum.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role" "cognito_unauth_role" {
+  name = local.cognito_role_name
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "cognito-identity.amazonaws.com"
         },
         Action = "sts:AssumeRole"
       }
@@ -98,19 +93,19 @@ resource "aws_iam_role_policy_attachment" "rum_policy_attachment" {
   policy_arn = aws_iam_policy.rum_management_policy.arn
 }
 
+# resource "aws_cognito_identity_pool_roles_attachment" "rum_identity_pool_roles" {
+#   count            = local.is_production ? 0 : 1
+#   identity_pool_id = aws_cognito_identity_pool.rum_identity_pool[0].id
+
+#   roles = {
+#     unauthenticated = aws_iam_role.cognito_unauth_role.arn
+#   }
+# }
+
 resource "aws_cognito_identity_pool" "rum_identity_pool" {
   count                            = local.is_production ? 0 : 1
   identity_pool_name               = "${terraform.workspace}-rum-identity-pool"
   allow_unauthenticated_identities = true
-}
-
-resource "aws_cognito_identity_pool_roles_attachment" "rum_identity_pool_roles" {
-  count            = local.is_production ? 0 : 1
-  identity_pool_id = aws_cognito_identity_pool.rum_identity_pool[0].id
-
-  roles = {
-    unauthenticated = aws_iam_role.cognito_unauth_role.arn
-  }
 }
 
 resource "aws_rum_app_monitor" "app_monitor" {
