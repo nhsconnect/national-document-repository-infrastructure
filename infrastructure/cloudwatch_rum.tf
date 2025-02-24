@@ -1,6 +1,6 @@
 locals {
-  cognito_role_name = "${var.environment}-cognito-unauth-role"
-  rum_role_name     = "${var.environment}-rum-service-role"
+  cognito_role_name = "${terraform.workspace}-cognito-unauth-role"
+  rum_role_name     = "${terraform.workspace}-rum-service-role"
 }
 
 resource "aws_iam_role" "cognito_unauth_role" {
@@ -11,9 +11,9 @@ resource "aws_iam_role" "cognito_unauth_role" {
     "Statement" : [
       {
         "Effect" : "Allow",
-        "Principal" : {
-          "Service" : "cognito-identity.amazonaws.com"
-        },
+
+        "Principal" : "*"
+
         "Action" : [
           "cognito-identity:*",
         ],
@@ -45,7 +45,7 @@ resource "aws_iam_role" "rum_service_role" {
 }
 
 resource "aws_iam_policy" "cognito_access_policy" {
-  name        = "${var.environment}-cognito-access-policy"
+  name        = "${terraform.workspace}-cognito-access-policy"
   description = "Policy for unauthenticated Cognito identities"
 
   policy = jsonencode({
@@ -65,7 +65,7 @@ resource "aws_iam_policy" "cognito_access_policy" {
 }
 
 resource "aws_iam_policy" "rum_management_policy" {
-  name        = "${var.environment}-rum-management-policy"
+  name        = "${terraform.workspace}-rum-management-policy"
   description = "Policy to manage RUM app monitors and associated logs"
 
   policy = jsonencode({
@@ -102,7 +102,7 @@ resource "aws_iam_role_policy_attachment" "rum_policy_attachment" {
 
 resource "aws_cognito_identity_pool" "rum_identity_pool" {
   count                            = local.is_production ? 0 : 1
-  identity_pool_name               = "${var.environment}-rum-identity-pool"
+  identity_pool_name               = "${terraform.workspace}-rum-identity-pool"
   allow_unauthenticated_identities = true
 }
 
