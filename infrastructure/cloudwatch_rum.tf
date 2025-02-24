@@ -5,58 +5,20 @@ resource "aws_iam_role" "cognito_unauth_role" {
     Version = "2012-10-17",
     Statement = [
       {
+        Sid    = "CognitoUnauthenticatedIdentity",
         Effect = "Allow",
         Principal = {
-          Federated = "cognito-identity.amazonaws.com"
+          Service = "cognito-identity.amazonaws.com"
         },
-        Action = "sts:AssumeRole",
-        Condition = {
-          StringEquals = {
-            "cognito-identity.amazonaws.com:aud" = aws_cognito_identity_pool.rum_identity_pool[0].id
-          },
-          "ForAnyValue:StringLike" = {
-            "cognito-identity.amazonaws.com:amr" = "unauthenticated"
-          }
-        }
+        Action = "sts:AssumeRole"
       }
     ]
   })
 }
 
-resource "aws_iam_policy" "cognito_rum_policy" {
-  name        = "${terraform.workspace}-cognito-rum-policy"
-  description = "Allows Cognito Identity Pools and RUM App Monitors to be Created"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "cognito-identity:CreateIdentityPool",
-          "cognito-identity:DescribeIdentityPool",
-          "cognito-identity:DeleteIdentityPool",
-          "cognito-identity:UpdateIdentityPool"
-        ],
-        Resource = "*"
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "rum:CreateAppMonitor",
-          "rum:DescribeAppMonitor",
-          "rum:DeleteAppMonitor",
-          "rum:UpdateAppMonitor"
-        ],
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-resource "aws_iam_role_policy" "cognito_unauth_policy" {
-  name = "${terraform.workspace}-cognito-unauth-policy"
-  role = aws_iam_role.cognito_unauth_role.id
+resource "aws_iam_policy" "cognito_access_policy" {
+  name        = "${terraform.workspace}-cognito-access-policy"
+  description = "Policy for unauthenticated Cognito identities"
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -74,11 +36,57 @@ resource "aws_iam_role_policy" "cognito_unauth_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "cognito_rum_policy_attachment" {
-  role       = aws_iam_role.cognito_unauth_role.id
-  policy_arn = aws_iam_policy.cognito_rum_policy.arn
+resource "aws_iam_role_policy_attachment" "cognito_unauth_policy_attachment" {
+  role       = aws_iam_role.cognito_unauth_role.name
+  policy_arn = aws_iam_policy.cognito_access_policy.arn
 }
 
+resource "aws_iam_role" "rum_service_role" {
+  name = "${terraform.workspace}-rum-service-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid    = "AllowRUMServiceToAssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "rum.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "rum_management_policy" {
+  name        = "${terraform.workspace}-rum-management-policy"
+  description = "Policy to allow RUM to create and manage app monitors"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "rum:CreateAppMonitor",
+          "rum:DescribeAppMonitor",
+          "rum:DeleteAppMonitor",
+          "rum:UpdateAppMonitor",
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "rum_policy_attachment" {
+  role       = aws_iam_role.rum_service_role.name
+  policy_arn = aws_iam_policy.rum_management_policy.arn
+}
 
 resource "aws_cognito_identity_pool" "rum_identity_pool" {
   count                            = local.is_production ? 0 : 1
@@ -106,5 +114,8 @@ resource "aws_rum_app_monitor" "app_monitor" {
     enable_xray         = true
     session_sample_rate = 1.0
     telemetries         = ["errors", "performance", "http"]
+  }
+  tags = {
+    ServiceRole = aws_iam_role.rum_service_role.arn
   }
 }
