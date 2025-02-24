@@ -115,6 +115,7 @@ resource "aws_rum_app_monitor" "app_monitor" {
   cw_log_enabled = false
 
   app_monitor_configuration {
+    identity_pool_id = aws_cognito_identity_pool.rum_identity_pool[0].id
     allow_cookies       = true
     enable_xray         = true
     session_sample_rate = 1.0
