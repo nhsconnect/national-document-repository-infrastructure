@@ -12,7 +12,7 @@ module "bulk-upload-lambda" {
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
     module.bulk_upload_report_dynamodb_table.dynamodb_read_policy_document,
     module.bulk_upload_report_dynamodb_table.dynamodb_write_policy_document,
-    module.sqs-nrl-queue.sqs_write_policy_document,
+    module.sqs-stitching-queue.sqs_write_policy_document,
     module.sqs-lg-bulk-upload-metadata-queue.sqs_read_policy_document,
     module.sqs-lg-bulk-upload-metadata-queue.sqs_write_policy_document,
     module.sqs-lg-bulk-upload-invalid-queue.sqs_read_policy_document,
@@ -35,7 +35,7 @@ module "bulk-upload-lambda" {
     METADATA_SQS_QUEUE_URL     = module.sqs-lg-bulk-upload-metadata-queue.sqs_url
     INVALID_SQS_QUEUE_URL      = module.sqs-lg-bulk-upload-invalid-queue.sqs_url
     PDS_FHIR_IS_STUBBED        = local.is_sandbox
-    NRL_SQS_URL                = module.sqs-nrl-queue.sqs_url
+    PDF_STITCHING_SQS_URL      = module.sqs-stitching-queue.sqs_url
     APIM_API_URL               = data.aws_ssm_parameter.apim_url.value
   }
 
