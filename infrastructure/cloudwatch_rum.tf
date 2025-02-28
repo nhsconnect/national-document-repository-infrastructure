@@ -34,7 +34,7 @@ resource "aws_iam_role" "cognito_unauth_role" {
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringEquals = {
-            "cognito-identity.amazonaws.com:aud" = "${local.current_region}:${aws_cognito_identity_pool.rum_identity_pool[0].id}"
+            "cognito-identity.amazonaws.com:aud" = aws_cognito_identity_pool.rum_identity_pool[0].id
           },
           "ForAnyValue:StringLike" = {
             "cognito-identity.amazonaws.com:amr" = "unauthenticated"
