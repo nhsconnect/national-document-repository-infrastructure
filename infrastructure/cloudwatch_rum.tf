@@ -31,7 +31,15 @@ resource "aws_iam_role" "cognito_unauth_role" {
         Principal : {
           Federated : "cognito-identity.amazonaws.com"
         },
-        Action = "sts:AssumeRole"
+        Action = "sts:AssumeRoleWithWebIdentity",
+        Condition = {
+          StringEquals = {
+            "cognito-identity.amazonaws.com:aud" = "${local.current_region}:${aws_cognito_identity_pool.rum_identity_pool[0].id}"
+          },
+          "ForAnyValue:StringLike" = {
+            "cognito-identity.amazonaws.com:amr" = "unauthenticated"
+          }
+        }
       }
     ]
   })
@@ -41,19 +49,16 @@ resource "aws_iam_policy" "cognito_access_policy" {
   name        = "${terraform.workspace}-cognito-access-policy"
   description = "Policy for unauthenticated Cognito identities"
 
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "mobileanalytics:PutEvents",
-          "cognito-sync:*",
-          "cognito-identity:*",
-        ],
-        Resource = "*"
-      }
-    ]
+  policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Effect" : "Allow",
+          "Action" : "rum:PutRumEvents",
+          "Resource" : "arn:aws:rum:${local.current_region}:${local.current_account_id}:appmonitor/${terraform.workspace}-app-monitor"
+        }
+      ]
   })
 }
 
