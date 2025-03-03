@@ -20,6 +20,9 @@
         },
         "odsReportLambdaEnabled": {
             "name": "odsReportLambdaEnabled"
+        },
+        "downloadOdsReportEnabled": {
+            "name": "downloadOdsReportEnabled"
         }
     },
     "values": {
@@ -36,12 +39,15 @@
             "enabled": "true"
         },
         "useSmartcardAuth": {
-          "enabled": "false"
+            "enabled": "false"
         },
         "lloydGeorgeValidationStrictMode": {
             "enabled": "true"
         },
         "odsReportLambdaEnabled": {
+            "enabled": "false"
+        },
+        "downloadOdsReportEnabled": {
             "enabled": "false"
         }
     },

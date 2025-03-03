@@ -21,7 +21,7 @@ variable "certificate_subdomain_name_prefix" {
 # Bucket Variables
 variable "docstore_bucket_name" {
   type        = string
-  description = "The name of S3 bucket to store ARF documents"
+  description = "The name of the S3 bucket to store ARF documents"
   default     = "ndr-document-store"
 }
 
@@ -37,38 +37,38 @@ variable "staging_store_bucket_name" {
 
 variable "lloyd_george_bucket_name" {
   type        = string
-  description = "The name of S3 bucket to store Lloyd George documents"
+  description = "The name of the S3 bucket to store Lloyd George documents"
   default     = "lloyd-george-store"
 }
 
 variable "statistical_reports_bucket_name" {
   type        = string
-  description = "The name of S3 bucket to store weekly generated statistical reports"
+  description = "The name of the S3 bucket to store weekly generated statistical reports"
   default     = "statistical-reports"
 }
 
 # DynamoDB Table Variables
 variable "docstore_dynamodb_table_name" {
   type        = string
-  description = "The name of dynamodb table to store the metadata of ARF documents"
+  description = "The name of the dynamodb table to store the metadata of ARF documents"
   default     = "DocumentReferenceMetadata"
 }
 
 variable "lloyd_george_dynamodb_table_name" {
   type        = string
-  description = "The name of dynamodb table to store the metadata of Lloyd George documents"
+  description = "The name of the dynamodb table to store the metadata of Lloyd George documents"
   default     = "LloydGeorgeReferenceMetadata"
 }
 
 variable "unstitched_lloyd_george_dynamodb_table_name" {
   type        = string
-  description = "The name of dynamodb table to store the metadata of un-stitched Lloyd George documents"
+  description = "The name of the dynamodb table to store the metadata of un-stitched Lloyd George documents"
   default     = "UnstitchedLloydGeorgeReferenceMetadata"
 }
 
 variable "cloudfront_edge_table_name" {
   type        = string
-  description = "The name of dynamodb table to store the presigned url reference of CloudFront requests"
+  description = "The name of the dynamodb table to store the presigned url reference of CloudFront requests"
   default     = "CloudFrontEdgeReference"
 }
 
@@ -84,25 +84,25 @@ variable "stitch_metadata_dynamodb_table_name" {
 
 variable "auth_state_dynamodb_table_name" {
   type        = string
-  description = "The name of dynamodb table to store the state values (for CIS2 authorisation)"
+  description = "The name of the dynamodb table to store the state values (for CIS2 authorisation)"
   default     = "AuthStateReferenceMetadata"
 }
 
 variable "auth_session_dynamodb_table_name" {
   type        = string
-  description = "The name of dynamodb table to store user login sessions"
+  description = "The name of the dynamodb table to store user login sessions"
   default     = "AuthSessionReferenceMetadata"
 }
 
 variable "bulk_upload_report_dynamodb_table_name" {
   type        = string
-  description = "The name of dynamodb table to store bulk upload status"
+  description = "The name of the dynamodb table to store bulk upload status"
   default     = "BulkUploadReport"
 }
 
 variable "statistics_dynamodb_table_name" {
   type        = string
-  description = "The name of dynamodb table to store application statistics"
+  description = "The name of the dynamodb table to store application statistics"
   default     = "ApplicationStatistics"
 }
 

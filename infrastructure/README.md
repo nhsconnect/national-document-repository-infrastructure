@@ -8,7 +8,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.86.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.72.1 |
 
 ## Modules
 
@@ -146,6 +146,7 @@
 | <a name="module_statistical-reports-store"></a> [statistical-reports-store](#module\_statistical-reports-store) | ./modules/s3/ | n/a |
 | <a name="module_statistics_dynamodb_table"></a> [statistics\_dynamodb\_table](#module\_statistics\_dynamodb\_table) | ./modules/dynamo_db | n/a |
 | <a name="module_stitch_metadata_reference_dynamodb_table"></a> [stitch\_metadata\_reference\_dynamodb\_table](#module\_stitch\_metadata\_reference\_dynamodb\_table) | ./modules/dynamo_db | n/a |
+| <a name="module_stitching-dlq-alarm-topic"></a> [stitching-dlq-alarm-topic](#module\_stitching-dlq-alarm-topic) | ./modules/sns | n/a |
 | <a name="module_unstitched_lloyd_george_reference_dynamodb_table"></a> [unstitched\_lloyd\_george\_reference\_dynamodb\_table](#module\_unstitched\_lloyd\_george\_reference\_dynamodb\_table) | ./modules/dynamo_db | n/a |
 | <a name="module_update-upload-state-gateway"></a> [update-upload-state-gateway](#module\_update-upload-state-gateway) | ./modules/gateway | n/a |
 | <a name="module_update-upload-state-lambda"></a> [update-upload-state-lambda](#module\_update-upload-state-lambda) | ./modules/lambda | n/a |
@@ -218,6 +219,7 @@
 | [aws_cloudwatch_metric_alarm.inbox-messages-not-consumed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.nrl_dlq_new_messages](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.sns_topic_error_log_alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_cloudwatch_metric_alarm.stitching_dlq_new_messages](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_ecs_cluster.mesh-forwarder-ecs-cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster) | resource |
 | [aws_ecs_service.mesh_forwarder](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service) | resource |
 | [aws_ecs_task_definition.forwarder](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
@@ -300,6 +302,7 @@
 | [aws_lambda_event_source_mapping.nems_message_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_event_source_mapping.nrl_pointer_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_event_source_mapping.pdf-stitching-lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
+| [aws_lambda_event_source_mapping.unstitched_lloyd_george_dynamodb_stream](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_permission.bulk_upload_metadata_schedule_permission](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_lambda_permission.bulk_upload_report_schedule_permission](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_lambda_permission.data_collection_schedule_permission](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
@@ -363,25 +366,25 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_auth_session_dynamodb_table_name"></a> [auth\_session\_dynamodb\_table\_name](#input\_auth\_session\_dynamodb\_table\_name) | The name of dynamodb table to store user login sessions | `string` | `"AuthSessionReferenceMetadata"` | no |
-| <a name="input_auth_state_dynamodb_table_name"></a> [auth\_state\_dynamodb\_table\_name](#input\_auth\_state\_dynamodb\_table\_name) | The name of dynamodb table to store the state values (for CIS2 authorisation) | `string` | `"AuthStateReferenceMetadata"` | no |
+| <a name="input_auth_session_dynamodb_table_name"></a> [auth\_session\_dynamodb\_table\_name](#input\_auth\_session\_dynamodb\_table\_name) | The name of the dynamodb table to store user login sessions | `string` | `"AuthSessionReferenceMetadata"` | no |
+| <a name="input_auth_state_dynamodb_table_name"></a> [auth\_state\_dynamodb\_table\_name](#input\_auth\_state\_dynamodb\_table\_name) | The name of the dynamodb table to store the state values (for CIS2 authorisation) | `string` | `"AuthStateReferenceMetadata"` | no |
 | <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | This is a list that specifies all the Availability Zones that will have a pair of public and private subnets | `list(string)` | <pre>[<br/>  "eu-west-2a",<br/>  "eu-west-2b",<br/>  "eu-west-2c"<br/>]</pre> | no |
-| <a name="input_bulk_upload_report_dynamodb_table_name"></a> [bulk\_upload\_report\_dynamodb\_table\_name](#input\_bulk\_upload\_report\_dynamodb\_table\_name) | The name of dynamodb table to store bulk upload status | `string` | `"BulkUploadReport"` | no |
+| <a name="input_bulk_upload_report_dynamodb_table_name"></a> [bulk\_upload\_report\_dynamodb\_table\_name](#input\_bulk\_upload\_report\_dynamodb\_table\_name) | The name of the dynamodb table to store bulk upload status | `string` | `"BulkUploadReport"` | no |
 | <a name="input_certificate_domain"></a> [certificate\_domain](#input\_certificate\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_certificate_subdomain_name_prefix"></a> [certificate\_subdomain\_name\_prefix](#input\_certificate\_subdomain\_name\_prefix) | Prefix to add to subdomains on certification configurations, dev envs use api-{env}, prod envs use api.{env} | `string` | `"api-"` | no |
 | <a name="input_cloud_only_service_instances"></a> [cloud\_only\_service\_instances](#input\_cloud\_only\_service\_instances) | n/a | `number` | `1` | no |
-| <a name="input_cloudfront_edge_table_name"></a> [cloudfront\_edge\_table\_name](#input\_cloudfront\_edge\_table\_name) | The name of dynamodb table to store the presigned url reference of CloudFront requests | `string` | `"CloudFrontEdgeReference"` | no |
+| <a name="input_cloudfront_edge_table_name"></a> [cloudfront\_edge\_table\_name](#input\_cloudfront\_edge\_table\_name) | The name of the dynamodb table to store the presigned url reference of CloudFront requests | `string` | `"CloudFrontEdgeReference"` | no |
 | <a name="input_cloudwatch_alarm_evaluation_periods"></a> [cloudwatch\_alarm\_evaluation\_periods](#input\_cloudwatch\_alarm\_evaluation\_periods) | n/a | `any` | n/a | yes |
 | <a name="input_disable_message_header_validation"></a> [disable\_message\_header\_validation](#input\_disable\_message\_header\_validation) | if true then relaxes the restrictions on MESH message headers | `string` | `"true"` | no |
-| <a name="input_docstore_bucket_name"></a> [docstore\_bucket\_name](#input\_docstore\_bucket\_name) | The name of S3 bucket to store ARF documents | `string` | `"ndr-document-store"` | no |
-| <a name="input_docstore_dynamodb_table_name"></a> [docstore\_dynamodb\_table\_name](#input\_docstore\_dynamodb\_table\_name) | The name of dynamodb table to store the metadata of ARF documents | `string` | `"DocumentReferenceMetadata"` | no |
+| <a name="input_docstore_bucket_name"></a> [docstore\_bucket\_name](#input\_docstore\_bucket\_name) | The name of the S3 bucket to store ARF documents | `string` | `"ndr-document-store"` | no |
+| <a name="input_docstore_dynamodb_table_name"></a> [docstore\_dynamodb\_table\_name](#input\_docstore\_dynamodb\_table\_name) | The name of the dynamodb table to store the metadata of ARF documents | `string` | `"DocumentReferenceMetadata"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#input\_enable\_dns\_hostnames) | Enable DNS hostnames for VPC | `bool` | `true` | no |
 | <a name="input_enable_dns_support"></a> [enable\_dns\_support](#input\_enable\_dns\_support) | Enable DNS  support for VPC | `bool` | `true` | no |
 | <a name="input_enable_private_routes"></a> [enable\_private\_routes](#input\_enable\_private\_routes) | Controls whether the internet gateway can connect to private subnets | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Tag Variables | `string` | n/a | yes |
-| <a name="input_lloyd_george_bucket_name"></a> [lloyd\_george\_bucket\_name](#input\_lloyd\_george\_bucket\_name) | The name of S3 bucket to store Lloyd George documents | `string` | `"lloyd-george-store"` | no |
-| <a name="input_lloyd_george_dynamodb_table_name"></a> [lloyd\_george\_dynamodb\_table\_name](#input\_lloyd\_george\_dynamodb\_table\_name) | The name of dynamodb table to store the metadata of Lloyd George documents | `string` | `"LloydGeorgeReferenceMetadata"` | no |
+| <a name="input_lloyd_george_bucket_name"></a> [lloyd\_george\_bucket\_name](#input\_lloyd\_george\_bucket\_name) | The name of the S3 bucket to store Lloyd George documents | `string` | `"lloyd-george-store"` | no |
+| <a name="input_lloyd_george_dynamodb_table_name"></a> [lloyd\_george\_dynamodb\_table\_name](#input\_lloyd\_george\_dynamodb\_table\_name) | The name of the dynamodb table to store the metadata of Lloyd George documents | `string` | `"LloydGeorgeReferenceMetadata"` | no |
 | <a name="input_log_level"></a> [log\_level](#input\_log\_level) | n/a | `string` | `"debug"` | no |
 | <a name="input_mesh_ca_cert_ssm_param_name"></a> [mesh\_ca\_cert\_ssm\_param\_name](#input\_mesh\_ca\_cert\_ssm\_param\_name) | Name of SSM parameter containing MESH CA certificate | `string` | n/a | yes |
 | <a name="input_mesh_client_cert_ssm_param_name"></a> [mesh\_client\_cert\_ssm\_param\_name](#input\_mesh\_client\_cert\_ssm\_param\_name) | Name of SSM parameter containing MESH client certificate | `string` | n/a | yes |
@@ -401,10 +404,10 @@
 | <a name="input_staging_store_bucket_name"></a> [staging\_store\_bucket\_name](#input\_staging\_store\_bucket\_name) | n/a | `string` | `"staging-bulk-store"` | no |
 | <a name="input_standalone_vpc_ig_tag"></a> [standalone\_vpc\_ig\_tag](#input\_standalone\_vpc\_ig\_tag) | This is the tag assigned to the standalone vpc internet gateway that should be created manaully before the first run of the infrastructure | `string` | n/a | yes |
 | <a name="input_standalone_vpc_tag"></a> [standalone\_vpc\_tag](#input\_standalone\_vpc\_tag) | This is the tag assigned to the standalone vpc that should be created manaully before the first run of the infrastructure | `string` | n/a | yes |
-| <a name="input_statistical_reports_bucket_name"></a> [statistical\_reports\_bucket\_name](#input\_statistical\_reports\_bucket\_name) | The name of S3 bucket to store weekly generated statistical reports | `string` | `"statistical-reports"` | no |
-| <a name="input_statistics_dynamodb_table_name"></a> [statistics\_dynamodb\_table\_name](#input\_statistics\_dynamodb\_table\_name) | The name of dynamodb table to store application statistics | `string` | `"ApplicationStatistics"` | no |
+| <a name="input_statistical_reports_bucket_name"></a> [statistical\_reports\_bucket\_name](#input\_statistical\_reports\_bucket\_name) | The name of the S3 bucket to store weekly generated statistical reports | `string` | `"statistical-reports"` | no |
+| <a name="input_statistics_dynamodb_table_name"></a> [statistics\_dynamodb\_table\_name](#input\_statistics\_dynamodb\_table\_name) | The name of the dynamodb table to store application statistics | `string` | `"ApplicationStatistics"` | no |
 | <a name="input_stitch_metadata_dynamodb_table_name"></a> [stitch\_metadata\_dynamodb\_table\_name](#input\_stitch\_metadata\_dynamodb\_table\_name) | n/a | `string` | `"LloydGeorgeStitchJobMetadata"` | no |
-| <a name="input_unstitched_lloyd_george_dynamodb_table_name"></a> [unstitched\_lloyd\_george\_dynamodb\_table\_name](#input\_unstitched\_lloyd\_george\_dynamodb\_table\_name) | The name of dynamodb table to store the metadata of un-stitchedLloyd George documents | `string` | `"Unstitched LloydGeorgeReferenceMetadata"` | no |
+| <a name="input_unstitched_lloyd_george_dynamodb_table_name"></a> [unstitched\_lloyd\_george\_dynamodb\_table\_name](#input\_unstitched\_lloyd\_george\_dynamodb\_table\_name) | The name of the dynamodb table to store the metadata of un-stitched Lloyd George documents | `string` | `"UnstitchedLloydGeorgeReferenceMetadata"` | no |
 | <a name="input_zip_store_bucket_name"></a> [zip\_store\_bucket\_name](#input\_zip\_store\_bucket\_name) | n/a | `string` | `"zip-request-store"` | no |
 | <a name="input_zip_store_dynamodb_table_name"></a> [zip\_store\_dynamodb\_table\_name](#input\_zip\_store\_dynamodb\_table\_name) | n/a | `string` | `"ZipStoreReferenceMetadata"` | no |
 

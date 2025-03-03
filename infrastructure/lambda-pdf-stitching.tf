@@ -2,13 +2,14 @@ module "pdf-stitching-lambda" {
   source         = "./modules/lambda"
   name           = "PdfStitchingLambda"
   handler        = "handlers.pdf_stitching_handler.lambda_handler"
+  memory_size    = 1769
   lambda_timeout = 900
   iam_role_policy_documents = [
-    module.ndr-lloyd-george-store.s3_write_policy_document,
     module.ndr-lloyd-george-store.s3_read_policy_document,
+    module.sqs-nrl-queue.sqs_read_policy_document,
     module.sqs-nrl-queue.sqs_write_policy_document,
-    module.sqs-stitching-queue.sqs_write_policy_document,
     module.sqs-stitching-queue.sqs_read_policy_document,
+    module.sqs-stitching-queue.sqs_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
     module.unstitched_lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
@@ -17,6 +18,13 @@ module "pdf-stitching-lambda" {
   rest_api_id             = null
   api_execution_arn       = null
   is_invoked_from_gateway = false
+  lambda_environment_variables = {
+    STITCH_SQS_QUEUE_URL          = module.sqs-stitching-queue.sqs_url
+    NRL_SQS_QUEUE_URL             = module.sqs-nrl-queue.sqs_url
+    LLOYD_GEORGE_DYNAMODB_NAME    = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
+    STITCH_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.unstitched_lloyd_george_dynamodb_table_name}"
+    WORKSPACE                     = terraform.workspace
+  }
 }
 
 resource "aws_lambda_event_source_mapping" "pdf-stitching-lambda" {

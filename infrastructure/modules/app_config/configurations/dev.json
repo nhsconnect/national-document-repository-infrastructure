@@ -20,6 +20,9 @@
         },
         "odsReportLambdaEnabled": {
             "name": "odsReportLambdaEnabled"
+        },
+        "downloadOdsReportEnabled": {
+            "name": "downloadOdsReportEnabled"
         }
     },
     "values": {
@@ -42,6 +45,9 @@
             "enabled": "true"
         },
         "odsReportLambdaEnabled": {
+            "enabled": "true"
+        },
+        "downloadOdsReportEnabled": {
             "enabled": "true"
         }
     },
