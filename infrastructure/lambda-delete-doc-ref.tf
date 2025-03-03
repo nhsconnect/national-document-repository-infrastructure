@@ -86,14 +86,15 @@ module "delete-doc-ref-lambda" {
   http_methods      = ["DELETE"]
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
-    APPCONFIG_APPLICATION         = module.ndr-app-config.app_config_application_id
-    APPCONFIG_ENVIRONMENT         = module.ndr-app-config.app_config_environment_id
-    APPCONFIG_CONFIGURATION       = module.ndr-app-config.app_config_configuration_profile_id
-    DOCUMENT_STORE_DYNAMODB_NAME  = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
-    LLOYD_GEORGE_DYNAMODB_NAME    = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
-    STITCH_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_metadata_dynamodb_table_name}"
-    WORKSPACE                     = terraform.workspace
-    NRL_SQS_QUEUE_URL             = module.sqs-nrl-queue.sqs_url
+    APPCONFIG_APPLICATION             = module.ndr-app-config.app_config_application_id
+    APPCONFIG_ENVIRONMENT             = module.ndr-app-config.app_config_environment_id
+    APPCONFIG_CONFIGURATION           = module.ndr-app-config.app_config_configuration_profile_id
+    DOCUMENT_STORE_DYNAMODB_NAME      = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
+    LLOYD_GEORGE_DYNAMODB_NAME        = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
+    STITCH_METADATA_DYNAMODB_NAME     = "${terraform.workspace}_${var.stitch_metadata_dynamodb_table_name}"
+    UNSTITCHED_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.unstitched_lloyd_george_dynamodb_table_name}"
+    WORKSPACE                         = terraform.workspace
+    NRL_SQS_QUEUE_URL                 = module.sqs-nrl-queue.sqs_url
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
