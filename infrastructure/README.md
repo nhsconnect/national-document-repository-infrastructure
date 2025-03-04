@@ -8,7 +8,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.86.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.72.1 |
 
 ## Modules
 
@@ -95,6 +95,7 @@
 | <a name="module_manage-nrl-pointer-alarm"></a> [manage-nrl-pointer-alarm](#module\_manage-nrl-pointer-alarm) | ./modules/lambda_alarms | n/a |
 | <a name="module_manage-nrl-pointer-alarm-topic"></a> [manage-nrl-pointer-alarm-topic](#module\_manage-nrl-pointer-alarm-topic) | ./modules/sns | n/a |
 | <a name="module_manage-nrl-pointer-lambda"></a> [manage-nrl-pointer-lambda](#module\_manage-nrl-pointer-lambda) | ./modules/lambda | n/a |
+| <a name="module_mns-dlq-alarm-topic"></a> [mns-dlq-alarm-topic](#module\_mns-dlq-alarm-topic) | ./modules/sns | n/a |
 | <a name="module_mns-notification-alarm"></a> [mns-notification-alarm](#module\_mns-notification-alarm) | ./modules/lambda_alarms | n/a |
 | <a name="module_mns-notification-alarm-topic"></a> [mns-notification-alarm-topic](#module\_mns-notification-alarm-topic) | ./modules/sns | n/a |
 | <a name="module_mns-notification-lambda"></a> [mns-notification-lambda](#module\_mns-notification-lambda) | ./modules/lambda | n/a |
@@ -216,6 +217,7 @@
 | [aws_cloudwatch_metric_alarm.edge_presign_lambda_error](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.error_log_alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.inbox-messages-not-consumed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_cloudwatch_metric_alarm.msn_dlq_new_message](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.nrl_dlq_new_messages](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.sns_topic_error_log_alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_ecs_cluster.mesh-forwarder-ecs-cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster) | resource |
