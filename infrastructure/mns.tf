@@ -4,7 +4,6 @@ data "aws_ssm_parameter" "mns_lambda_role" {
 
 
 module "mns_encryption_key" {
-  count                 = 1
   source                = "./modules/kms"
   kms_key_name          = "alias/mns-notification-encryption-key-kms-${terraform.workspace}"
   kms_key_description   = "Custom KMS Key to enable server side encryption for mns subscriptions"
@@ -17,7 +16,6 @@ module "mns_encryption_key" {
 }
 
 module "sqs-mns-notification-queue" {
-  count             = 1
   source            = "./modules/sqs"
   name              = "mns-notification-queue"
   max_size_message  = 256 * 1024        # allow message size up to 256 KB
@@ -32,7 +30,6 @@ module "sqs-mns-notification-queue" {
 }
 
 resource "aws_sqs_queue_policy" "mns_sqs_access" {
-  count = 1
 
   queue_url = module.sqs-mns-notification-queue[0].sqs_url
 
