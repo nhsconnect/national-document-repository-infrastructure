@@ -1,5 +1,5 @@
 module "mns-notification-lambda" {
-  count   = local.is_sandbox ? 0 : 1
+  count   = 1
   source  = "./modules/lambda"
   name    = "MNSNotificationLambda"
   handler = "handlers.mns_notification_handler.lambda_handler"
@@ -29,13 +29,13 @@ module "mns-notification-lambda" {
 }
 
 resource "aws_lambda_event_source_mapping" "mns_notification_lambda" {
-  count            = local.is_sandbox ? 0 : 1
+  count            = 1
   event_source_arn = module.sqs-mns-notification-queue[0].endpoint
   function_name    = module.mns-notification-lambda[0].lambda_arn
 }
 
 module "mns-notification-alarm" {
-  count                = local.is_sandbox ? 0 : 1
+  count                = 1
   source               = "./modules/lambda_alarms"
   lambda_function_name = module.mns-notification-lambda[0].function_name
   lambda_timeout       = module.mns-notification-lambda[0].timeout
@@ -46,7 +46,7 @@ module "mns-notification-alarm" {
 }
 
 module "mns-notification-alarm-topic" {
-  count                 = local.is_sandbox ? 0 : 1
+  count                 = 1
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
   current_account_id    = data.aws_caller_identity.current.account_id
@@ -76,10 +76,10 @@ module "mns-notification-alarm-topic" {
 }
 
 resource "aws_iam_policy" "kms_mns_lambda_access" {
-  count = local.is_sandbox ? 0 : 1
+  count = 1
 
   name        = "${terraform.workspace}_mns_notification_lambda_access_policy"
-  description = "KMS policy to allow lambda to read MNS SQS messages"
+  description = "KMS policy to allow lambda to read and write MNS SQS messages"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -87,6 +87,7 @@ resource "aws_iam_policy" "kms_mns_lambda_access" {
       {
         Action = [
           "kms:Decrypt",
+          "kms:GenerateDataKey"
         ]
         Effect   = "Allow"
         Resource = module.mns_encryption_key[0].kms_arn

@@ -22,7 +22,7 @@ resource "aws_sqs_queue" "queue_deadletter" {
   count                       = var.enable_dlq ? 1 : 0
   name                        = "${terraform.workspace}-deadletter-${var.name}"
   delay_seconds               = var.delay
-  visibility_timeout_seconds  = var.max_visibility
+  visibility_timeout_seconds  = var.dlq_visibility_timeout
   max_message_size            = var.max_size_message
   message_retention_seconds   = var.message_retention
   receive_wait_time_seconds   = var.receive_wait
