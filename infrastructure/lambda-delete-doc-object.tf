@@ -95,7 +95,11 @@ resource "aws_lambda_event_source_mapping" "lloyd_george_dynamodb_stream" {
       pattern = jsonencode({
         "eventName" : [
           "REMOVE"
-        ]
+        ],
+        userIdentity = {
+          type        = ["Service"],
+          principalId = ["dynamodb.amazonaws.com"]
+        }
       })
     }
   }
@@ -112,7 +116,11 @@ resource "aws_lambda_event_source_mapping" "unstitched_lloyd_george_dynamodb_str
       pattern = jsonencode({
         "eventName" : [
           "REMOVE"
-        ]
+        ],
+        userIdentity = {
+          type        = ["Service"],
+          principalId = ["dynamodb.amazonaws.com"]
+        }
       })
     }
   }
@@ -129,7 +137,11 @@ resource "aws_lambda_event_source_mapping" "document_reference_dynamodb_stream" 
       pattern = jsonencode({
         "eventName" : [
           "REMOVE"
-        ]
+        ],
+        userIdentity = {
+          type        = ["Service"],
+          principalId = ["dynamodb.amazonaws.com"]
+        }
       })
     }
   }
