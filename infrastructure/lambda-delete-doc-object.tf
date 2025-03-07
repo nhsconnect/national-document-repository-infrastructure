@@ -78,7 +78,7 @@ resource "aws_iam_policy" "dynamodb_stream_delete_object_policy" {
         Resource = [
           module.lloyd_george_reference_dynamodb_table.dynamodb_stream_arn,
           module.document_reference_dynamodb_table.dynamodb_stream_arn,
-          module.unstitched_lloyd_george_reference_dynamodb_table
+          module.unstitched_lloyd_george_reference_dynamodb_table.dynamodb_stream_arn
         ]
       },
     ]
