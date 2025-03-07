@@ -348,3 +348,70 @@ module "statistics_dynamodb_table" {
   environment = var.environment
   owner       = var.owner
 }
+
+module "access_audit_dynamodb_table" {
+  source                         = "./modules/dynamo_db"
+  table_name                     = var.access_audit_dynamodb_table_name
+  hash_key                       = "Type"
+  sort_key                       = "ID"
+  deletion_protection_enabled    = local.is_production
+  stream_enabled                 = false
+  ttl_enabled                    = false
+  point_in_time_recovery_enabled = !local.is_sandbox
+
+  attributes = [
+    {
+      name = "Type"
+      type = "S"
+    },
+    {
+      name = "ID"
+      type = "S"
+    },
+    {
+      name = "UserSessionID"
+      type = "S"
+    },
+    {
+      name = "UserID"
+      type = "S"
+    },
+    {
+      name = "UserOdsCode"
+      type = "S"
+    },
+    {
+      name = "Timestamp"
+      type = "N"
+    },
+    {
+      name = "ReasonCodes"
+      type = "S"
+    },
+    {
+      name = "CustomReason"
+      type = "S"
+    }
+  ]
+
+  global_secondary_indexes = [
+    {
+      name            = "UserSessionIDIndex"
+      hash_key        = "UserSessionID"
+      projection_type = "ALL"
+    },
+    {
+      name            = "UserIDIndex"
+      hash_key        = "UserID"
+      projection_type = "ALL"
+    },
+    {
+      name            = "UserOdsCodeIndex"
+      hash_key        = "UserOdsCode"
+      projection_type = "ALL"
+    }
+  ]
+
+  environment = var.environment
+  owner       = var.owner
+}
