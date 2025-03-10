@@ -70,6 +70,7 @@ module "access-audit-lambda" {
     module.ndr-app-config.app_config_policy,
     module.auth_session_dynamodb_table.dynamodb_write_policy_document,
     module.auth_session_dynamodb_table.dynamodb_read_policy_document,
+    module.access_audit_dynamodb_table.dynamodb_write_without_update_policy_document
   ]
   rest_api_id  = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id  = module.access-audit-gateway.gateway_resource_id
@@ -83,7 +84,7 @@ module "access-audit-lambda" {
     APPCONFIG_CONFIGURATION = module.ndr-app-config.app_config_configuration_profile_id
     WORKSPACE               = terraform.workspace
     AUTH_SESSION_TABLE_NAME = "${terraform.workspace}_${var.auth_session_dynamodb_table_name}"
-    ACCESS_AUDIT_TABLE_NAME = "placeholder"
+    ACCESS_AUDIT_TABLE_NAME = "${terraform.workspace}_${var.access_audit_dynamodb_table_name}"
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
