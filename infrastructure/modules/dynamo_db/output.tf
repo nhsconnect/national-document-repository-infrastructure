@@ -21,3 +21,7 @@ output "dynamodb_read_policy_document" {
 output "dynamodb_write_policy_document" {
   value = data.aws_iam_policy_document.dynamodb_write_policy.json
 }
+
+output "dynamodb_write_without_update_policy_document" {
+  value = data.aws_iam_policy_document.dynamodb_write_without_update_policy.json
+}

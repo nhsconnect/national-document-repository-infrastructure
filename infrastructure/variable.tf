@@ -106,6 +106,12 @@ variable "statistics_dynamodb_table_name" {
   default     = "ApplicationStatistics"
 }
 
+variable "access_audit_dynamodb_table_name" {
+  type        = string
+  description = "The name of the dynamodb table to store the audit of access to deceased patient records"
+  default     = "AccessAudit"
+}
+
 # VPC Variables
 
 variable "standalone_vpc_tag" {
