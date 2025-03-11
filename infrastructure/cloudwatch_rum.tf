@@ -71,7 +71,7 @@ resource "aws_rum_app_monitor" "ndr" {
   count          = local.is_production ? 0 : 1
   name           = "${terraform.workspace}-app-monitor"
   domain         = "*.${var.domain}"
-  cw_log_enabled = false
+  cw_log_enabled = true
 
   app_monitor_configuration {
     identity_pool_id    = aws_cognito_identity_pool.cloudwatch_rum[0].id
