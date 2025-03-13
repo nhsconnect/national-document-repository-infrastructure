@@ -44,11 +44,8 @@
         "lloydGeorgeValidationStrictMode": {
             "enabled": "true"
         },
-        "odsReportLambdaEnabled": {
-            "enabled": "false"
-        },
         "downloadOdsReportEnabled": {
-            "enabled": "false"
+            "enabled": "true"
         }
     },
     "version": "1"
