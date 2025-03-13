@@ -20,7 +20,7 @@ module "send-feedback-gateway" {
   gateway_path        = "Feedback"
   authorizer_id       = aws_api_gateway_authorizer.repo_authoriser.id
   require_credentials = true
-  origin              = "'https://${terraform.workspace}.${var.domain}'"
+  origin              = contains(["prod"], terraform.workspace) ? "'https://${var.domain}'" : "'https://${terraform.workspace}.${var.domain}'"
 
   # Lambda Variables
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
