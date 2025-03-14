@@ -74,7 +74,9 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
       module.upload_confirm_result_gateway,
       module.upload_confirm_result_lambda,
       module.virus_scan_result_gateway,
-      module.virus_scan_result_lambda
+      module.virus_scan_result_lambda,
+      module.access-audit-gateway,
+      module.access-audit-lambda
     ]))
   }
 
