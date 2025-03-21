@@ -165,3 +165,23 @@ resource "aws_iam_role_policy_attachment" "ods_weekly_update_ecs_execution" {
   role       = aws_iam_role.ods_weekly_update_ecs_execution[0].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
 }
+
+resource "aws_cloudwatch_event_rule" "nhs_oauth_token_generator_schedule" {
+  name                = "${terraform.workspace}_nhs_oauth_token_generator_schedule"
+  description         = "Schedule for NHS OAuth Token Generator Lambda"
+  schedule_expression = "rate(9 minutes)"
+}
+
+resource "aws_cloudwatch_event_target" "nhs_oauth_token_generator_schedule" {
+  rule      = aws_cloudwatch_event_rule.nhs_oauth_token_generator_schedule.name
+  target_id = "nhs_oauth_token_generator_schedule"
+  arn       = module.nhs-oauth-token-generator-lambda.lambda_arn
+}
+
+resource "aws_lambda_permission" "nhs_oauth_token_generator_schedule" {
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = module.nhs-oauth-token-generator-lambda.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.nhs_oauth_token_generator_schedule.arn
+}
