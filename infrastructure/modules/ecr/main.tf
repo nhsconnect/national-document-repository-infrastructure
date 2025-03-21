@@ -48,7 +48,9 @@ resource "aws_ecr_repository_policy" "ndr_ecr_repository_policy" {
         {
             "Sid": "1",
             "Effect": "Allow",
-            "Principal": "*",
+            "Principal": {
+                "AWS": "arn:aws:iam::${var.current_account_id}:root"
+            },
             "Action": [
                 "ecr:GetDownloadUrlForLayer",
                 "ecr:BatchGetImage",

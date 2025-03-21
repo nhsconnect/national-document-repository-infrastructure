@@ -10,3 +10,7 @@ variable "environment" {
 variable "owner" {
   type = string
 }
+
+variable "current_account_id" {
+  type = string
+}
