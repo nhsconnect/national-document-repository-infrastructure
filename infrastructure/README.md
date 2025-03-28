@@ -8,7 +8,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.86.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.84.0 |
 
 ## Modules
 
@@ -117,9 +117,6 @@
 | <a name="module_ndr-lloyd-george-store"></a> [ndr-lloyd-george-store](#module\_ndr-lloyd-george-store) | ./modules/s3/ | n/a |
 | <a name="module_ndr-vpc-ui"></a> [ndr-vpc-ui](#module\_ndr-vpc-ui) | ./modules/vpc/ | n/a |
 | <a name="module_ndr-zip-request-store"></a> [ndr-zip-request-store](#module\_ndr-zip-request-store) | ./modules/s3/ | n/a |
-| <a name="module_nems-message-lambda"></a> [nems-message-lambda](#module\_nems-message-lambda) | ./modules/lambda | n/a |
-| <a name="module_nems-message-lambda-alarm"></a> [nems-message-lambda-alarm](#module\_nems-message-lambda-alarm) | ./modules/lambda_alarms | n/a |
-| <a name="module_nems-message-lambda-alarm-topic"></a> [nems-message-lambda-alarm-topic](#module\_nems-message-lambda-alarm-topic) | ./modules/sns | n/a |
 | <a name="module_nhs-oauth-token-generator-alarm"></a> [nhs-oauth-token-generator-alarm](#module\_nhs-oauth-token-generator-alarm) | ./modules/lambda_alarms | n/a |
 | <a name="module_nhs-oauth-token-generator-alarm-topic"></a> [nhs-oauth-token-generator-alarm-topic](#module\_nhs-oauth-token-generator-alarm-topic) | ./modules/sns | n/a |
 | <a name="module_nhs-oauth-token-generator-lambda"></a> [nhs-oauth-token-generator-lambda](#module\_nhs-oauth-token-generator-lambda) | ./modules/lambda | n/a |
@@ -140,12 +137,10 @@
 | <a name="module_send-feedback-alarm-topic"></a> [send-feedback-alarm-topic](#module\_send-feedback-alarm-topic) | ./modules/sns | n/a |
 | <a name="module_send-feedback-gateway"></a> [send-feedback-gateway](#module\_send-feedback-gateway) | ./modules/gateway | n/a |
 | <a name="module_send-feedback-lambda"></a> [send-feedback-lambda](#module\_send-feedback-lambda) | ./modules/lambda | n/a |
-| <a name="module_sns-nems-queue-topic"></a> [sns-nems-queue-topic](#module\_sns-nems-queue-topic) | ./modules/sns | n/a |
 | <a name="module_sns_encryption_key"></a> [sns\_encryption\_key](#module\_sns\_encryption\_key) | ./modules/kms | n/a |
 | <a name="module_sqs-lg-bulk-upload-invalid-queue"></a> [sqs-lg-bulk-upload-invalid-queue](#module\_sqs-lg-bulk-upload-invalid-queue) | ./modules/sqs | n/a |
 | <a name="module_sqs-lg-bulk-upload-metadata-queue"></a> [sqs-lg-bulk-upload-metadata-queue](#module\_sqs-lg-bulk-upload-metadata-queue) | ./modules/sqs | n/a |
 | <a name="module_sqs-mns-notification-queue"></a> [sqs-mns-notification-queue](#module\_sqs-mns-notification-queue) | ./modules/sqs | n/a |
-| <a name="module_sqs-nems-queue"></a> [sqs-nems-queue](#module\_sqs-nems-queue) | ./modules/sqs | n/a |
 | <a name="module_sqs-nrl-queue"></a> [sqs-nrl-queue](#module\_sqs-nrl-queue) | ./modules/sqs | n/a |
 | <a name="module_sqs-splunk-queue"></a> [sqs-splunk-queue](#module\_sqs-splunk-queue) | ./modules/sqs | n/a |
 | <a name="module_sqs-stitching-queue"></a> [sqs-stitching-queue](#module\_sqs-stitching-queue) | ./modules/sqs | n/a |
@@ -219,24 +214,15 @@
 | [aws_cloudwatch_event_target.data_collection_schedule_event](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_cloudwatch_event_target.nhs_oauth_token_generator_schedule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_cloudwatch_event_target.statistical_report_schedule_event](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
-| [aws_cloudwatch_log_group.mesh_log_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_metric_filter.edge_presign_error](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_metric_filter) | resource |
-| [aws_cloudwatch_log_metric_filter.error_log_metric_filter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_metric_filter) | resource |
-| [aws_cloudwatch_log_metric_filter.inbox_message_count](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_metric_filter) | resource |
 | [aws_cloudwatch_metric_alarm.api_gateway_alarm_4XX](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.api_gateway_alarm_5XX](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.edge_presign_lambda_error](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
-| [aws_cloudwatch_metric_alarm.error_log_alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
-| [aws_cloudwatch_metric_alarm.inbox-messages-not-consumed](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.msn_dlq_new_message](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.nrl_dlq_new_messages](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
-| [aws_cloudwatch_metric_alarm.sns_topic_error_log_alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.stitching_dlq_new_messages](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cognito_identity_pool.cloudwatch_rum](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cognito_identity_pool) | resource |
 | [aws_cognito_identity_pool_roles_attachment.cloudwatch_rum](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cognito_identity_pool_roles_attachment) | resource |
-| [aws_ecs_cluster.mesh-forwarder-ecs-cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster) | resource |
-| [aws_ecs_service.mesh_forwarder](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service) | resource |
-| [aws_ecs_task_definition.forwarder](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
 | [aws_iam_policy.cloudwatch_log_query_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cloudwatch_rum_cognito_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.copy_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
@@ -259,24 +245,14 @@
 | [aws_iam_role.cognito_unauthenticated](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.create_post_presign_url_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.cross_account_backup_iam_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role.ecs_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.manifest_presign_url_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role.mesh_forwarder](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.nrl_get_doc_presign_url_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.ods_report_presign_url_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.ods_weekly_update_ecs_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.ods_weekly_update_task_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.s3_backup_iam_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role.sns_failure_feedback_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.splunk_sqs_forwarder](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.stitch_presign_url_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy.ecs_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.mesh_ecr_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.mesh_kms_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.mesh_logs_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.mesh_sns_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.mesh_ssm_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.sns_failure_feedback](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.splunk_access_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy_attachment.backup_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cloudwatch_rum_cognito_unauth](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
@@ -316,7 +292,6 @@
 | [aws_lambda_event_source_mapping.dynamodb_stream_stitch](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_event_source_mapping.lloyd_george_dynamodb_stream](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_event_source_mapping.mns_notification_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
-| [aws_lambda_event_source_mapping.nems_message_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_event_source_mapping.nrl_pointer_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_event_source_mapping.pdf-stitching-lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
 | [aws_lambda_event_source_mapping.unstitched_lloyd_george_dynamodb_stream](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_event_source_mapping) | resource |
@@ -337,21 +312,11 @@
 | [aws_s3_bucket_versioning.access_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_s3_bucket_versioning.logs_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_scheduler_schedule.ods_weekly_update_ecs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule) | resource |
-| [aws_security_group.ndr_mesh_sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_sns_topic.alarm_notifications_topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
 | [aws_sns_topic_subscription.alarm_notifications_sns_topic_subscription](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
 | [aws_sqs_queue_policy.mns_sqs_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue_policy) | resource |
-| [aws_sqs_queue_policy.nems_events_subscription](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue_policy) | resource |
-| [aws_ssm_parameter.nems_events_observability](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
-| [aws_ssm_parameter.nems_events_topic_arn](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
-| [aws_ssm_parameter.sns_sqs_kms_key_id](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
-| [aws_vpc_security_group_egress_rule.ndr_ecs_sg_egress_http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
-| [aws_vpc_security_group_egress_rule.ndr_ecs_sg_egress_https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
-| [aws_vpc_security_group_ingress_rule.ndr_ecs_sg_ingress_http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
-| [aws_vpc_security_group_ingress_rule.ndr_ecs_sg_ingress_https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_wafv2_web_acl_association.web_acl_association](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl_association) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
-| [aws_ecr_repository.mesh_s3_forwarder](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ecr_repository) | data source |
 | [aws_elb_service_account.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/elb_service_account) | data source |
 | [aws_iam_policy_document.access_logs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.assume_role_policy_for_create_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -360,18 +325,8 @@
 | [aws_iam_policy_document.assume_role_policy_for_ods_report_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.assume_role_policy_for_stitch_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.backup_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.ecr_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.ecs-assume-role-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.ecs_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.kms_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.logs_bucket_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.logs_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.sns_failure_feedback_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.sns_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.sns_service_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.splunk_trust_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.sqs_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.ssm_policy_doc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [aws_ssm_parameter.apim_url](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.backup_target_account](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
@@ -395,7 +350,6 @@
 | <a name="input_cloud_only_service_instances"></a> [cloud\_only\_service\_instances](#input\_cloud\_only\_service\_instances) | n/a | `number` | `1` | no |
 | <a name="input_cloudfront_edge_table_name"></a> [cloudfront\_edge\_table\_name](#input\_cloudfront\_edge\_table\_name) | The name of the dynamodb table to store the presigned url reference of CloudFront requests | `string` | `"CloudFrontEdgeReference"` | no |
 | <a name="input_cloudwatch_alarm_evaluation_periods"></a> [cloudwatch\_alarm\_evaluation\_periods](#input\_cloudwatch\_alarm\_evaluation\_periods) | n/a | `any` | n/a | yes |
-| <a name="input_disable_message_header_validation"></a> [disable\_message\_header\_validation](#input\_disable\_message\_header\_validation) | if true then relaxes the restrictions on MESH message headers | `string` | `"true"` | no |
 | <a name="input_docstore_bucket_name"></a> [docstore\_bucket\_name](#input\_docstore\_bucket\_name) | The name of the S3 bucket to store ARF documents | `string` | `"ndr-document-store"` | no |
 | <a name="input_docstore_dynamodb_table_name"></a> [docstore\_dynamodb\_table\_name](#input\_docstore\_dynamodb\_table\_name) | The name of the dynamodb table to store the metadata of ARF documents | `string` | `"DocumentReferenceMetadata"` | no |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
@@ -405,16 +359,6 @@
 | <a name="input_environment"></a> [environment](#input\_environment) | Tag Variables | `string` | n/a | yes |
 | <a name="input_lloyd_george_bucket_name"></a> [lloyd\_george\_bucket\_name](#input\_lloyd\_george\_bucket\_name) | The name of the S3 bucket to store Lloyd George documents | `string` | `"lloyd-george-store"` | no |
 | <a name="input_lloyd_george_dynamodb_table_name"></a> [lloyd\_george\_dynamodb\_table\_name](#input\_lloyd\_george\_dynamodb\_table\_name) | The name of the dynamodb table to store the metadata of Lloyd George documents | `string` | `"LloydGeorgeReferenceMetadata"` | no |
-| <a name="input_log_level"></a> [log\_level](#input\_log\_level) | n/a | `string` | `"debug"` | no |
-| <a name="input_mesh_ca_cert_ssm_param_name"></a> [mesh\_ca\_cert\_ssm\_param\_name](#input\_mesh\_ca\_cert\_ssm\_param\_name) | Name of SSM parameter containing MESH CA certificate | `string` | n/a | yes |
-| <a name="input_mesh_client_cert_ssm_param_name"></a> [mesh\_client\_cert\_ssm\_param\_name](#input\_mesh\_client\_cert\_ssm\_param\_name) | Name of SSM parameter containing MESH client certificate | `string` | n/a | yes |
-| <a name="input_mesh_client_key_ssm_param_name"></a> [mesh\_client\_key\_ssm\_param\_name](#input\_mesh\_client\_key\_ssm\_param\_name) | Name of SSM parameter containing MESH client key | `string` | n/a | yes |
-| <a name="input_mesh_component_name"></a> [mesh\_component\_name](#input\_mesh\_component\_name) | n/a | `string` | `"mesh-forwarder"` | no |
-| <a name="input_mesh_mailbox_ssm_param_name"></a> [mesh\_mailbox\_ssm\_param\_name](#input\_mesh\_mailbox\_ssm\_param\_name) | Name of SSM parameter containing MESH mailbox name | `string` | n/a | yes |
-| <a name="input_mesh_password_ssm_param_name"></a> [mesh\_password\_ssm\_param\_name](#input\_mesh\_password\_ssm\_param\_name) | Name of SSM parameter containing MESH mailbox password | `string` | n/a | yes |
-| <a name="input_mesh_shared_key_ssm_param_name"></a> [mesh\_shared\_key\_ssm\_param\_name](#input\_mesh\_shared\_key\_ssm\_param\_name) | Name of SSM parameter containing MESH shared key | `string` | n/a | yes |
-| <a name="input_mesh_url"></a> [mesh\_url](#input\_mesh\_url) | URL of MESH service | `string` | n/a | yes |
-| <a name="input_message_destination"></a> [message\_destination](#input\_message\_destination) | n/a | `string` | `"sns"` | no |
 | <a name="input_nrl_api_endpoint_suffix"></a> [nrl\_api\_endpoint\_suffix](#input\_nrl\_api\_endpoint\_suffix) | n/a | `string` | `"api.service.nhs.uk/record-locator/producer/FHIR/R4/DocumentReference"` | no |
 | <a name="input_num_private_subnets"></a> [num\_private\_subnets](#input\_num\_private\_subnets) | Sets the number of private subnets, one per availability zone | `number` | `3` | no |
 | <a name="input_num_public_subnets"></a> [num\_public\_subnets](#input\_num\_public\_subnets) | Sets the number of public subnets, one per availability zone | `number` | `3` | no |

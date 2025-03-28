@@ -1,8 +1,5 @@
 {
     "flags": {
-        "nemsEnabled": {
-            "name": "nemsEnabled"
-        },
         "uploadLloydGeorgeWorkflowEnabled": {
             "name": "uploadLloydGeorgeWorkflowEnabled"
         },
@@ -18,17 +15,11 @@
         "lloydGeorgeValidationStrictMode": {
             "name": "lloydGeorgeValidationStrictMode"
         },
-        "odsReportLambdaEnabled": {
-            "name": "odsReportLambdaEnabled"
-        },
         "downloadOdsReportEnabled": {
             "name": "downloadOdsReportEnabled"
         }
     },
     "values": {
-        "nemsEnabled": {
-            "enabled": "false"
-        },
         "uploadLloydGeorgeWorkflowEnabled": {
             "enabled": "false"
         },
