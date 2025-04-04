@@ -329,4 +329,9 @@ resource "aws_s3_bucket_policy" "logs_bucket_policy" {
   policy = data.aws_iam_policy_document.logs_bucket_policy.json
 }
 
-
+resource "aws_s3_bucket_logging" "logs_bucket_logging" {
+  count         = local.access_logs_count > 0 ? 1 : 0
+  bucket        = aws_s3_bucket.logs_bucket.id
+  target_bucket = aws_s3_bucket.access_logs[0].id
+  target_prefix = "${aws_s3_bucket.logs_bucket.id}/"
+}
