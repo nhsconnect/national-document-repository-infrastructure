@@ -161,7 +161,7 @@ module "zip_store_reference_dynamodb_table" {
   source                      = "./modules/dynamo_db"
   table_name                  = var.zip_store_dynamodb_table_name
   hash_key                    = "ID"
-  deletion_protection_enabled = false
+  deletion_protection_enabled = local.is_production
   stream_enabled              = true
   ttl_enabled                 = false
 
@@ -224,7 +224,7 @@ module "auth_state_dynamodb_table" {
   source                      = "./modules/dynamo_db"
   table_name                  = var.auth_state_dynamodb_table_name
   hash_key                    = "State"
-  deletion_protection_enabled = false
+  deletion_protection_enabled = local.is_production
   stream_enabled              = false
   ttl_enabled                 = true
   ttl_attribute_name          = "TimeToExist"
@@ -251,7 +251,7 @@ module "auth_session_dynamodb_table" {
   source                      = "./modules/dynamo_db"
   table_name                  = var.auth_session_dynamodb_table_name
   hash_key                    = "NDRSessionId"
-  deletion_protection_enabled = false
+  deletion_protection_enabled = local.is_production
   stream_enabled              = false
   ttl_enabled                 = true
   ttl_attribute_name          = "TimeToExist"
