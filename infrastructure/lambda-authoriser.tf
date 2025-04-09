@@ -3,7 +3,7 @@ module "authoriser-lambda" {
   name    = "AuthoriserLambda"
   handler = "handlers.authoriser_handler.lambda_handler"
   iam_role_policy_documents = [
-    aws_iam_policy.ssm_policy_authoriser.policy,
+    aws_iam_policy.ssm_access_policy_authoriser.policy,
     module.auth_session_dynamodb_table.dynamodb_read_policy_document,
     module.auth_session_dynamodb_table.dynamodb_write_policy_document,
     module.ndr-app-config.app_config_policy
@@ -23,7 +23,7 @@ module "authoriser-lambda" {
   is_invoked_from_gateway       = true
 
   depends_on = [
-    aws_iam_policy.ssm_policy_authoriser,
+    aws_iam_policy.ssm_access_policy_authoriser,
     module.auth_session_dynamodb_table,
     aws_api_gateway_rest_api.ndr_doc_store_api,
     module.ndr-app-config
@@ -82,7 +82,7 @@ resource "aws_api_gateway_authorizer" "repo_authoriser" {
   authorizer_result_ttl_in_seconds = 0
 }
 
-resource "aws_iam_policy" "ssm_policy_authoriser" {
+resource "aws_iam_policy" "ssm_access_policy_authoriser" {
   name = "${terraform.workspace}_ssm_public_token_policy"
   policy = jsonencode({
     Version = "2012-10-17",

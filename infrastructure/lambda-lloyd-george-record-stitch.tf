@@ -73,7 +73,8 @@ module "lloyd-george-stitch-lambda" {
     module.stitch_metadata_reference_dynamodb_table.dynamodb_read_policy_document,
     module.stitch_metadata_reference_dynamodb_table.dynamodb_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
-    module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document
+    module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.cloudfront_edge_dynamodb_table.dynamodb_write_policy_document
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = module.lloyd-george-stitch-gateway.gateway_resource_id
@@ -91,6 +92,7 @@ module "lloyd-george-stitch-lambda" {
     SPLUNK_SQS_QUEUE_URL          = try(module.sqs-splunk-queue[0].sqs_url, null)
     WORKSPACE                     = terraform.workspace
     PRESIGNED_ASSUME_ROLE         = aws_iam_role.stitch_presign_url_role.arn
+    EDGE_REFERENCE_TABLE          = module.cloudfront_edge_dynamodb_table.table_name
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,

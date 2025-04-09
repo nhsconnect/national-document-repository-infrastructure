@@ -46,6 +46,7 @@ resource "aws_iam_policy" "s3_document_data_policy_for_stitch_lambda" {
         "Effect" : "Allow",
         "Action" : [
           "s3:GetObject",
+          "S3:ListBucket",
         ],
         "Resource" : ["${module.ndr-lloyd-george-store.bucket_arn}/combined_files/*"]
       }
@@ -188,4 +189,3 @@ resource "aws_iam_role_policy_attachment" "ods_report_presign_url" {
   role       = aws_iam_role.ods_report_presign_url_role.name
   policy_arn = aws_iam_policy.s3_document_data_policy_for_ods_report_lambda.arn
 }
-

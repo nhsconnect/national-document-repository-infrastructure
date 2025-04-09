@@ -73,8 +73,7 @@ module "edge-presign-lambda" {
   handler        = "handlers.edge_presign_handler.lambda_handler"
   iam_role_policies = [
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-    aws_iam_policy.ssm_policy_oidc.arn,
-    module.auth_state_dynamodb_table.dynamodb_policy,
+    aws_iam_policy.ssm_access_policy.arn,
     module.ndr-app-config.app_config_policy_arn
   ]
   providers = {

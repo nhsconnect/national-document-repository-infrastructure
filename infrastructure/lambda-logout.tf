@@ -23,7 +23,7 @@ module "logout_lambda" {
   name    = "LogoutHandler"
   handler = "handlers.logout_handler.lambda_handler"
   iam_role_policy_documents = [
-    aws_iam_policy.ssm_policy_oidc.policy,
+    aws_iam_policy.ssm_access_policy.policy,
     module.auth_session_dynamodb_table.dynamodb_read_policy_document,
     module.auth_session_dynamodb_table.dynamodb_write_policy_document,
     module.ndr-app-config.app_config_policy
@@ -42,7 +42,7 @@ module "logout_lambda" {
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
-    aws_iam_policy.ssm_policy_oidc,
+    aws_iam_policy.ssm_access_policy,
     module.auth_session_dynamodb_table,
     module.logout-gateway,
     module.ndr-app-config
