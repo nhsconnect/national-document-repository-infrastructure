@@ -18,6 +18,12 @@ resource "aws_vpc" "vpc" {
   }
 }
 
+resource "aws_default_security_group" "default" {
+  vpc_id  = local.is_production ? aws_vpc.vpc[0].id : data.aws_vpc.vpc[0].id
+  ingress = []
+  egress  = []
+}
+
 data "aws_internet_gateway" "ig" {
   count = local.is_production ? 0 : 1
   tags = {
