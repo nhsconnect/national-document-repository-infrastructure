@@ -79,6 +79,22 @@ jobs:
         working-directory: ./infrastructure
         shell: bash
 
+      - name: Pre-cleanup AWS Backup Recovery Points
+        run: |
+          RECOVERY_POINTS=$(aws backup list-recovery-points-by-backup-vault \
+            --backup-vault-name ${{ matrix.sandbox-name }}_backup_vault \
+            --region eu-west-2 \
+            --query 'RecoveryPoints[*].RecoveryPointArn' \
+            --output text)
+      
+          for ARN in $RECOVERY_POINTS; do
+            echo "Deleting recovery point: $ARN"
+            aws backup delete-recovery-point \
+              --backup-vault-name ${{ matrix.sandbox-name }}_backup_vault \
+              --recovery-point-arn $ARN \
+              --region eu-west-2
+          done
+
       - name: Terraform Destroy
         id: destroy
         run: terraform destroy -auto-approve -var-file="${{ vars.TF_VARS_FILE }}"
