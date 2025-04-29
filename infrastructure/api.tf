@@ -45,7 +45,7 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
       module.authoriser-lambda,
       module.back-channel-logout-gateway,
       module.back_channel_logout_lambda,
-      module.create-doc-ref-gateway,
+      module.document-reference-gateway,
       module.create-doc-ref-lambda,
       module.create-token-gateway,
       module.create-token-lambda,
