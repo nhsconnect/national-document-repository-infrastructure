@@ -31,9 +31,9 @@ resource "aws_ecs_service" "ndr_ecs_service" {
 }
 
 resource "aws_ecs_cluster_capacity_providers" "fargate" {
-  count = ecs_launch_type == "FARGATE" ? 1 : 0
+  count = var.ecs_launch_type == "FARGATE" ? 1 : 0
 
-  cluster_name = aws_ecs_cluster.ndr_ecs_service.name
+  cluster_name = aws_ecs_cluster.ndr_ecs_cluster.name
 
   capacity_providers = ["FARGATE"]
 
