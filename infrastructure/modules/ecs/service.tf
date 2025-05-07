@@ -30,6 +30,20 @@ resource "aws_ecs_service" "ndr_ecs_service" {
   }
 }
 
+resource "aws_ecs_cluster_capacity_providers" "fargate" {
+  count = ecs_launch_type == "FARGATE" ? 1 : 0
+
+  cluster_name = aws_ecs_cluster.ndr_ecs_service.name
+
+  capacity_providers = ["FARGATE"]
+
+  default_capacity_provider_strategy {
+    base              = 1
+    weight            = 100
+    capacity_provider = "FARGATE"
+  }
+}
+
 resource "aws_appautoscaling_target" "ndr_ecs_service_autoscale_target" {
   max_capacity       = var.autoscaling_max_capacity
   min_capacity       = var.autoscaling_min_capacity
