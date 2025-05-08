@@ -5,6 +5,7 @@ locals {
     ? "${path.module}/configurations/dev.json"
     : "${path.module}/configurations/${terraform.workspace}.json"
   )
+  current_config_file_content = file(local.current_config_path)
 }
 
 resource "aws_appconfig_application" "ndr-app-config-application" {
@@ -44,15 +45,32 @@ resource "aws_appconfig_configuration_profile" "ndr-app-config-profile" {
   depends_on = [aws_appconfig_application.ndr-app-config-application]
 }
 
+resource "terraform_data" "current_config_file_content" {
+  input = local.current_config_file_content
+}
+
 resource "aws_appconfig_hosted_configuration_version" "ndr-app-config-profile-version" {
   application_id           = aws_appconfig_application.ndr-app-config-application.id
   configuration_profile_id = aws_appconfig_configuration_profile.ndr-app-config-profile.configuration_profile_id
-  content                  = file(local.current_config_path)
+  content                  = local.current_config_file_content
   content_type             = "application/json"
 
   depends_on = [
     aws_appconfig_configuration_profile.ndr-app-config-profile
   ]
+
+  lifecycle {
+    # AWS is adding a created and modified timestamp to the content, which causes a change in the resource.
+    # This is a workaround until the issue is resolved in the AWS provider.
+    # https://github.com/hashicorp/terraform-provider-aws/issues/20273
+    ignore_changes = [content] 
+
+    replace_triggered_by = [ 
+      aws_appconfig_application.ndr-app-config-application.id,
+      aws_appconfig_configuration_profile.ndr-app-config-profile.configuration_profile_id,
+      terraform_data.current_config_file_content,
+      ]
+  }
 }
 
 resource "aws_appconfig_deployment_strategy" "ndr-app-config-deployment-strategy" {

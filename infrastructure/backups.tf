@@ -9,6 +9,7 @@ resource "aws_backup_plan" "s3_continuous_backup" {
   rule {
     enable_continuous_backup = !local.is_sandbox
     rule_name                = "S3BucketContinousBackups"
+    schedule                 = "cron(0 5 ? * * *)" # Required due to bug in AWS provider https://github.com/hashicorp/terraform-provider-aws/issues/23976
     target_vault_name        = aws_backup_vault.backup_vault.name
     lifecycle {
       cold_storage_after = 0

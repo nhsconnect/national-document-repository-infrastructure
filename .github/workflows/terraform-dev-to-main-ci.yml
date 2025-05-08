@@ -12,11 +12,13 @@ on:
 
 permissions:
   pull-requests: write
+  actions: read # This is required for Plan comment
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
     
 jobs:
   terraform_process:
+    name: Terraform Process - ndr-dev
     runs-on: ubuntu-latest
     environment: development
 
@@ -41,11 +43,11 @@ jobs:
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.5.4
-        terraform_wrapper: false
+        terraform_wrapper: true
       
     - name: Terraform Init
       id: init
-      run: terraform init -backend-config=backend.conf
+      run: terraform init -backend-config=backend.conf -no-color
       working-directory: ./infrastructure 
       shell: bash
 
@@ -57,15 +59,104 @@ jobs:
       
       # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
+      id: fmt
       run: terraform fmt -check
-      working-directory: ./infrastructure 
+      working-directory: ./infrastructure
+
+    - name: terraform validate
+      id: validate
+      run: terraform validate -no-color
 
     - name: Terraform Plan
       id: plan
       run: |
         terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan
+        terraform show -no-color tf.plan > tfplan.txt
+        echo "summary=$(grep -E 'Plan: [0-9]+ to add, [0-9]+ to change, [0-9]+ to destroy\.|No changes\. Your infrastructure matches the configuration\.' tfplan.txt | sed 's/.*No changes\. Your infrastructure matches the configuration/Plan: no changes/g' | sed 's/.*Plan: //g' | sed 's/\..*//g')" >> $GITHUB_OUTPUT
       working-directory: ./infrastructure
       shell: bash
+
+    - name: Truncate Plan Output
+      id: plan-truncated
+      if: success() || failure()
+      env:
+        LENGTH: 64512
+      run: |
+        PLAN_FULL=$(grep -v 'Refreshing state...' <<'EOF'
+        ${{ steps.plan.outputs.stdout }}
+        ${{ steps.plan.outputs.stderr }}
+        EOF
+        )
+        echo "PLAN<<EOF" >> $GITHUB_ENV
+        echo "${PLAN_FULL::$LENGTH}" >> $GITHUB_ENV
+        [ ${#PLAN_FULL} -gt $LENGTH ] && echo "(truncated - see workflow logs for full output)" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+      working-directory: ./infrastructure
+      shell: bash
+
+    - name: Add PR comment
+      uses: actions/github-script@v7
+      if: github.event_name == 'pull_request' && (success() || failure())
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          // 1. Retrieve existing bot comments for the PR
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          })
+          const botComment = comments.find(comment => {
+            return comment.user.type === 'Bot' && comment.body.includes('Report for environment: ndr-dev')
+          })
+
+          // 2. Prepare format of the comment
+          const output = `### Report for environment: ndr-dev
+          
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          <details><summary>Initialization Output</summary>
+
+          \`\`\`\n
+          ${{ steps.init.outputs.stdout }}
+          \`\`\`
+
+          </details>
+
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+          <details><summary>Validation Output</summary>
+
+          \`\`\`\n
+          ${{ steps.validate.outputs.stdout }}
+          \`\`\`
+
+          </details>
+
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+          <details><summary>Show Plan (${{ steps.plan.outputs.summary }})</summary>
+
+          \`\`\`\n
+          ${{ env.PLAN }}
+          \`\`\`
+
+          </details>`;
+
+          // 3. If we have a comment, update it, otherwise create a new one
+          if (botComment) {
+            github.rest.issues.deleteComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: botComment.id,
+              body: output
+            })
+          }
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
     
     # Terraform apply will only occur on a push (merge request completion)
     - name: Terraform Apply 
