@@ -1,8 +1,8 @@
 # Create Document Store API
 resource "aws_api_gateway_rest_api" "ndr_doc_store_api" {
-  name        = "${terraform.workspace}-DocStoreAPI"
-  description = "Document store API for Repo"
-
+  name               = "${terraform.workspace}-DocStoreAPI"
+  description        = "Document store API for Repo"
+  binary_media_types = ["*/*"]
   tags = {
     Name        = "${terraform.workspace}-docstore-api"
     Owner       = var.owner
