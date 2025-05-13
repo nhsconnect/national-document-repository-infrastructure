@@ -63,13 +63,13 @@ resource "aws_appconfig_hosted_configuration_version" "ndr-app-config-profile-ve
     # AWS is adding a created and modified timestamp to the content, which causes a change in the resource.
     # This is a workaround until the issue is resolved in the AWS provider.
     # https://github.com/hashicorp/terraform-provider-aws/issues/20273
-    ignore_changes = [content] 
+    ignore_changes = [content]
 
-    replace_triggered_by = [ 
+    replace_triggered_by = [
       aws_appconfig_application.ndr-app-config-application.id,
       aws_appconfig_configuration_profile.ndr-app-config-profile.configuration_profile_id,
       terraform_data.current_config_file_content,
-      ]
+    ]
   }
 }
 
