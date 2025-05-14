@@ -142,13 +142,13 @@ data "aws_iam_policy_document" "assume_role_policy_for_get_doc_ref_lambda" {
   }
 }
 
-resource "aws_iam_role" "get_doc_presign_url_role" {
+resource "aws_iam_role" "get_fhir_doc_presign_url_role" {
   name               = "${terraform.workspace}_get_fhir_doc_presign_url_role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy_for_get_doc_ref_lambda.json
 }
 
 resource "aws_iam_role_policy_attachment" "get_doc_presign_url" {
-  role       = aws_iam_role.get_doc_presign_url_role.name
+  role       = aws_iam_role.get_fhir_doc_presign_url_role.name
   policy_arn = aws_iam_policy.s3_document_data_policy_for_get_doc_ref_lambda.arn
 }
 

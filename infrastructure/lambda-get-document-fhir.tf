@@ -34,8 +34,9 @@ module "get-doc-fhir-lambda" {
     APPCONFIG_CONFIGURATION    = module.ndr-app-config.app_config_configuration_profile_id
     WORKSPACE                  = terraform.workspace
     ENVIRONMENT                = var.environment
-    PRESIGNED_ASSUME_ROLE      = aws_iam_role.get_doc_presign_url_role.arn
+    PRESIGNED_ASSUME_ROLE      = aws_iam_role.get_fhir_doc_presign_url_role.arn
     LLOYD_GEORGE_DYNAMODB_NAME = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
+    OIDC_CALLBACK_URL          = contains(["prod"], terraform.workspace) ? "https://${var.domain}/auth-callback" : "https://${terraform.workspace}.${var.domain}/auth-callback"
     CLOUDFRONT_URL             = module.cloudfront-distribution-lg.cloudfront_url
     PDS_FHIR_IS_STUBBED        = local.is_sandbox
   }
