@@ -9,3 +9,5 @@ poll_frequency                      = "10"
 
 standalone_vpc_tag    = "ndr-test"
 standalone_vpc_ig_tag = "ndr-test"
+
+cloud_security_email_param_environment = "ndr-test"
