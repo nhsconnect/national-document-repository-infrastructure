@@ -7,6 +7,7 @@ No requirements.
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
@@ -23,6 +24,7 @@ No modules.
 | [aws_appconfig_environment.ndr-app-config-environment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_environment) | resource |
 | [aws_appconfig_hosted_configuration_version.ndr-app-config-profile-version](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_hosted_configuration_version) | resource |
 | [aws_iam_policy.app_config_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [terraform_data.current_config_file_content](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 | [aws_iam_policy_document.app_config_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
