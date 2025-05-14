@@ -10,17 +10,120 @@ module "search-patient-details-gateway" {
   origin              = contains(["prod"], terraform.workspace) ? "'https://${var.domain}'" : "'https://${terraform.workspace}.${var.domain}'"
 }
 
-module "search_patient_alarm" {
-  source               = "./modules/lambda_alarms"
-  lambda_function_name = module.search-patient-details-lambda.function_name
-  lambda_timeout       = module.search-patient-details-lambda.timeout
-  lambda_name          = "search_patient_details_handler"
-  namespace            = "AWS/Lambda"
-  alarm_actions        = [module.search_patient_alarm_topic.arn]
-  ok_actions           = [module.search_patient_alarm_topic.arn]
-  depends_on           = [module.search-patient-details-lambda, module.search_patient_alarm_topic]
+# module "search_patient_alarm" {
+#   source               = "./modules/lambda_alarms"
+#   lambda_function_name = module.search-patient-details-lambda.function_name
+#   lambda_timeout       = module.search-patient-details-lambda.timeout
+#   lambda_name          = "search_patient_details_handler"
+#   namespace            = "AWS/Lambda"
+#   alarm_actions        = [module.search_patient_alarm_topic.arn]
+#   ok_actions           = [module.search_patient_alarm_topic.arn]
+#   depends_on           = [module.search-patient-details-lambda, module.search_patient_alarm_topic]
+# }
+
+
+resource "aws_cloudwatch_metric_alarm" "error_alarm_count_low" {
+  alarm_name          = "search_patient_error_count_low"
+  alarm_description   = "Triggers when search patient lambda error count is between 1 and 3 within 2mins"
+  comparison_operator = "GreaterThanThreshold"
+  threshold           = 0
+  evaluation_periods  = 1
+  alarm_actions       = [module.search_patient_alarm_topic.arn]
+  ok_actions          = [module.search_patient_alarm_topic.arn]
+  tags = {
+    alerting_type = "KPI"
+    alarm_group   = module.search-patient-details-lambda.function_name
+  }
+  metric_query {
+    id          = "error"
+    label       = "error count for search patient, high if above 7, low if between 1 and 3, med between 4 - 6, high 7+"
+    return_data = true
+    expression  = "IF(m1 >= 1 AND m1 <= 3, 1, 0)"
+  }
+
+  metric_query {
+    id = "m1"
+
+    metric {
+      metric_name = "Errors"
+      namespace   = "AWS/Lambda"
+      period      = 120
+      stat        = "Sum"
+      dimensions = {
+        FunctionName = module.search-patient-details-lambda.function_name
+      }
+    }
+  }
 }
 
+
+resource "aws_cloudwatch_metric_alarm" "error_alarm_count_medium" {
+  alarm_name          = "search_patient_error_count_medium"
+  alarm_description   = "Triggers when search patient lambda error count is between 4 and 6 within 2mins"
+  comparison_operator = "GreaterThanThreshold"
+  threshold           = 0
+  evaluation_periods  = 1
+  alarm_actions       = [module.search_patient_alarm_topic.arn]
+  ok_actions          = [module.search_patient_alarm_topic.arn]
+  tags = {
+    alerting_type = "KPI"
+    alarm_group   = module.search-patient-details-lambda.function_name
+  }
+  metric_query {
+    id          = "error"
+    label       = "error count for search patient, high if about 4, low if between 1 and 3"
+    return_data = true
+    expression  = "IF(m1 >= 4 AND m1 <= 6, 1, 0)"
+  }
+
+  metric_query {
+    id = "m1"
+
+    metric {
+      metric_name = "Errors"
+      namespace   = "AWS/Lambda"
+      period      = 120
+      stat        = "Sum"
+      dimensions = {
+        FunctionName = module.search-patient-details-lambda.function_name
+      }
+    }
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "error_alarm_count_high" {
+  alarm_name          = "search_patient_error_count_high"
+  alarm_description   = "Triggers when search patient lambda error count is about 7"
+  comparison_operator = "GreaterThanThreshold"
+  threshold           = 0
+  evaluation_periods  = 1
+  alarm_actions       = [module.search_patient_alarm_topic.arn]
+  ok_actions          = [module.search_patient_alarm_topic.arn]
+  tags = {
+    alerting_type = "KPI"
+    alarm_group   = module.search-patient-details-lambda.function_name
+  }
+  metric_query {
+    id          = "error"
+    label       = "error count for search patient, high if about 4, low if between 1 and 3"
+    return_data = true
+    expression  = "IF(m1 >= 7, 1, 0)"
+  }
+
+  metric_query {
+    id = "m1"
+
+    metric {
+      metric_name = "Errors"
+      namespace   = "AWS/Lambda"
+      period      = 120
+      stat        = "Sum"
+      dimensions = {
+        FunctionName = module.search-patient-details-lambda.function_name
+      }
+    }
+  }
+}
 
 module "search_patient_alarm_topic" {
   source                = "./modules/sns"
@@ -51,6 +154,25 @@ module "search_patient_alarm_topic" {
     ]
   })
 }
+
+
+resource "aws_sns_topic_subscription" "search-patient-teams-alert" {
+  endpoint   = module.teams-alerting-lambda.lambda_arn
+  protocol   = "lambda"
+  topic_arn  = module.search_patient_alarm_topic.arn
+  depends_on = [module.teams-alerting-lambda]
+}
+
+
+resource "aws_lambda_permission" "teams_invoke_with_search_patient_sns" {
+  statement_id  = "AllowExecutionFromSeachPatientAlarmSNS"
+  action        = "lambda:InvokeFunction"
+  function_name = module.teams-alerting-lambda.lambda_arn
+  principal     = "sns.amazonaws.com"
+  source_arn    = module.search_patient_alarm_topic.arn
+}
+
+
 
 module "search-patient-details-lambda" {
   source  = "./modules/lambda"
