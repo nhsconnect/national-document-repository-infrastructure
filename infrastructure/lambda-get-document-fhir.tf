@@ -23,6 +23,7 @@ module "get-doc-fhir-lambda" {
     module.ndr-app-config.app_config_policy,
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
     aws_iam_policy.ssm_access_policy.policy,
+    module.ndr-lloyd-george-store.s3_read_policy_document,
   ]
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = aws_api_gateway_resource.get_document_reference.id
