@@ -1,8 +1,8 @@
 # Create Document Store API
 resource "aws_api_gateway_rest_api" "ndr_doc_store_api" {
-  name        = "${terraform.workspace}-DocStoreAPI"
-  description = "Document store API for Repo"
-
+  name               = "${terraform.workspace}-DocStoreAPI"
+  description        = "Document store API for Repo"
+  binary_media_types = ["*/*"]
   tags = {
     Name        = "${terraform.workspace}-docstore-api"
     Owner       = var.owner
@@ -57,6 +57,7 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
     module.document-manifest-job-lambda,
     module.feature-flags-gateway,
     module.feature-flags-lambda,
+    module.get-doc-fhir-lambda,
     module.get-report-by-ods-gateway,
     module.get-report-by-ods-lambda,
     module.lloyd-george-stitch-gateway,
