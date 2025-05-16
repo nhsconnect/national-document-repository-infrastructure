@@ -6,6 +6,7 @@ resource "aws_ecs_task_definition" "ndr_ecs_task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.ecs_task_definition_cpu
   memory                   = var.ecs_task_definition_memory
+  track_latest             = true # ECS tasks are also being modified by the UI deployment pipeline
 
   container_definitions = jsonencode([
     {

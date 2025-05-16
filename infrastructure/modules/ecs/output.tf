@@ -26,5 +26,5 @@ output "ecs_cluster_arn" {
 }
 
 output "task_definition_arn" {
-  value = aws_ecs_task_definition.ndr_ecs_task.arn
+  value = aws_ecs_task_definition.ndr_ecs_task.arn_without_revision
 }
