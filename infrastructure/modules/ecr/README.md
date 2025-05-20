@@ -1,12 +1,14 @@
+<!-- BEGIN_TF_DOCS -->
+
 ## Requirements
 
 No requirements.
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| Name                                             | Version |
+| ------------------------------------------------ | ------- |
+| <a name="provider_aws"></a> [aws](#provider_aws) | n/a     |
 
 ## Modules
 
@@ -14,23 +16,25 @@ No modules.
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [aws_ecr_lifecycle_policy.ndr_ecr_lifecycle_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_lifecycle_policy) | resource |
-| [aws_ecr_repository.ndr-ecr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository) | resource |
+| Name                                                                                                                                                     | Type     |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| [aws_ecr_lifecycle_policy.ndr_ecr_lifecycle_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_lifecycle_policy)    | resource |
+| [aws_ecr_repository.ndr-ecr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository)                                 | resource |
 | [aws_ecr_repository_policy.ndr_ecr_repository_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecr_repository_policy) | resource |
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_app_name"></a> [app\_name](#input\_app\_name) | the name of the app | `string` | n/a | yes |
-| <a name="input_current_account_id"></a> [current\_account\_id](#input\_current\_account\_id) | n/a | `string` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
-| <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
+| Name                                                                                    | Description         | Type     | Default | Required |
+| --------------------------------------------------------------------------------------- | ------------------- | -------- | ------- | :------: |
+| <a name="input_app_name"></a> [app_name](#input_app_name)                               | the name of the app | `string` | n/a     |   yes    |
+| <a name="input_current_account_id"></a> [current_account_id](#input_current_account_id) | n/a                 | `string` | n/a     |   yes    |
+| <a name="input_environment"></a> [environment](#input_environment)                      | n/a                 | `string` | n/a     |   yes    |
+| <a name="input_owner"></a> [owner](#input_owner)                                        | n/a                 | `string` | n/a     |   yes    |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_ecr_repository_url"></a> [ecr\_repository\_url](#output\_ecr\_repository\_url) | n/a |
+| Name                                                                                      | Description |
+| ----------------------------------------------------------------------------------------- | ----------- |
+| <a name="output_ecr_repository_url"></a> [ecr_repository_url](#output_ecr_repository_url) | n/a         |
+
+<!-- END_TF_DOCS -->
