@@ -195,3 +195,22 @@ locals {
 variable "nrl_api_endpoint_suffix" {
   default = "api.service.nhs.uk/record-locator/producer/FHIR/R4/DocumentReference"
 }
+
+# Virus scanner variables
+
+variable "cloud_security_email_param_environment" {
+  type        = string
+  description = "This is the environment reference in cloud security email param store key"
+}
+
+variable "cloud_security_console_black_hole_address" {
+  type        = string
+  default     = "198.51.100.0/24"
+  description = "Using reserved address that does not lead anywhere to make sure CloudStorageSecurity console is not available"
+}
+
+variable "cloud_security_console_public_address" {
+  type        = string
+  default     = "0.0.0.0/0"
+  description = "Using public address to make sure CloudStorageSecurity console is available"
+}
