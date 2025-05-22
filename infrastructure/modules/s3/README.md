@@ -1,3 +1,63 @@
+# S3 Bucket Module with Access Control and Optional CloudFront Support
+
+This Terraform module provisions a secure and configurable AWS S3 bucket, supporting access control policies, logging, versioning, and optional CloudFront integration. It’s designed to be reusable across workloads like public asset delivery, backup storage, or private application data.
+
+---
+
+## Features
+
+- [x] S3 bucket with:
+  - Optional versioning
+  - Force destroy toggle
+  - Configurable CORS rules
+- [x] Optional access logging to a separate bucket
+- [x] Optional CloudFront-specific policy support
+- [x] IAM policies for read, write, list, and backup access
+- [x] Full tagging via environment and owner variables
+
+---
+
+## Usage
+
+```hcl
+module "s3_bucket" {
+  source = "./modules/s3"
+
+  # Required: Logical name for the bucket
+  bucket_name = "my-app-assets"
+
+  # Required: Tags for identification
+  environment = "prod"
+  owner       = "platform"
+
+  # Optional: Enable versioning to preserve object history
+  enable_bucket_versioning = true
+
+  # Optional: Force destroy (delete even if non-empty)
+  force_destroy = true
+
+  # Optional: Enable access logs and specify destination bucket ID
+  access_logs_enabled   = true
+  access_logs_bucket_id = "log-bucket-123"
+
+  # Optional: CORS configuration (if hosting front-end apps)
+  enable_cors_configuration = true
+  cors_rules = [
+    {
+      allowed_methods = ["GET"]
+      allowed_origins = ["*"]
+      allowed_headers = ["*"]
+    }
+  ]
+
+  # Optional: Enable CloudFront integration and policy
+  cloudfront_enabled = true
+  cloudfront_arn     = "arn:aws:cloudfront::123456789012:distribution/ABC123"
+}
+
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

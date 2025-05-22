@@ -1,21 +1,52 @@
+# AWS AppConfig Module
+
+This Terraform module provisions an AWS AppConfig application for managing dynamic configuration in distributed systems. It includes environments, configuration profiles, versioning, and deployment strategies — enabling safe, validated rollout of runtime settings.
+
+---
+
+## Features
+
+- [x] AppConfig Application and Environment resources
+- [x] Configuration Profile with Hosted Configuration Version
+- [x] Deployment Strategy for controlled rollouts
+- [x] Triggered Deployment resource to apply configuration
+- [x] IAM policy granting read-only access to AppConfig
+- [x] Tagging via environment and owner
+
+---
+
+## Usage
+
+```hcl
+module "app_config" {
+  source = "./modules/app-config"
+
+  # Required: Name of the AppConfig environment (e.g. "dev", "prod")
+  config_environment_name = "prod"
+
+  # Required: Name of the configuration profile to define (e.g. "my-feature-flags")
+  config_profile_name = "app-profile"
+
+  # Required: Used for tagging and logical naming
+  environment = "prod"
+
+  # Required: Owner or team responsible
+  owner = "platform"
+}
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
-## Requirements
+## RequirementsS
 
 No requirements.
 
 ## Providers
 
-<<<<<<< HEAD
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
-| <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
-=======
 | Name                                             | Version |
 | ------------------------------------------------ | ------- |
 | <a name="provider_aws"></a> [aws](#provider_aws) | n/a     |
->>>>>>> 2b15286 (inject + cloudfront doc'+ begin/end)
 
 ## Modules
 
@@ -23,19 +54,6 @@ No modules.
 
 ## Resources
 
-<<<<<<< HEAD
-| Name | Type |
-|------|------|
-| [aws_appconfig_application.ndr-app-config-application](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_application) | resource |
-| [aws_appconfig_configuration_profile.ndr-app-config-profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_configuration_profile) | resource |
-| [aws_appconfig_deployment.ndr-app-config-deployment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_deployment) | resource |
-| [aws_appconfig_deployment_strategy.ndr-app-config-deployment-strategy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_deployment_strategy) | resource |
-| [aws_appconfig_environment.ndr-app-config-environment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_environment) | resource |
-| [aws_appconfig_hosted_configuration_version.ndr-app-config-profile-version](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_hosted_configuration_version) | resource |
-| [aws_iam_policy.app_config_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
-| [terraform_data.current_config_file_content](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
-| [aws_iam_policy_document.app_config_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-=======
 | Name                                                                                                                                                                                            | Type        |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | [aws_appconfig_application.ndr-app-config-application](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_application)                                       | resource    |
@@ -46,7 +64,6 @@ No modules.
 | [aws_appconfig_hosted_configuration_version.ndr-app-config-profile-version](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appconfig_hosted_configuration_version) | resource    |
 | [aws_iam_policy.app_config_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy)                                                                      | resource    |
 | [aws_iam_policy_document.app_config_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document)                                                 | data source |
->>>>>>> 2b15286 (inject + cloudfront doc'+ begin/end)
 
 ## Inputs
 

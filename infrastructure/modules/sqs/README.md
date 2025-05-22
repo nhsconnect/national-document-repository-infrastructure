@@ -1,3 +1,62 @@
+# SQS Queue Module with Optional DLQ, Encryption, and FIFO Support
+
+This Terraform module provisions an AWS SQS queue with support for dead-letter queue (DLQ), message encryption, FIFO queuing, and custom delivery policies. It’s suitable for building robust and scalable messaging layers in event-driven architectures.
+
+---
+
+## Features
+
+- [x] SQS queue with:
+  - Configurable visibility timeout, message retention, and wait time
+  - Optional delay for message delivery
+  - Max message size control
+- [x] Optional dead-letter queue (DLQ) setup with redrive policies
+- [x] Support for FIFO and deduplication
+- [x] SSE encryption using SQS-managed or customer-managed KMS keys
+- [x] IAM read/write policy documents for consumers and producers
+- [x] Tagged with environment and owner
+
+---
+
+## Usage
+
+```hcl
+module "sqs_queue" {
+  source = "./modules/sqs"
+
+  # Required: Logical name of the queue
+  name        = "order-processing-queue"
+  environment = "prod"
+  owner       = "platform"
+
+  # Optional: Enable FIFO behavior
+  enable_fifo          = true
+  enable_deduplication = true
+
+  # Optional: Retention and size settings
+  message_retention = 86400
+  max_size_message  = 2048
+  delay             = 0
+  receive_wait      = 2
+  max_visibility    = 30
+
+  # Optional: Enable server-side encryption
+  enable_sse        = true
+  kms_master_key_id = "alias/aws/sqs"
+
+  # Optional: Dead-letter queue configuration
+  enable_dlq             = true
+  max_receive_count      = 5
+  dlq_visibility_timeout = 60
+
+  # Optional: Enable access policy
+  access_logs_enabled   = false
+  access_logs_bucket_id = "log-bucket-id"
+}
+
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

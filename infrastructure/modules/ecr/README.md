@@ -1,3 +1,41 @@
+# ECR Repository Module
+
+This Terraform module provisions an AWS Elastic Container Registry (ECR) repository with lifecycle management, cross-account access policies, and tagging support. It enables secure, automated Docker image storage for modern CI/CD pipelines and container-based workloads.
+
+---
+
+## Features
+
+- [x] ECR repository with custom name derived from app and environment
+- [x] Lifecycle policy to clean up unused images automatically
+- [x] Cross-account access via repository policy
+- [x] Resource tagging with environment and owner
+- [x] Output of repository URL for use in pipelines or other modules
+
+---
+
+## Usage
+
+```hcl
+module "ecr_repository" {
+  source = "./modules/ecr"
+
+  # Required: Application name used to name the ECR repo
+  app_name = "my-app"
+
+  # Required: Environment tag for context (e.g., "dev", "prod")
+  environment = "prod"
+
+  # Required: Account ID for use in policy references
+  current_account_id = "123456789012"
+
+  # Required: Owner or team label for resource tagging
+  owner = "platform"
+}
+
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

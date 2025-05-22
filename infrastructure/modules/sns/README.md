@@ -1,3 +1,81 @@
+# SNS Topic Module with Optional Subscriptions and Encryption
+
+This Terraform module provisions an Amazon SNS topic with flexible options for standard or FIFO configuration, message deduplication, raw message delivery, and subscriptions (single or list). It also supports KMS encryption and custom delivery policies.
+
+This setup is ideal for decoupled event-driven architectures where alerts, logs, or domain events are pushed to downstream systems.
+
+---
+
+## Features
+
+- [x] Creates an SNS topic (standard or FIFO)
+- [x] Enables optional message deduplication and raw delivery
+- [x] KMS encryption via provided key ID
+- [x] Supports:
+  - Single subscription (e.g., Lambda or SQS)
+  - List of subscriptions via `topic_endpoint_list`
+- [x] Configurable delivery policy
+- [x] Optional SQS feedback role mapping
+
+---
+
+## Usage
+
+```hcl
+module "sns_topic" {
+  source = "./modules/sns"
+
+  # Required: Name of the topic to create
+  topic_name = "alerts-topic"
+
+  # Required: AWS account ID (used in feedback and policy generation)
+  current_account_id = "123456789012"
+
+  # Required: Protocol to use for the subscription (e.g., "lambda", "sqs", "email")
+  topic_protocol = "sqs"
+
+  # Required: ARN of the KMS key for encryption
+  sns_encryption_key_id = "arn:aws:kms:eu-west-2:123456789012:key/abc123"
+
+  # Required: JSON-encoded delivery policy
+  delivery_policy = jsonencode({
+    healthyRetryPolicy = {
+      minDelayTarget = 20,
+      maxDelayTarget = 20,
+      numRetries     = 3,
+      numMaxDelayRetries = 0
+    }
+  })
+
+  # Optional: Enable FIFO topic and deduplication
+  enable_fifo            = false
+  enable_deduplication   = false
+
+  # Optional: Enable raw message delivery (bypass JSON wrapping)
+  raw_message_delivery = true
+
+  # Optional: Use a single endpoint
+  topic_endpoint = "arn:aws:sqs:eu-west-2:123456789012:target-queue"
+
+  # Optional: Provide a list of endpoints instead
+  topic_endpoint_list = [
+    "arn:aws:sqs:eu-west-2:123456789012:queue-1",
+    "arn:aws:sqs:eu-west-2:123456789012:queue-2"
+  ]
+
+  # Optional: Flag to use endpoint list rather than single value
+  is_topic_endpoint_list = true
+
+  # Optional: SQS feedback sample rates and IAM roles
+  sqs_feedback = {
+    "arn:aws:iam::123456789012:role/success" = "100"
+    "arn:aws:iam::123456789012:role/failure" = "100"
+  }
+}
+
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

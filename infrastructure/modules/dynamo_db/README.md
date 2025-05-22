@@ -1,3 +1,78 @@
+# DynamoDB Table Module
+
+This Terraform module provisions a highly configurable AWS DynamoDB table for scalable, low-latency key-value storage. It supports TTL, streams, backups, IAM policies, and optional global secondary indexes — ideal for serverless and event-driven workloads.
+
+---
+
+## Features
+
+- [x] Configurable table name, hash key, and optional sort key
+- [x] TTL (Time To Live) for auto-expiring items
+- [x] Streams for Lambda or change tracking integration
+- [x] Point-in-time recovery (automated backups)
+- [x] Optional Global Secondary Indexes (GSIs)
+- [x] IAM policy documents for read and write permissions
+- [x] Optional deletion protection
+- [x] Full environment and owner tagging
+
+---
+
+## Usage
+
+```hcl
+module "dynamodb_table" {
+  source = "./modules/dynamodb"
+
+  # Required context
+  environment = "prod"
+  owner       = "platform"
+
+  # Table naming and schema
+  table_name  = "my-table"
+  hash_key    = "user_id"
+  sort_key    = "created_at"
+
+  # Attribute definitions
+  attributes = [
+    {
+      name = "user_id"
+      type = "S"
+    },
+    {
+      name = "created_at"
+      type = "N"
+    },
+    {
+      name = "expires_at"
+      type = "N"
+    }
+  ]
+
+  # Provisioning and scaling
+  billing_mode                   = "PAY_PER_REQUEST"
+  point_in_time_recovery_enabled = true
+
+  # Time-to-live settings
+  ttl_enabled         = true
+  ttl_attribute_name  = "expires_at"
+
+  # Stream configuration
+  stream_enabled     = true
+  stream_view_type   = "NEW_AND_OLD_IMAGES"
+
+  # Optional global secondary indexes
+  global_secondary_indexes = [
+    {
+      name            = "user-by-date"
+      hash_key        = "user_id"
+      sort_key        = "created_at"
+      projection_type = "ALL"
+    }
+  ]
+}
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

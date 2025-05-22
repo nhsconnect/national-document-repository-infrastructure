@@ -1,3 +1,39 @@
+# Lambda Layer Module
+
+This Terraform module provisions an AWS Lambda Layer and attaches an optional IAM policy to control access. It packages and deploys a ZIP archive (either provided or default), enabling you to share libraries and dependencies across multiple Lambda functions.
+
+This setup is useful for DRY infrastructure patterns where shared runtime logic (e.g., SDKs, custom utilities) is maintained independently of function code.
+
+---
+
+## Features
+
+- [x] Creates a Lambda Layer version from a provided or placeholder ZIP archive
+- [x] Configurable name and ZIP file input
+- [x] IAM policy for cross-role access to the layer
+- [x] Outputs layer ARN and policy ARN
+
+---
+
+## Usage
+
+```hcl
+module "lambda_layer" {
+  source = "./modules/lambda-layer"
+
+  # Required: AWS Account ID used in IAM policy generation
+  account_id = "123456789012"
+
+  # Required: Logical name for the Lambda Layer
+  layer_name = "shared-utils"
+
+  # Optional: Path to the zip file (relative to Terraform root)
+  layer_zip_file_name = "shared-utils.zip"
+}
+
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements
