@@ -1,23 +1,37 @@
 # CloudFront Distribution Module
 
-This Terraform module creates an AWS CloudFront distribution with:
+This Terraform module provisions an AWS CloudFront distribution to serve static content from an S3 bucket, optionally enhanced with Lambda@Edge and WAF integration. It supports custom origin request policies, cache policies, and S3 Origin Access Control (OAC) to ensure secure and performant delivery.
 
-- Custom cache and origin request policies
-- Support for Lambda@Edge function associations
-- Integration with S3 buckets
-- Optional WAF (Web ACL) association
+---
 
-This setup is designed to serve static content efficiently and securely from S3 via CloudFront, with flexibility to include Lambda@Edge logic and WAF security rules.
+## Features
+
+- [x] CloudFront distribution targeting S3 origin
+- [x] Origin Access Control (OAC) for secure S3 access
+- [x] Custom cache and origin request policies
+- [x] Optional Lambda@Edge function integration
+- [x] Optional WAF Web ACL association
+- [x] Outputs distribution ARN and access URL
+
+---
 
 ## Usage
 
 ```hcl
 module "cloudfront" {
-  source             = "./modules/cloudfront"
+  source = "./modules/cloudfront"
+
+  # Required: S3 origin settings
   bucket_id          = "my-s3-bucket"
   bucket_domain_name = "my-s3-bucket.s3.amazonaws.com"
-  qualifed_arn       = "arn:aws:lambda:us-east-1:123456789:function:myFn:1"
+
+  # Optional: Lambda@Edge function ARN (must be in us-east-1)
+  qualifed_arn = "arn:aws:lambda:us-east-1:123456789:function:myFn:1"
+
+  # Optional: AWS WAF Web ACL ARN
+  web_acl_id = "arn:aws:wafv2:us-east-1:123456789:regional/webacl/my-acl/abc123"
 }
+
 ```
 
 <!-- BEGIN_TF_DOCS -->

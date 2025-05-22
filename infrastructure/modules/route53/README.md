@@ -1,3 +1,56 @@
+# Route53 DNS Records Module
+
+This Terraform module provisions Route53 DNS records and zones to support custom domains for both API Gateway and Fargate services. It can either look up an existing zone or create a new one, depending on configuration.
+
+The module is intended for managing DNS infrastructure for applications with multiple service endpoints in a shared or custom-managed domain structure.
+
+---
+
+## Features
+
+- [x] Create or look up a Route53 hosted zone
+- [x] DNS record for custom domain API Gateway mapping
+- [x] DNS record for Fargate application endpoint
+- [x] Supports flexible domain and subdomain configuration
+- [x] Configurable ownership and environment tagging
+
+---
+
+## Usage
+
+```hcl
+module "dns" {
+  source = "./modules/route53"
+
+  # Required: Full domain name of the custom API Gateway domain (e.g. "api-dev.example.com")
+  api_gateway_full_domain_name = "api-dev.myapp.example.com"
+
+  # Required: Subdomain for the API Gateway (e.g. "api-dev")
+  api_gateway_subdomain_name = "api-dev"
+
+  # Required: Zone ID used by the API Gateway’s custom domain (for record attachment)
+  api_gateway_zone_id = "Z123456789ABCDEF"
+
+  # Required: Domain name for the Route53 hosted zone (e.g. "example.com")
+  domain = "example.com"
+
+  # Required: Certificate domain for TLS validation (typically same as domain or wildcard)
+  certificate_domain = "*.example.com"
+
+  # Required: Target DNS name for the Fargate or load-balanced endpoint
+  dns_name = "fargate-lb-123456.eu-west-2.elb.amazonaws.com"
+
+  # Required: Tagging context
+  environment = "prod"
+  owner       = "platform"
+
+  # Optional: Use a shared hosted zone (e.g. for multi-module ARF usage)
+  using_arf_hosted_zone = true
+}
+
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

@@ -1,3 +1,48 @@
+# SSM Parameter Module
+
+This Terraform module provisions an AWS Systems Manager (SSM) parameter in the Parameter Store. It supports secure secrets (SecureString), plain text values, and configuration parameters. Useful for decoupling sensitive values from code or storing environment configuration per service.
+
+---
+
+## Features
+
+- [x] Creates an SSM parameter with type `SecureString`, `String`, or `StringList`
+- [x] Optional description and custom naming
+- [x] SecureString defaults enabled for secrets
+- [x] Supports tagging with environment and owner
+- [x] Optional `depends_on` override
+
+---
+
+## Usage
+
+```hcl
+module "ssm_param" {
+  source = "./modules/ssm-parameter"
+
+  # Required: Environment and ownership tags
+  environment = "prod"
+  owner       = "platform"
+
+  # Optional: Name of the parameter (if not set, Terraform will generate one)
+  name = "/myapp/secret/token"
+
+  # Optional: Description for context in the AWS Console
+  description = "API token for service integration"
+
+  # Required: Value to store (can be interpolated or sensitive)
+  value = var.api_token
+
+  # Optional: Type of parameter — SecureString, String, or StringList
+  type = "SecureString"
+
+  # Optional: If another resource must be created first
+  resource_depends_on = aws_kms_key.secret_key.id
+}
+
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

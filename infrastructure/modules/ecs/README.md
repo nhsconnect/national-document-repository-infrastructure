@@ -1,3 +1,88 @@
+# ECS Fargate Service Module
+
+This Terraform module provisions a fully-featured ECS Fargate setup with autoscaling, logging, and optional load balancer integration. It supports running containerized workloads in production with minimal setup.
+
+It provisions:
+
+- ECS cluster, task definition, and service
+- IAM roles for secure task execution
+- Application Load Balancer with HTTPS support (optional)
+- CloudWatch alarms for autoscaling and 4XX/5XX error monitoring
+- Log groups for service and ECS logging
+- Security groups and custom subnet support
+
+---
+
+## Features
+
+This module supports the following optional components:
+
+- [x] ECS Cluster and Service (with Fargate launch type)
+- [x] Load Balancer (ALB) with HTTP/HTTPS listeners
+- [x] ACM Certificate lookup for HTTPS via domain name
+- [x] Log Group creation for ECS service logs
+- [x] IAM roles and policy attachments for execution
+- [x] Autoscaling configuration (min/max capacity, scale in/out alarms)
+- [x] CloudWatch Alarms for CPU and ALB status codes
+- [x] Custom security groups and subnet configuration
+- [x] Environment variable injection into task containers
+
+---
+
+## Usage
+
+```hcl
+module "ecs_service" {
+  source = "./modules/ecs"
+
+  # Required configuration
+  alarm_actions_arn_list     = ["arn:aws:sns:region:acct:alarm-topic"]  # CloudWatch alarm actions
+  ecr_repository_url         = "123456789012.dkr.ecr.eu-west-2.amazonaws.com/my-app"
+  ecs_cluster_name           = "my-ecs-cluster"
+  ecs_cluster_service_name   = "my-app-service"
+  environment                = "prod"
+  owner                      = "platform"
+  logs_bucket                = "my-cloudwatch-logs"
+  private_subnets            = ["subnet-abc123", "subnet-def456"]
+  public_subnets             = ["subnet-xyz789", "subnet-uvw321"]
+  sg_name                    = "my-service-sg"
+  vpc_id                     = "vpc-0abc123"
+
+  # ECS task/service configuration
+  container_port             = 8080           # Port exposed by the Docker container
+  desired_count              = 3              # Number of tasks to run
+  ecs_launch_type            = "FARGATE"
+  ecs_container_definition_cpu    = 512
+  ecs_container_definition_memory = 1024
+  ecs_task_definition_cpu         = 1024
+  ecs_task_definition_memory      = 2048
+  task_role                       = "arn:aws:iam::123456789012:role/my-task-role"
+
+  # Optional ALB and HTTPS setup
+  is_lb_needed         = true
+  certificate_domain   = "myapp.example.com"
+  domain               = "example.com"
+
+  # Autoscaling configuration
+  is_autoscaling_needed     = true
+  autoscaling_min_capacity  = 3
+  autoscaling_max_capacity  = 6
+
+  # Container environment variables
+  environment_vars = [
+    {
+      name  = "ENV"
+      value = "production"
+    },
+    {
+      name  = "LOG_LEVEL"
+      value = "info"
+    }
+  ]
+}
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

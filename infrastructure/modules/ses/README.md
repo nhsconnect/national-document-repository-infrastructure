@@ -1,3 +1,43 @@
+# SES Domain Identity & DKIM Module
+
+This Terraform module provisions an Amazon SES domain identity and sets up DKIM (DomainKeys Identified Mail) authentication using Route53 DNS records. It also verifies the domain identity to allow sending emails through SES with trusted deliverability.
+
+This setup is ideal for applications sending transactional or bulk email from verified domains.
+
+---
+
+## Features
+
+- [x] SES domain identity registration
+- [x] SES domain verification trigger
+- [x] DKIM setup for secure email validation
+- [x] Route53 DNS records for DKIM CNAMEs
+- [x] Toggle-based resource creation (useful for shared or multitenant zones)
+
+---
+
+## Usage
+
+```hcl
+module "ses_identity" {
+  source = "./modules/ses"
+
+  # Required: Root domain (e.g. example.com)
+  domain = "example.com"
+
+  # Required: Subdomain or prefix used to create identity (e.g. email, support)
+  domain_prefix = "email"
+
+  # Required: ID of the hosted zone where DNS records will be created
+  zone_id = "Z0123456789ABCDEFG"
+
+  # Required: Whether to enable creation of SES identity and DKIM records
+  enable = true
+}
+
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements

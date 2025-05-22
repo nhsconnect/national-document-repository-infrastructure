@@ -1,6 +1,44 @@
+# AWS AppConfig Module
+
+This Terraform module provisions an AWS AppConfig application for managing dynamic configuration in distributed systems. It includes environments, configuration profiles, versioning, and deployment strategies — enabling safe, validated rollout of runtime settings.
+
+---
+
+## Features
+
+- [x] AppConfig Application and Environment resources
+- [x] Configuration Profile with Hosted Configuration Version
+- [x] Deployment Strategy for controlled rollouts
+- [x] Triggered Deployment resource to apply configuration
+- [x] IAM policy granting read-only access to AppConfig
+- [x] Tagging via environment and owner
+
+---
+
+## Usage
+
+```hcl
+module "app_config" {
+  source = "./modules/app-config"
+
+  # Required: Name of the AppConfig environment (e.g. "dev", "prod")
+  config_environment_name = "prod"
+
+  # Required: Name of the configuration profile to define (e.g. "my-feature-flags")
+  config_profile_name = "app-profile"
+
+  # Required: Used for tagging and logical naming
+  environment = "prod"
+
+  # Required: Owner or team responsible
+  owner = "platform"
+}
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
-## Requirements
+## RequirementsS
 
 No requirements.
 

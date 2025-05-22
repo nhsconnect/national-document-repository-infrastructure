@@ -1,3 +1,41 @@
+# CloudWatch Log Group Module
+
+This Terraform module provisions a CloudWatch Log Group, with optional creation of a named Log Stream. It supports custom retention, naming, tagging, and stream setup — making it useful for collecting logs from Lambda, ECS, or other AWS services.
+
+---
+
+## Features
+
+- [x] Creates a CloudWatch Log Group
+- [x] Optionally creates a named Log Stream
+- [x] Supports custom log group and stream names
+- [x] Retention period configuration (in days)
+- [x] Environment and owner tagging
+
+---
+
+## Usage
+
+```hcl
+module "log_group" {
+  source = "./modules/cloudwatch"
+
+  # Required: Environment and owner tags
+  environment = "prod"
+  owner       = "platform"
+
+  # Optional: Override default log group name
+  cloudwatch_log_group_name = "my-app-logs"
+
+  # Optional: Create a specific log stream
+  cloudwatch_log_steam_name = "lambda-stream"
+
+  # Optional: Retention period in days (default: 3)
+  retention_in_days = 7
+}
+
+```
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Requirements
