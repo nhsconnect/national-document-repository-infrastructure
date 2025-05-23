@@ -1,4 +1,4 @@
-module "create-doc-ref-gateway" {
+module "document_reference_gateway" {
   source              = "./modules/gateway"
   api_gateway_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id           = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
@@ -73,7 +73,7 @@ module "create-doc-ref-lambda" {
     module.ndr-app-config.app_config_policy,
   ]
   rest_api_id  = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id  = module.create-doc-ref-gateway.gateway_resource_id
+  resource_id  = module.document_reference_gateway.gateway_resource_id
   http_methods = ["POST"]
   memory_size  = 512
 
@@ -96,7 +96,7 @@ module "create-doc-ref-lambda" {
     module.document_reference_dynamodb_table,
     module.lloyd_george_reference_dynamodb_table,
     module.ndr-bulk-staging-store,
-    module.create-doc-ref-gateway,
+    module.document_reference_gateway,
     module.ndr-app-config,
     module.lloyd_george_reference_dynamodb_table,
     module.document_reference_dynamodb_table,
