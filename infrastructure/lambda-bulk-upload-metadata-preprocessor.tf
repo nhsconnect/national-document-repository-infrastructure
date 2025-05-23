@@ -22,5 +22,6 @@ module "bulk_upload_metadata_preprocessor_lambda" {
   is_gateway_integration_needed  = false
   is_invoked_from_gateway        = false
   lambda_timeout                 = 900
+  memory_size                    = 1769
   reserved_concurrent_executions = local.bulk_upload_lambda_concurrent_limit
 }
