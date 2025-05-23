@@ -412,3 +412,36 @@ module "access_audit_dynamodb_table" {
   environment = var.environment
   owner       = var.owner
 }
+
+module "alarm_state_history_table" {
+  source                         = "./modules/dynamo_db"
+  table_name                     = var.alarm_state_history_table_name
+  hash_key                       = "AlarmNameMetric"
+  sort_key                       = "TimeCreated"
+  deletion_protection_enabled    = local.is_production
+  point_in_time_recovery_enabled = !local.is_sandbox
+  stream_enabled                 = false
+  ttl_enabled                    = true
+  ttl_attribute_name             = "TimeToExist"
+
+  attributes = [
+    {
+      name = "AlarmNameMetric",
+      type = "S"
+    },
+    {
+      name = "TimeCreated"
+      type = "N"
+    }
+  ]
+
+  # global_secondary_indexes = [
+  #   {
+  #     name            = "AlarmNameIndex"
+  #     hash_key        = "AlarmName"
+  #     projection_type = "ALL"
+  # }]
+
+  environment = var.environment
+  owner       = var.owner
+}
