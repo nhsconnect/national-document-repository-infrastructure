@@ -6,11 +6,11 @@ This Terraform module provisions an AWS Elastic Container Registry (ECR) reposit
 
 ## Features
 
-- [x] ECR repository with custom name derived from app and environment
-- [x] Lifecycle policy to clean up unused images automatically
-- [x] Cross-account access via repository policy
-- [x] Resource tagging with environment and owner
-- [x] Output of repository URL for use in pipelines or other modules
+- ECR repository with custom name derived from app and environment
+- Lifecycle policy to clean up unused images automatically
+- Cross-account access via repository policy
+- Resource tagging with environment and owner
+- Output of repository URL for use in pipelines or other modules
 
 ---
 

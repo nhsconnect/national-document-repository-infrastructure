@@ -2,30 +2,17 @@
 
 This Terraform module provisions a fully-featured ECS Fargate setup with autoscaling, logging, and optional load balancer integration. It supports running containerized workloads in production with minimal setup.
 
-It provisions:
-
-- ECS cluster, task definition, and service
-- IAM roles for secure task execution
-- Application Load Balancer with HTTPS support (optional)
-- CloudWatch alarms for autoscaling and 4XX/5XX error monitoring
-- Log groups for service and ECS logging
-- Security groups and custom subnet support
-
----
-
 ## Features
 
 This module supports the following optional components:
 
-- [x] ECS Cluster and Service (with Fargate launch type)
-- [x] Load Balancer (ALB) with HTTP/HTTPS listeners
-- [x] ACM Certificate lookup for HTTPS via domain name
-- [x] Log Group creation for ECS service logs
-- [x] IAM roles and policy attachments for execution
-- [x] Autoscaling configuration (min/max capacity, scale in/out alarms)
-- [x] CloudWatch Alarms for CPU and ALB status codes
-- [x] Custom security groups and subnet configuration
-- [x] Environment variable injection into task containers
+- ECS Cluster and Service (with Fargate launch type)
+- Load Balancer (ALB) with HTTP/HTTPS listeners
+- ACM Certificate lookup for HTTPS via domain name
+- Log Group creation for ECS service logs
+- IAM roles and policy attachments for execution
+- CloudWatch Alarms for CPU and ALB status codes
+- Custom security groups and subnet configuration
 
 ---
 
@@ -62,23 +49,6 @@ module "ecs_service" {
   is_lb_needed         = true
   certificate_domain   = "myapp.example.com"
   domain               = "example.com"
-
-  # Autoscaling configuration
-  is_autoscaling_needed     = true
-  autoscaling_min_capacity  = 3
-  autoscaling_max_capacity  = 6
-
-  # Container environment variables
-  environment_vars = [
-    {
-      name  = "ENV"
-      value = "production"
-    },
-    {
-      name  = "LOG_LEVEL"
-      value = "info"
-    }
-  ]
 }
 
 ```
