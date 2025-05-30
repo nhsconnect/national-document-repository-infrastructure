@@ -177,6 +177,8 @@ variable "poll_frequency" {}
 
 variable "cloudwatch_alarm_evaluation_periods" {}
 
+variable "apim_environment" {}
+
 locals {
   is_sandbox         = contains(["ndra", "ndrb", "ndrc", "ndrd"], terraform.workspace)
   is_production      = contains(["pre-prod", "prod"], terraform.workspace)
@@ -190,6 +192,8 @@ locals {
 
   current_region     = data.aws_region.current.name
   current_account_id = data.aws_caller_identity.current.account_id
+
+  apim_api_url = "https://${var.apim_environment}api.service.nhs.uk/national-document-repository"
 }
 
 variable "nrl_api_endpoint_suffix" {

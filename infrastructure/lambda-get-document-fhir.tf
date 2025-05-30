@@ -1,7 +1,7 @@
 resource "aws_api_gateway_resource" "get_document_reference" {
   count       = 1
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  parent_id   = module.create-doc-ref-gateway.gateway_resource_id
+  parent_id   = module.document_reference_gateway.gateway_resource_id
   path_part   = "{id}"
 }
 
