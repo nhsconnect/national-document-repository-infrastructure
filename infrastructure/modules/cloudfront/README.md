@@ -6,12 +6,12 @@ This Terraform module provisions an AWS CloudFront distribution to serve static 
 
 ## Features
 
-- [x] CloudFront distribution targeting S3 origin
-- [x] Origin Access Control (OAC) for secure S3 access
-- [x] Custom cache and origin request policies
-- [x] Optional Lambda@Edge function integration
-- [x] Optional WAF Web ACL association
-- [x] Outputs distribution ARN and access URL
+- CloudFront distribution targeting S3 origin
+- Origin Access Control (OAC) for secure S3 access
+- Custom cache and origin request policies
+- Optional Lambda@Edge function integration
+- Optional WAF Web ACL association
+- Outputs distribution ARN and access URL
 
 ---
 

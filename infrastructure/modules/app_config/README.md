@@ -6,12 +6,12 @@ This Terraform module provisions an AWS AppConfig application for managing dynam
 
 ## Features
 
-- [x] AppConfig Application and Environment resources
-- [x] Configuration Profile with Hosted Configuration Version
-- [x] Deployment Strategy for controlled rollouts
-- [x] Triggered Deployment resource to apply configuration
-- [x] IAM policy granting read-only access to AppConfig
-- [x] Tagging via environment and owner
+- AppConfig Application and Environment resources
+- Configuration Profile with Hosted Configuration Version
+- Deployment Strategy for controlled rollouts
+- Triggered Deployment resource to apply configuration
+- IAM policy granting read-only access to AppConfig
+- Tagging via environment and owner
 
 ---
 
