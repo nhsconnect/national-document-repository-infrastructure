@@ -87,11 +87,37 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
   }
 }
 
+module "cloudwatch" {
+  source                    = "./modules/cloudwatch"
+  cloudwatch_log_group_name = "/aws/api-gateway/access-logs"
+  environment               = var.environment
+  owner                     = var.owner
+}
+
 resource "aws_api_gateway_stage" "ndr_api" {
   deployment_id        = aws_api_gateway_deployment.ndr_api_deploy.id
   rest_api_id          = aws_api_gateway_rest_api.ndr_doc_store_api.id
   stage_name           = var.environment
-  xray_tracing_enabled = false
+  xray_tracing_enabled = var.enable_xray_tracing
+
+  dynamic "access_log_settings" {
+    for_each = module.cloudwatch.cloudwatch_log_group_arn != null ? [1] : []
+    content {
+      destination_arn = module.cloudwatch.cloudwatch_log_group_arn
+      format = jsonencode({
+        requestId      = "$context.requestId"
+        ip             = "$context.identity.sourceIp"
+        caller         = "$context.identity.caller"
+        user           = "$context.identity.user"
+        requestTime    = "$context.requestTime"
+        httpMethod     = "$context.httpMethod"
+        resourcePath   = "$context.resourcePath"
+        status         = "$context.status"
+        protocol       = "$context.protocol"
+        responseLength = "$context.responseLength"
+      })
+    }
+  }
 }
 
 resource "aws_api_gateway_gateway_response" "unauthorised_response" {

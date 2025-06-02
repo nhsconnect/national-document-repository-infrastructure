@@ -199,3 +199,9 @@ locals {
 variable "nrl_api_endpoint_suffix" {
   default = "api.service.nhs.uk/record-locator/producer/FHIR/R4/DocumentReference"
 }
+
+variable "enable_xray_tracing" {
+  description = "Enable AWS X-Ray tracing for the API Gateway stage"
+  type        = bool
+  default     = false
+}
