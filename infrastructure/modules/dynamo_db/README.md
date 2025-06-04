@@ -6,14 +6,14 @@ This Terraform module provisions a highly configurable AWS DynamoDB table for sc
 
 ## Features
 
-- [x] Configurable table name, hash key, and optional sort key
-- [x] TTL (Time To Live) for auto-expiring items
-- [x] Streams for Lambda or change tracking integration
-- [x] Point-in-time recovery (automated backups)
-- [x] Optional Global Secondary Indexes (GSIs)
-- [x] IAM policy documents for read and write permissions
-- [x] Optional deletion protection
-- [x] Full environment and owner tagging
+- Configurable table name, hash key, and optional sort key
+- TTL (Time To Live) for auto-expiring items
+- Streams for Lambda or change tracking integration
+- Point-in-time recovery (automated backups)
+- Optional Global Secondary Indexes (GSIs)
+- IAM policy documents for read and write permissions
+- Optional deletion protection
+- Full environment and owner tagging
 
 ---
 
