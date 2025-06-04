@@ -6,11 +6,11 @@ This Terraform module provisions a CloudWatch Log Group, with optional creation 
 
 ## Features
 
-- [x] Creates a CloudWatch Log Group
-- [x] Optionally creates a named Log Stream
-- [x] Supports custom log group and stream names
-- [x] Retention period configuration (in days)
-- [x] Environment and owner tagging
+- Creates a CloudWatch Log Group
+- Optionally creates a named Log Stream
+- Supports custom log group and stream names
+- Retention period configuration (in days)
+- Environment and owner tagging
 
 ---
 
