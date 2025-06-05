@@ -4,7 +4,7 @@ variable "cloudwatch_log_group_name" {
   default     = null
 }
 
-variable "cloudwatch_log_steam_name" {
+variable "cloudwatch_log_stream_name" {
   description = "Name of the Cloudwatch log stream"
   type        = string
   default     = null
