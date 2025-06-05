@@ -4,18 +4,11 @@ variable "cloudwatch_log_group_name" {
   default     = null
 }
 
-variable "cloudwatch_log_steam_name" {
-  description = "Name of the Cloudwatch log stream"
-  type        = string
-  default     = null
-}
-
 variable "retention_in_days" {
   description = "Name of the Cloudwatch log group"
   type        = number
   default     = 3
 }
-
 
 variable "environment" {
   type = string
