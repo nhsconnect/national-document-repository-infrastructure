@@ -87,13 +87,6 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
   }
 }
 
-module "cloudwatch" {
-  source                    = "./modules/cloudwatch"
-  cloudwatch_log_group_name = "/aws/api-gateway/access-logs"
-  environment               = var.environment
-  owner                     = var.owner
-}
-
 resource "aws_api_gateway_stage" "ndr_api" {
   deployment_id        = aws_api_gateway_deployment.ndr_api_deploy.id
   rest_api_id          = aws_api_gateway_rest_api.ndr_doc_store_api.id
