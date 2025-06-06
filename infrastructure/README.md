@@ -159,6 +159,7 @@
 | <a name="module_update-upload-state-lambda"></a> [update-upload-state-lambda](#module\_update-upload-state-lambda) | ./modules/lambda | n/a |
 | <a name="module_update_upload_state_alarm"></a> [update\_upload\_state\_alarm](#module\_update\_upload\_state\_alarm) | ./modules/lambda_alarms | n/a |
 | <a name="module_update_upload_state_alarm_topic"></a> [update\_upload\_state\_alarm\_topic](#module\_update\_upload\_state\_alarm\_topic) | ./modules/sns | n/a |
+| <a name="module_upload-document-references-fhir-lambda"></a> [upload-document-references-fhir-lambda](#module\_upload-document-references-fhir-lambda) | ./modules/lambda | n/a |
 | <a name="module_upload_confirm_result_alarm"></a> [upload\_confirm\_result\_alarm](#module\_upload\_confirm\_result\_alarm) | ./modules/lambda_alarms | n/a |
 | <a name="module_upload_confirm_result_alarm_topic"></a> [upload\_confirm\_result\_alarm\_topic](#module\_upload\_confirm\_result\_alarm\_topic) | ./modules/sns | n/a |
 | <a name="module_upload_confirm_result_gateway"></a> [upload\_confirm\_result\_gateway](#module\_upload\_confirm\_result\_gateway) | ./modules/gateway | n/a |
@@ -188,6 +189,7 @@
 | [aws_api_gateway_method.get_document_reference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method) | resource |
 | [aws_api_gateway_method.get_document_references_fhir](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method) | resource |
 | [aws_api_gateway_method.login_proxy_method](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method) | resource |
+| [aws_api_gateway_method.post_document_references_fhir](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method) | resource |
 | [aws_api_gateway_method.sandbox_get_document_reference](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method) | resource |
 | [aws_api_gateway_method_response.response_200](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method_response) | resource |
 | [aws_api_gateway_method_response.response_401](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/api_gateway_method_response) | resource |
@@ -219,6 +221,7 @@
 | [aws_cloudwatch_event_target.nhs_oauth_token_generator_schedule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_cloudwatch_event_target.statistical_report_schedule_event](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_cloudwatch_log_metric_filter.edge_presign_error](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_metric_filter) | resource |
+| [aws_cloudwatch_log_metric_filter.pds_tracker](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_metric_filter) | resource |
 | [aws_cloudwatch_log_resource_policy.rum_log](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_resource_policy) | resource |
 | [aws_cloudwatch_metric_alarm.api_gateway_alarm_4XX](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_cloudwatch_metric_alarm.api_gateway_alarm_5XX](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
