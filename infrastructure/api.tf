@@ -91,7 +91,28 @@ resource "aws_api_gateway_stage" "ndr_api" {
   deployment_id        = aws_api_gateway_deployment.ndr_api_deploy.id
   rest_api_id          = aws_api_gateway_rest_api.ndr_doc_store_api.id
   stage_name           = var.environment
-  xray_tracing_enabled = false
+  xray_tracing_enabled = var.enable_xray_tracing
+
+  depends_on = [aws_cloudwatch_log_group.api_gateway_stage]
+}
+
+resource "aws_cloudwatch_log_group" "api_gateway_stage" {
+  # Name must follow this format to allow execution logging 
+  # https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-logging.html
+  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.ndr_doc_store_api.id}/${var.environment}"
+  retention_in_days = 0
+}
+
+resource "aws_api_gateway_method_settings" "api_gateway_stage" {
+  rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  stage_name  = aws_api_gateway_stage.ndr_api.stage_name
+  method_path = "*/*"
+
+  settings {
+    logging_level      = "INFO"
+    metrics_enabled    = true
+    data_trace_enabled = true
+  }
 }
 
 resource "aws_api_gateway_gateway_response" "unauthorised_response" {
