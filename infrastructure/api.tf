@@ -110,6 +110,10 @@ resource "aws_api_gateway_gateway_response" "unauthorised_response" {
   }
 }
 
+resource "aws_api_gateway_client_certificate" "ndr_api" {
+  description = "Client certificate used for backend authentication in HTTP integrations with the NDR API Gateway (${var.environment})"
+}
+
 resource "aws_api_gateway_gateway_response" "bad_gateway_response" {
   rest_api_id   = aws_api_gateway_rest_api.ndr_doc_store_api.id
   response_type = "DEFAULT_5XX"

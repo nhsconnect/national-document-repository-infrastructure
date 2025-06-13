@@ -72,6 +72,16 @@ jobs:
       run: |
         terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan > plan_output.txt 2>&1
         terraform show -no-color tf.plan > tfplan.txt 2>&1
+
+        # Mask PEM certificates (BEGIN...END CERTIFICATE)
+        awk 'BEGIN{cert=""}
+        /-----BEGIN CERTIFICATE-----/{cert=$0; in_cert=1; next}
+        /-----END CERTIFICATE-----/{cert=cert"\n"$0; print cert; cert=""; in_cert=0; next}
+        in_cert{cert=cert"\n"$0}' tfplan.txt | while IFS= read -r cert_block; do
+          if [ -n "$cert_block" ]; then
+            echo "::add-mask::$cert_block"
+          fi
+        done || echo "No certificate blocks found to mask."
         
         # Mask sensitive URLs in the Terraform Plan output
         grep -Eo 'https://[a-zA-Z0-9.-]+\.execute-api\.[a-zA-Z0-9.-]+\.amazonaws\.com/[a-zA-Z0-9/._-]*' tfplan.txt | while read -r api_url; do
@@ -125,6 +135,7 @@ jobs:
         PLAN_FULL=$(echo "$PLAN_FULL" | sed -E 's/[0-9]{12}/[REDACTED_AWS_ACCOUNT_ID]/g')
         PLAN_FULL=$(echo "$PLAN_FULL" | sed -E 's#https://[a-zA-Z0-9.-]+\.lambda\.amazonaws\.com/[a-zA-Z0-9/._-]+#[REDACTED_LAMBDA_URL]#g')
         PLAN_FULL=$(echo "$PLAN_FULL" | sed -E 's#https://[a-zA-Z0-9.-]+\.execute-api\.[a-zA-Z0-9.-]+\.amazonaws\.com/[a-zA-Z0-9/._-]*#[REDACTED_API_GATEWAY_URL]#g')
+        PLAN_FULL=$(echo "$PLAN_FULL" | sed -E '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/s/.*/[REDACTED_PEM_CERT]/')
 
         echo "PLAN<<EOF" >> $GITHUB_ENV
         echo "${PLAN_FULL::$LENGTH}" >> $GITHUB_ENV
