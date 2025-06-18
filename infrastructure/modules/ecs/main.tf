@@ -14,6 +14,7 @@ resource "aws_ecs_task_definition" "ndr_ecs_task" {
       image       = var.ecr_repository_url
       cpu         = var.ecs_container_definition_cpu
       memory      = var.ecs_container_definition_memory
+      readonlyRootFilesystem = true
       essential   = true
       networkMode = "awsvpc"
       portMappings = [
