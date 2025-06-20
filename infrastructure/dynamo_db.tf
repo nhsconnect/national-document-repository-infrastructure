@@ -412,3 +412,27 @@ module "access_audit_dynamodb_table" {
   environment = var.environment
   owner       = var.owner
 }
+
+module "pdm_dynamodb_table" {
+  source                         = "./modules/dynamo_db"
+  table_name                     = var.pdm_dynamodb_table_name
+  hash_key                       = "ID"
+  deletion_protection_enabled    = local.is_production
+  stream_enabled                 = true
+  stream_view_type               = "OLD_IMAGE"
+  ttl_enabled                    = true
+  ttl_attribute_name             = "TTL"
+  point_in_time_recovery_enabled = !local.is_sandbox
+
+  attributes = [
+    {
+      name = "ID"
+      type = "S"
+    }
+  ]
+
+  global_secondary_indexes = []
+
+  environment = var.environment
+  owner       = var.owner
+}
