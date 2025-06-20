@@ -8,13 +8,13 @@ The module supports dynamic construction of rule groups based on common use case
 
 ## Features
 
-- [x] WAFv2 Web ACL provisioning
-- [x] Regex pattern sets for:
+- WAFv2 Web ACL provisioning
+- Regex pattern sets for:
   - XSS in body
   - Large request bodies
   - CMS-related URIs
-- [x] CloudFront-compatible WAF scope toggle
-- [x] Named and tagged by environment and owner
+- CloudFront-compatible WAF scope toggle
+- Named and tagged by environment and owner
 
 ---
 

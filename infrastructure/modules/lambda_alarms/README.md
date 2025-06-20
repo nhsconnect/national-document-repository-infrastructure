@@ -8,11 +8,11 @@ The alarms can trigger custom actions such as SNS notifications or automated res
 
 ## Features
 
-- [x] CloudWatch alarm for high **duration** (exec time vs. timeout)
-- [x] CloudWatch alarm for **errors** (failed invocations)
-- [x] CloudWatch alarm for high **memory usage**
-- [x] Configurable `alarm_actions` and `ok_actions`
-- [x] Supports custom CloudWatch namespace (default: `AWS/Lambda`)
+- CloudWatch alarm for high **duration** (exec time vs. timeout)
+- CloudWatch alarm for **errors** (failed invocations)
+- CloudWatch alarm for high **memory usage**
+- Configurable `alarm_actions` and `ok_actions`
+- Supports custom CloudWatch namespace (default: `AWS/Lambda`)
 
 ---
 
