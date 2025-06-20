@@ -8,13 +8,11 @@ The module is ideal for creating tightly-scoped, account-specific Lambda-based A
 
 ## Features
 
-- [x] Lambda function with:
+- Lambda function with:
   - Configurable timeout, memory, and ephemeral storage
   - Reserved concurrency support
-- [x] IAM role and inline policies for S3 or DynamoDB access
-- [x] Archive packaging for deployment
-- [x] Parameterized S3 bucket and DynamoDB table inputs
-- [x] Outputs function name and ARNs for integration
+- IAM role with support for user-supplied inline policies
+- Outputs function name and ARNs for integration
 
 ---
 

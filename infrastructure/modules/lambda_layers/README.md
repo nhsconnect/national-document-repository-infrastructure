@@ -8,10 +8,9 @@ This setup is useful for DRY infrastructure patterns where shared runtime logic 
 
 ## Features
 
-- [x] Creates a Lambda Layer version from a provided or placeholder ZIP archive
-- [x] Configurable name and ZIP file input
-- [x] IAM policy for cross-role access to the layer
-- [x] Outputs layer ARN and policy ARN
+- Creates a Lambda Layer version from a placeholder ZIP archive
+- IAM policy for cross-role access to the layer
+- Outputs layer ARN and policy ARN
 
 ---
 

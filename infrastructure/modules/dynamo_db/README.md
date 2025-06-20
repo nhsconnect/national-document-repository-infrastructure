@@ -20,56 +20,65 @@ This Terraform module provisions a highly configurable AWS DynamoDB table for sc
 ## Usage
 
 ```hcl
-module "dynamodb_table" {
-  source = "./modules/dynamodb"
+module "document_reference_dynamodb_table" {
+  source = "./modules/dynamo_db"
 
-  # Required context
-  environment = "prod"
-  owner       = "platform"
+  # Table name and primary key
+  table_name = var.docstore_dynamodb_table_name
+  hash_key   = "ID"
 
-  # Table naming and schema
-  table_name  = "my-table"
-  hash_key    = "user_id"
-  sort_key    = "created_at"
+  # Optional sort key
+  # sort_key = "created_at"
 
-  # Attribute definitions
+  # Attribute definitions for the table and indexes
   attributes = [
     {
-      name = "user_id"
+      name = "ID"
       type = "S"
     },
     {
-      name = "created_at"
-      type = "N"
+      name = "FileLocation"
+      type = "S"
     },
     {
-      name = "expires_at"
-      type = "N"
+      name = "NhsNumber"
+      type = "S"
     }
   ]
 
-  # Provisioning and scaling
-  billing_mode                   = "PAY_PER_REQUEST"
-  point_in_time_recovery_enabled = true
+  # Optional: enable TTL
+  ttl_enabled        = true
+  ttl_attribute_name = "TTL"
 
-  # Time-to-live settings
-  ttl_enabled         = true
-  ttl_attribute_name  = "expires_at"
+  # Optional: enable streams
+  stream_enabled   = true
+  stream_view_type = "OLD_IMAGE"
 
-  # Stream configuration
-  stream_enabled     = true
-  stream_view_type   = "NEW_AND_OLD_IMAGES"
+  # Optional: point-in-time recovery
+  point_in_time_recovery_enabled = !local.is_sandbox
 
-  # Optional global secondary indexes
+  # Optional: global secondary indexes
   global_secondary_indexes = [
     {
-      name            = "user-by-date"
-      hash_key        = "user_id"
-      sort_key        = "created_at"
+      name            = "FileLocationsIndex"
+      hash_key        = "FileLocation"
+      projection_type = "ALL"
+    },
+    {
+      name            = "NhsNumberIndex"
+      hash_key        = "NhsNumber"
       projection_type = "ALL"
     }
   ]
+
+  # Context tags
+  environment = var.environment
+  owner       = var.owner
+
+  # Optional: enable deletion protection
+  deletion_protection_enabled = local.is_production
 }
+
 
 ```
 
