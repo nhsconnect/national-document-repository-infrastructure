@@ -8,13 +8,12 @@ The module is designed to streamline deployment of Lambda code packages, environ
 
 ## Features
 
-- [x] Lambda function with configurable:
+- Lambda function with configurable:
   - Memory, timeout, environment, storage, concurrency
-- [x] Optional REST API Gateway integration (full CORS-ready)
-- [x] API Gateway method integration with custom routes
-- [x] Conditional Lambda permissions for API Gateway invocation
-- [x] IAM execution role with default and custom policies
-- [x] Outputs for function name, ARNs, and role
+- Optional REST API Gateway integration
+- Conditional Lambda permissions for API Gateway invocation
+- IAM execution role with default and custom policies
+- Outputs for function name, ARNs, and role
 
 ---
 

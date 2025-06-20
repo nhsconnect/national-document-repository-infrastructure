@@ -8,14 +8,14 @@ It supports fine-grained policy controls for service and account-level encryptio
 
 ## Features
 
-- [x] KMS key with optional rotation enabled
-- [x] KMS alias for easier referencing
-- [x] IAM policy granting:
+- KMS key with optional rotation enabled
+- KMS alias for easier referencing
+- IAM policy granting:
   - Encryption/decryption access for specific ARNs
   - Permissions to AWS services (e.g., S3, Lambda)
-- [x] Optional `Decrypt`-only access for a secondary list of ARNs
-- [x] Output of KMS key ID and ARN for downstream use
-- [x] Fully tagged by owner and environment
+- Optional `Decrypt`-only access for a secondary list of ARNs
+- Output of KMS key ID and ARN for downstream use
+- Fully tagged by owner and environment
 
 ---
 

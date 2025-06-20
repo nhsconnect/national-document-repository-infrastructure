@@ -6,12 +6,12 @@ This Terraform module provisions a resource path within an existing AWS API Gate
 
 ## Features
 
-- [x] Creates a sub-resource under an existing API Gateway path
-- [x] Attaches multiple HTTP methods (e.g., GET, POST)
-- [x] Optional API Key enforcement
-- [x] Supports custom authorizers
-- [x] Full CORS support (OPTIONS method, headers, credentials)
-- [x] Outputs the created resource’s ID
+- Creates a sub-resource under an existing API Gateway path
+- Attaches multiple HTTP methods (e.g., GET, POST)
+- Optional API Key enforcement
+- Supports custom authorizers
+- Full CORS support (OPTIONS method, headers, credentials)
+- Outputs the created resource’s ID
 
 ---
 
