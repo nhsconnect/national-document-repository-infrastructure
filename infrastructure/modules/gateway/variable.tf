@@ -30,7 +30,8 @@ variable "require_credentials" {
 }
 
 variable "origin" {
-  type = string
+  type    = string
+  default = "'*'"
 }
 
 variable "api_key_required" {
