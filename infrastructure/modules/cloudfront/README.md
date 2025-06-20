@@ -25,7 +25,7 @@ module "cloudfront" {
   bucket_id          = "my-s3-bucket"
   bucket_domain_name = "my-s3-bucket.s3.amazonaws.com"
 
-  # Optional: Lambda@Edge function ARN (must be in us-east-1)
+  # Optional: Lambda@Edge function ARN.
   qualifed_arn = "arn:aws:lambda:us-east-1:123456789:function:myFn:1"
 
   # Optional: AWS WAF Web ACL ARN

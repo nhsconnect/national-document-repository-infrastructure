@@ -28,7 +28,7 @@ module "lambda_alarms" {
   # Required: Short identifier used in alarm naming
   lambda_name = "my-lambda"
 
-  # Required: Timeout value of the Lambda in seconds (used to set thresholds)
+  # Required: Timeout value of the Lambda in seconds
   lambda_timeout = 30
 
   # Required: List of ARNs (e.g., SNS topics) to notify when an alarm is triggered
