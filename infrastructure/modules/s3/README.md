@@ -6,14 +6,14 @@ This Terraform module provisions a secure and configurable AWS S3 bucket, suppor
 
 ## Features
 
-- [x] S3 bucket with:
+- S3 bucket with:
   - Optional versioning
   - Force destroy toggle
   - Configurable CORS rules
-- [x] Optional access logging to a separate bucket
-- [x] Optional CloudFront-specific policy support
-- [x] IAM policies for read, write, list, and backup access
-- [x] Full tagging via environment and owner variables
+- Optional access logging to a separate bucket
+- Optional CloudFront-specific policy support
+- IAM policies for read, write, list, and backup access
+- Full tagging via environment and owner variables
 
 ---
 
