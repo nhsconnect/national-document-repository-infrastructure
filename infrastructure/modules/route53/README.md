@@ -10,8 +10,8 @@ The module is intended for managing DNS infrastructure for applications with mul
 
 - [x] Create or look up a Route53 hosted zone
 - [x] DNS record for custom domain API Gateway mapping
-- [x] DNS record for Fargate application endpoint
-- [x] Supports flexible domain and subdomain configuration
+- [x] Creates workspace-based CNAME for a configurable DNS name
+- [x] Allows lookup of a certificate domain for external DNS records.
 - [x] Configurable ownership and environment tagging
 
 ---
@@ -34,7 +34,7 @@ module "dns" {
   # Required: Domain name for the Route53 hosted zone (e.g. "example.com")
   domain = "example.com"
 
-  # Required: Certificate domain for TLS validation (typically same as domain or wildcard)
+  # Required: Certificate domain for TLS validation
   certificate_domain = "*.example.com"
 
   # Required: Target DNS name for the Fargate or load-balanced endpoint
