@@ -8,11 +8,11 @@ This setup is ideal for applications sending transactional or bulk email from ve
 
 ## Features
 
-- [x] SES domain identity registration
-- [x] SES domain verification trigger
-- [x] DKIM setup for secure email validation
-- [x] Route53 DNS records for DKIM CNAMEs
-- [x] Toggle-based resource creation (useful for shared or multitenant zones)
+- SES domain identity registration
+- SES domain verification trigger
+- DKIM setup for secure email validation
+- Route53 DNS records for DKIM CNAMEs
+- Toggle-based resource creation
 
 ---
 
@@ -25,13 +25,13 @@ module "ses_identity" {
   # Required: Root domain (e.g. example.com)
   domain = "example.com"
 
-  # Required: Subdomain or prefix used to create identity (e.g. email, support)
+  # Required: Subdomain or prefix used to create identity.
   domain_prefix = "email"
 
   # Required: ID of the hosted zone where DNS records will be created
   zone_id = "Z0123456789ABCDEFG"
 
-  # Required: Whether to enable creation of SES identity and DKIM records
+  # Required: Whether to enable creation of SES identity
   enable = true
 }
 
