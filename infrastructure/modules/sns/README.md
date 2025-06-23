@@ -8,14 +8,14 @@ This setup is ideal for decoupled event-driven architectures where alerts, logs,
 
 ## Features
 
-- [x] Creates an SNS topic (standard or FIFO)
-- [x] Enables optional message deduplication and raw delivery
-- [x] KMS encryption via provided key ID
-- [x] Supports:
+- Creates an SNS topic (standard or FIFO)
+- Enables optional message deduplication and raw delivery
+- KMS encryption via provided key ID
+- Supports:
   - Single subscription (e.g., Lambda or SQS)
   - List of subscriptions via `topic_endpoint_list`
-- [x] Configurable delivery policy
-- [x] Optional SQS feedback role mapping
+- Configurable delivery policy
+- Optional SQS feedback role mapping
 
 ---
 
