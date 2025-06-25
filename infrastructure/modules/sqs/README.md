@@ -6,15 +6,15 @@ This Terraform module provisions an AWS SQS queue with support for dead-letter q
 
 ## Features
 
-- [x] SQS queue with:
+- SQS queue with:
   - Configurable visibility timeout, message retention, and wait time
   - Optional delay for message delivery
   - Max message size control
-- [x] Optional dead-letter queue (DLQ) setup with redrive policies
-- [x] Support for FIFO and deduplication
-- [x] SSE encryption using SQS-managed or customer-managed KMS keys
-- [x] IAM read/write policy documents for consumers and producers
-- [x] Tagged with environment and owner
+- Optional dead-letter queue (DLQ) setup with redrive policies
+- Support for FIFO and deduplication
+- SSE encryption using SQS-managed or customer-managed KMS keys
+- IAM read/write policy documents
+- Tagged with environment and owner
 
 ---
 
@@ -24,7 +24,7 @@ This Terraform module provisions an AWS SQS queue with support for dead-letter q
 module "sqs_queue" {
   source = "./modules/sqs"
 
-  # Required: Logical name of the queue
+  # Required
   name        = "order-processing-queue"
   environment = "prod"
   owner       = "platform"
@@ -48,10 +48,6 @@ module "sqs_queue" {
   enable_dlq             = true
   max_receive_count      = 5
   dlq_visibility_timeout = 60
-
-  # Optional: Enable access policy
-  access_logs_enabled   = false
-  access_logs_bucket_id = "log-bucket-id"
 }
 
 
