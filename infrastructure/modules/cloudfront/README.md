@@ -17,7 +17,7 @@
 module "cloudfront" {
   source = "./modules/cloudfront"
 
-  # Required: S3 origin settings
+  # Required
   bucket_id          = "my-s3-bucket"
   bucket_domain_name = "my-s3-bucket.s3.amazonaws.com"
 

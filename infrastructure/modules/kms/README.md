@@ -19,11 +19,11 @@
 module "kms_key" {
   source = "./modules/kms"
 
-  # Required: The name for the KMS key and alias
+  # Required
   kms_key_name        = "app-secrets"
   kms_key_description = "KMS key used to encrypt application secrets"
 
-  # Required: AWS environment and ownership
+  # Required
   environment          = "prod"
   owner                = "platform"
   current_account_id   = "123456789012"
@@ -47,7 +47,6 @@ module "kms_key" {
   # Optional: Enable automatic key rotation (recommended)
   kms_key_rotation_enabled = true
 }
-
 
 ```
 

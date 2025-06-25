@@ -16,16 +16,16 @@
 module "ecr_repository" {
   source = "./modules/ecr"
 
-  # Required: Application name used to name the ECR repo
+  # Required
   app_name = "my-app"
 
-  # Required: Environment tag for context (e.g., "dev", "prod")
+  # Required
   environment = "prod"
 
-  # Required: Account ID for use in policy references
+  # Required
   current_account_id = "123456789012"
 
-  # Required: Owner or team label for resource tagging
+  # Required
   owner = "platform"
 }
 

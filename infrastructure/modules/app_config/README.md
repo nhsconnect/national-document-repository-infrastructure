@@ -17,16 +17,16 @@
 module "app_config" {
   source = "./modules/app-config"
 
-  # Required: Name of the AppConfig environment (e.g. "dev", "prod")
+  # Required
   config_environment_name = "prod"
 
-  # Required: Name of the configuration profile to define (e.g. "my-feature-flags")
+  # Required
   config_profile_name = "app-profile"
 
-  # Required: Used for tagging and logical naming
+  # Required
   environment = "prod"
 
-  # Required: Owner or team responsible
+  # Required
   owner = "platform"
 }
 
