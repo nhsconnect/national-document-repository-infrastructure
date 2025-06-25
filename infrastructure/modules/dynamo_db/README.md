@@ -1,9 +1,5 @@
 # DynamoDB Table Module
 
-This Terraform module provisions a highly configurable AWS DynamoDB table for scalable, low-latency key-value storage. It supports TTL, streams, backups, IAM policies, and optional global secondary indexes — ideal for serverless and event-driven workloads.
-
----
-
 ## Features
 
 - Configurable table name, hash key, and optional sort key

@@ -1,18 +1,12 @@
 # Route53 DNS Records Module
 
-This Terraform module provisions Route53 DNS records and zones to support custom domains for both API Gateway and Fargate services. It can either look up an existing zone or create a new one, depending on configuration.
-
-The module is intended for managing DNS infrastructure for applications with multiple service endpoints in a shared or custom-managed domain structure.
-
----
-
 ## Features
 
-- [x] Create or look up a Route53 hosted zone
-- [x] DNS record for custom domain API Gateway mapping
-- [x] Creates workspace-based CNAME for a configurable DNS name
-- [x] Allows lookup of a certificate domain for external DNS records.
-- [x] Configurable ownership and environment tagging
+- Create or look up a Route53 hosted zone
+- DNS record for custom domain API Gateway mapping
+- Creates workspace-based CNAME for a configurable DNS name
+- Allows lookup of a certificate domain for external DNS records.
+- Configurable ownership and environment tagging
 
 ---
 

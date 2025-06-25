@@ -1,8 +1,4 @@
-# ECR Repository Module
-
-This Terraform module provisions an AWS Elastic Container Registry (ECR) repository with lifecycle management, cross-account access policies, and tagging support. It enables secure, automated Docker image storage for modern CI/CD pipelines and container-based workloads.
-
----
+# ECR Repository Module-
 
 ## Features
 

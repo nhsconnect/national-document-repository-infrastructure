@@ -1,9 +1,5 @@
 # SSM Parameter Module
 
-This Terraform module provisions an AWS Systems Manager (SSM) parameter in the Parameter Store. It supports secure secrets (SecureString), plain text values, and configuration parameters. Useful for decoupling sensitive values from code or storing environment configuration per service.
-
----
-
 ## Features
 
 - Creates an SSM parameter with type `SecureString`, `String`, or `StringList`

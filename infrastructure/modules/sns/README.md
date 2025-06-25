@@ -1,11 +1,5 @@
 # SNS Topic Module with Optional Subscriptions and Encryption
 
-This Terraform module provisions an Amazon SNS topic with flexible options for standard or FIFO configuration, message deduplication, raw message delivery, and subscriptions (single or list). It also supports KMS encryption and custom delivery policies.
-
-This setup is ideal for decoupled event-driven architectures where alerts, logs, or domain events are pushed to downstream systems.
-
----
-
 ## Features
 
 - Creates an SNS topic (standard or FIFO)

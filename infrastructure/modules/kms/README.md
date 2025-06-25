@@ -1,11 +1,5 @@
 # KMS Encryption Key Module
 
-This Terraform module provisions a customer-managed AWS KMS key and alias with IAM policies granting encryption and decryption permissions to specific AWS services and identities.
-
-It supports fine-grained policy controls for service and account-level encryption workflows, and is suitable for securing S3 buckets, Lambda environment variables, EBS volumes, and more.
-
----
-
 ## Features
 
 - KMS key with optional rotation enabled

@@ -1,11 +1,5 @@
 # Lambda Function with Optional API Gateway Integration Module
 
-This Terraform module provisions an AWS Lambda function with optional API Gateway integration and IAM configuration. It supports both standalone and API-invoked functions, including those used for custom authorizers.
-
-The module is designed to streamline deployment of Lambda code packages, environment variables, IAM roles, concurrency settings, and optional REST API method bindings.
-
----
-
 ## Features
 
 - Lambda function with configurable:

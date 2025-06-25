@@ -1,7 +1,5 @@
 # ECS Fargate Service Module
 
-This Terraform module provisions a fully-featured ECS Fargate setup with autoscaling, logging, and optional load balancer integration. It supports running containerized workloads in production with minimal setup.
-
 ## Features
 
 This module supports the following optional components:

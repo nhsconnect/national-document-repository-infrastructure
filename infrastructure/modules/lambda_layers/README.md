@@ -1,11 +1,5 @@
 # Lambda Layer Module
 
-This Terraform module provisions an AWS Lambda Layer and attaches an optional IAM policy to control access. It packages and deploys a ZIP archive (either provided or default), enabling you to share libraries and dependencies across multiple Lambda functions.
-
-This setup is useful for DRY infrastructure patterns where shared runtime logic (e.g., SDKs, custom utilities) is maintained independently of function code.
-
----
-
 ## Features
 
 - Creates a Lambda Layer version from a placeholder ZIP archive

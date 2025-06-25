@@ -1,9 +1,5 @@
 # S3 Bucket Module with Access Control and Optional CloudFront Support
 
-This Terraform module provisions a secure and configurable AWS S3 bucket, supporting access control policies, logging, versioning, and optional CloudFront integration. It’s designed to be reusable across workloads like public asset delivery, backup storage, or private application data.
-
----
-
 ## Features
 
 - S3 bucket with:

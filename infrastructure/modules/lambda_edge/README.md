@@ -1,11 +1,5 @@
 # Lambda Proxy for S3 Access Module
 
-This Terraform module provisions an AWS Lambda function designed to act as a proxy for accessing an S3 bucket, typically for use with API Gateway or direct client calls. It sets up the function, IAM role, and execution policy for secure access and control.
-
-The module is ideal for creating tightly-scoped, account-specific Lambda-based API endpoints that interact with S3 or DynamoDB behind the scenes.
-
----
-
 ## Features
 
 - Lambda function with:

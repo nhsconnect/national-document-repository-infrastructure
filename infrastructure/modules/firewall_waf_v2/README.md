@@ -1,11 +1,5 @@
 # WAFv2 Web ACL Module
 
-This Terraform module provisions an AWS WAFv2 Web ACL with optional rule sets and regex pattern matching. It is designed for protecting CloudFront distributions or other AWS resources from common threats such as XSS, large payloads, and specific URL patterns.
-
-The module supports dynamic construction of rule groups based on common use cases, helping enforce security policies close to the edge or at the regional level.
-
----
-
 ## Features
 
 - WAFv2 Web ACL provisioning

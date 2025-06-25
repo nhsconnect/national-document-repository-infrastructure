@@ -1,9 +1,5 @@
 # CloudFront Distribution Module
 
-This Terraform module provisions an AWS CloudFront distribution to serve static content from an S3 bucket, optionally enhanced with Lambda@Edge and WAF integration. It supports custom origin request policies, cache policies, and S3 Origin Access Control (OAC) to ensure secure and performant delivery.
-
----
-
 ## Features
 
 - CloudFront distribution targeting S3 origin

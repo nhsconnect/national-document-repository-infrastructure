@@ -1,9 +1,5 @@
 # SQS Queue Module with Optional DLQ, Encryption, and FIFO Support
 
-This Terraform module provisions an AWS SQS queue with support for dead-letter queue (DLQ), message encryption, FIFO queuing, and custom delivery policies. It’s suitable for building robust and scalable messaging layers in event-driven architectures.
-
----
-
 ## Features
 
 - SQS queue with:

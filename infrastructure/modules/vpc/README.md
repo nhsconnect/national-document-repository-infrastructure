@@ -8,13 +8,12 @@ This Terraform module provisions a VPC with public and private subnets, internet
 
 ## Features
 
-- [x] VPC creation with custom CIDR block
-- [x] Public and private subnet creation across multiple AZs
-- [x] Internet Gateway (IGW) and NAT Gateway setup
-- [x] Public and private route tables with associations
-- [x] Optional VPC interface and gateway endpoints (e.g., S3, CloudWatch)
-- [x] Optional standalone mode using pre-created VPC/IGW via tags
-- [x] Tags applied by environment and owner
+- VPC creation with custom CIDR block
+- Public and private subnet creation across multiple AZs
+- Internet Gateway (IGW) setup
+- Public and private route tables with associations
+- Optional VPC interface and gateway endpoints (e.g., S3, CloudWatch)
+- Tags applied by environment and owner
 
 ---
 

@@ -1,9 +1,5 @@
 # API Gateway Resource & CORS Module
 
-This Terraform module provisions a resource path within an existing AWS API Gateway, adds supported HTTP methods, and automatically configures CORS support (including OPTIONS method and preflight integration). It’s intended for fine-grained control over paths, authentication, and cross-origin behavior.
-
----
-
 ## Features
 
 - Creates a sub-resource under an existing API Gateway path

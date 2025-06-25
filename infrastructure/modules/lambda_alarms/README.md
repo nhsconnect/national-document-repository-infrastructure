@@ -1,11 +1,5 @@
 # Lambda CloudWatch Alarms Module
 
-This Terraform module provisions CloudWatch metric alarms for a single AWS Lambda function. It creates alarms for key operational metrics such as duration, error rate, and memory usage, which are critical for monitoring performance and availability.
-
-The alarms can trigger custom actions such as SNS notifications or automated responses and are designed to be easily integrated into production observability setups.
-
----
-
 ## Features
 
 - CloudWatch alarm for high **duration** (exec time vs. timeout)

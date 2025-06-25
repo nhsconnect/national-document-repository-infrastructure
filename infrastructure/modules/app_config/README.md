@@ -1,9 +1,5 @@
 # AWS AppConfig Module
 
-This Terraform module provisions an AWS AppConfig application for managing dynamic configuration in distributed systems. It includes environments, configuration profiles, versioning, and deployment strategies — enabling safe, validated rollout of runtime settings.
-
----
-
 ## Features
 
 - AppConfig Application and Environment resources

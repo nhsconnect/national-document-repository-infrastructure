@@ -1,9 +1,5 @@
 # CloudWatch Log Group Module
 
-This Terraform module provisions a CloudWatch Log Group, with optional creation of a named Log Stream. It supports custom retention, naming, tagging, and stream setup — making it useful for collecting logs from Lambda, ECS, or other AWS services.
-
----
-
 ## Features
 
 - Creates a CloudWatch Log Group
