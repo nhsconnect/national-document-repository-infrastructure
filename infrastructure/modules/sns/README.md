@@ -28,10 +28,10 @@ module "sns_topic" {
   # Required: Name of the topic to create
   topic_name = "alerts-topic"
 
-  # Required: AWS account ID (used in feedback and policy generation)
+  # Required: AWS account ID
   current_account_id = "123456789012"
 
-  # Required: Protocol to use for the subscription (e.g., "lambda", "sqs", "email")
+  # Required: Protocol to use for the subscription
   topic_protocol = "sqs"
 
   # Required: ARN of the KMS key for encryption
@@ -51,7 +51,7 @@ module "sns_topic" {
   enable_fifo            = false
   enable_deduplication   = false
 
-  # Optional: Enable raw message delivery (bypass JSON wrapping)
+  # Optional: Enable raw message delivery
   raw_message_delivery = true
 
   # Optional: Use a single endpoint
