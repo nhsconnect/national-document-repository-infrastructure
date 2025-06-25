@@ -6,11 +6,11 @@ This Terraform module provisions an AWS Systems Manager (SSM) parameter in the P
 
 ## Features
 
-- [x] Creates an SSM parameter with type `SecureString`, `String`, or `StringList`
-- [x] Optional description and custom naming
-- [x] SecureString defaults enabled for secrets
-- [x] Supports tagging with environment and owner
-- [x] Optional `depends_on` override
+- Creates an SSM parameter with type `SecureString`, `String`, or `StringList`
+- Optional description and custom naming
+- SecureString defaults enabled for secrets
+- Supports tagging with environment and owner
+- Optional `depends_on` override
 
 ---
 
@@ -24,13 +24,13 @@ module "ssm_param" {
   environment = "prod"
   owner       = "platform"
 
-  # Optional: Name of the parameter (if not set, Terraform will generate one)
+  # Optional
   name = "/myapp/secret/token"
 
-  # Optional: Description for context in the AWS Console
+  # Optional
   description = "API token for service integration"
 
-  # Required: Value to store (can be interpolated or sensitive)
+  # Required: Value to store
   value = var.api_token
 
   # Optional: Type of parameter — SecureString, String, or StringList
@@ -39,7 +39,6 @@ module "ssm_param" {
   # Optional: If another resource must be created first
   resource_depends_on = aws_kms_key.secret_key.id
 }
-
 
 ```
 
