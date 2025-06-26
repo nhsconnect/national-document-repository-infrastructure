@@ -48,7 +48,7 @@ resource "aws_iam_policy" "s3_document_data_policy_for_stitch_lambda" {
           "s3:GetObject",
           "S3:ListBucket",
         ],
-        "Resource" : ["${module.ndr-lloyd-george-store.bucket_arn}/combined_files/*"]
+        "Resource" : ["${module.ndr-lloyd-george-store.bucket_arn}/*"]
       }
     ]
   })
