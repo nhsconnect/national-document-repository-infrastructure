@@ -1,7 +1,10 @@
 locals {
-  is_sandbox_dev_or_test = contains(["ndra", "ndrb", "ndrc", "ndrd", "ndr-dev", "ndr-test"], terraform.workspace)
+  is_cis2_dev_env      = contains(["ndra", "ndrb", "ndrc", "ndrd", "ndr-dev", "ndr-test"], terraform.workspace)
+  is_mock_cis2_dev_env = var.dev_config_enabled && !local.is_cis2_dev_env
+
   current_config_path = (
-    local.is_sandbox_dev_or_test
+    local.is_mock_cis2_dev_env ? "${path.module}/configurations/sandbox.json" :
+    local.is_cis2_dev_env
     ? "${path.module}/configurations/dev.json"
     : "${path.module}/configurations/${terraform.workspace}.json"
   )

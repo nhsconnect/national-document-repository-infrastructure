@@ -193,10 +193,9 @@ variable "cloudwatch_alarm_evaluation_periods" {}
 variable "apim_environment" {}
 
 locals {
-  is_sandbox         = contains(["ndra", "ndrb", "ndrc", "ndrd"], terraform.workspace)
-  is_production      = contains(["pre-prod", "prod"], terraform.workspace)
-  is_force_destroy   = contains(["ndr-dev", "ndra", "ndrb", "ndrc", "ndrd", "ndr-test"], terraform.workspace)
-  is_sandbox_or_test = contains(["ndra", "ndrb", "ndrc", "ndrd", "ndr-test"], terraform.workspace)
+  is_sandbox       = !contains(["ndr-dev", "ndr-test", "pre-prod", "prod"], terraform.workspace)
+  is_production    = contains(["pre-prod", "prod"], terraform.workspace)
+  is_force_destroy = !local.is_production
 
   bulk_upload_lambda_concurrent_limit = 5
 
