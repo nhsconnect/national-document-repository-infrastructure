@@ -3,29 +3,6 @@ name: 'Deploy Feature Branch to Sandbox with Dispatch'
 
 on:
   workflow_dispatch:
-    inputs:
-      build_branch:
-        default: "main"
-        description: "Feature branch to push to sandbox."
-        required: true
-        type: "string"
-      sandbox:
-        description: "Which Sandbox to push to."
-        required: true
-        type: "string"
-      terraform_vars:
-        default: "dev.tfvars"
-        description: "Which vars file is required? For test, change to test.tfvars"
-        required: true
-        type: "string"
-      environment:
-        default: "development"
-        description: "This is the environement the action will run in, for ndr-test, set to 'test'"
-        required: true
-        type: "string"
-    secrets:
-      AWS_ASSUME_ROLE:
-        required: true
 
 permissions:
   pull-requests: write
@@ -34,82 +11,37 @@ permissions:
   repository-projects: write
     
 jobs:
-  terraform_process:
+  # TODO: Revert changes when approved
+  cleanup_process:
+    name: Cleanup Dev Sandbox Environments
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment}}
-
+    environment: development
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.inputs.build_branch}}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: PRMT-439 #TODO - Change to main
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ secrets.AWS_ASSUME_ROLE }}
-        role-skip-session-tagging: true
-        aws-region: ${{ vars.AWS_REGION }}
-        mask-aws-account-id: true
-      
-    - name: View AWS Role
-      run: aws sts get-caller-identity
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ASSUME_ROLE }}
+          role-skip-session-tagging: true
+          aws-region: ${{ vars.AWS_REGION }}
+          mask-aws-account-id: true
 
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.11.4
-        terraform_wrapper: false
-      
-    - name: Terraform Init
-      id: init
-      run: terraform init -backend-config=backend.conf
-      working-directory: ./infrastructure 
-      shell: bash
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
 
-    - name: Terraform Set Workspace
-      id: workspace
-      run:  terraform workspace select ${{ github.event.inputs.sandbox}}
-      working-directory: ./infrastructure 
-      shell: bash
-      
-      # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
-      working-directory: ./infrastructure 
+      - name: Install Python Dependencies
+        run: |
+          python3 -m venv ./venv
+          ./venv/bin/pip3 install --upgrade pip boto3 requests
 
-    - name: Terraform Plan
-      id: plan
-      run: |
-        terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan
-      working-directory: ./infrastructure
-      shell: bash
-    
-    - name: Terraform Apply 
-      run: terraform apply -auto-approve -input=false tf.plan
-      working-directory: ./infrastructure
-
-  run_main_repo_deploy_lambdas:
-    name: Deploy Lambdas on NDR Functional Repo
-    needs: ['terraform_process']
-    uses: nhsconnect/national-document-repository/.github/workflows/lambdas-deploy-feature-to-sandbox.yml@main
-    with:
-      build_branch: main
-      sandbox: ${{ inputs.sandbox }}
-      environment: ${{ inputs.environment }}
-    secrets:
-      AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
-  
-  run_main_repo_deploy_ui:
-    name: Deploy Lambdas on NDR Functional Repo
-    needs: ['terraform_process']
-    uses: nhsconnect/national-document-repository/.github/workflows/ui-deploy-feature-to-sandbox-manual.yml@main
-    with:
-      build_branch: main
-      sandbox: ${{ inputs.sandbox }}
-      environment: ${{ inputs.environment }}
-    secrets:
-      AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
+      - name: Run Sandbox Cleanup Script
+        run: ./venv/bin/python3 -u scripts/cleanup_sandboxes.py
+        env:
+          GIT_WORKFLOW_PAT: ${{ secrets.GIT_WORKFLOW_PAT }}
 

@@ -36,7 +36,7 @@
             "enabled": "true"
         },
         "mockLoginEnabled": {
-            "enabled": "false"
+            "enabled": "true"
         }
     },
     "version": "1"

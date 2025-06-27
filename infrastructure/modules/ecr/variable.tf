@@ -3,6 +3,10 @@ variable "app_name" {
   type        = string
 }
 
+variable "is_force_destroy" {
+  type = bool
+}
+
 variable "environment" {
   type = string
 }

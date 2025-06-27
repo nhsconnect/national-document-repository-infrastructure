@@ -14,6 +14,9 @@
         },
         "lloydGeorgeValidationStrictModeEnabled": {
             "name": "lloydGeorgeValidationStrictModeEnabled"
+        },
+        "mockLoginEnabled": {
+            "name": "mockLoginEnabled"
         }
     },
     "values": {
@@ -31,6 +34,9 @@
         },
         "lloydGeorgeValidationStrictModeEnabled": {
             "enabled": "true"
+        },
+        "mockLoginEnabled": {
+            "enabled": "false"
         }
     },
     "version": "1"
