@@ -7,7 +7,7 @@ resource "aws_ecr_repository" "ndr-ecr" {
   encryption_configuration {
     encryption_type = "KMS"
   }
-  force_delete = var.is_force_destroy
+  force_delete = var.allow_force_destroy
   tags = {
     Name        = "${terraform.workspace}-${var.app_name}"
     Owner       = var.owner

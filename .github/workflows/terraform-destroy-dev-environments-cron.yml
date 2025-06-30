@@ -1,4 +1,4 @@
-name: 'Destroy (Dev Account) Sandbox Environments CRON'
+name: 'Destroy Sandbox Environments (CRON)'
 
 on:
   schedule:
@@ -10,8 +10,8 @@ permissions:
   contents: read # This is required for actions/checkout
 
 jobs:
-  cleanup_process:
-    name: Cleanup Dev Sandbox Environments
+  destroy_process:
+    name: Destroy Sandbox Environments
     runs-on: ubuntu-latest
     environment: development
     steps:
@@ -41,4 +41,4 @@ jobs:
       - name: Run Sandbox Cleanup Script
         run: ./venv/bin/python3 -u scripts/cleanup_sandboxes.py
         env:
-          GIT_WORKFLOW_PAT: ${{ secrets.GIT_WORKFLOW_PAT }}
+          GIT_WORKFLOW_PAT: ${{ secrets.GIT_WORKFLOW_PAT }}  # Has "repo" and "workflow" privileges

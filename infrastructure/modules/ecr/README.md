@@ -26,10 +26,10 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_allow_force_destroy"></a> [allow\_force\_destroy](#input\_allow\_force\_destroy) | n/a | `bool` | n/a | yes |
 | <a name="input_app_name"></a> [app\_name](#input\_app\_name) | the name of the app | `string` | n/a | yes |
 | <a name="input_current_account_id"></a> [current\_account\_id](#input\_current\_account\_id) | n/a | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
-| <a name="input_is_force_destroy"></a> [is\_force\_destroy](#input\_is\_force\_destroy) | n/a | `bool` | n/a | yes |
 | <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
 
 ## Outputs
