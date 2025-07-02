@@ -203,9 +203,6 @@ locals {
   api_gateway_subdomain_name   = contains(["prod"], terraform.workspace) ? "${var.certificate_subdomain_name_prefix}" : "${var.certificate_subdomain_name_prefix}${terraform.workspace}"
   api_gateway_full_domain_name = contains(["prod"], terraform.workspace) ? "${var.certificate_subdomain_name_prefix}${var.domain}" : "${var.certificate_subdomain_name_prefix}${terraform.workspace}.${var.domain}"
 
-  current_region     = data.aws_region.current.name
-  current_account_id = data.aws_caller_identity.current.account_id
-
   apim_api_url = "https://${var.apim_environment}api.service.nhs.uk/national-document-repository"
 }
 
