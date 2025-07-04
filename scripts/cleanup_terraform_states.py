@@ -37,7 +37,7 @@ class CleanupTerraformStates:
                         'VersionId': version['VersionId']
                     }
                 )
-
+        print(f"Found {len(objects_to_delete)} objects and object versions to delete")
         if objects_to_delete:
             for i in range(0, len(objects_to_delete), 1000):
                 chunk = objects_to_delete[i:i + 1000]
@@ -67,7 +67,6 @@ class CleanupTerraformStates:
         for page in pages:
             for obj in page.get('Contents', []):
                 key = obj['Key']
-                print(f"Key: {key}")
                 parent_folder = key[len(self.env_folder):].split("/", 1)[0]
                 if parent_folder == sandbox:
                     folder_prefix = f"{self.env_folder}{parent_folder}/"
