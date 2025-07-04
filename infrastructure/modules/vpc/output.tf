@@ -7,9 +7,9 @@ output "internet_gateway_id" {
 }
 
 output "public_subnets" {
-  value = local.is_sandbox ? data.aws_subnet.public_subnets.*.id : aws_subnet.public_subnets.*.id
+  value = var.is_sandbox ? data.aws_subnet.public_subnets.*.id : aws_subnet.public_subnets.*.id
 }
 
 output "private_subnets" {
-  value = local.is_sandbox ? data.aws_subnet.private_subnets.*.id : aws_subnet.private_subnets.*.id
+  value = var.is_sandbox ? data.aws_subnet.private_subnets.*.id : aws_subnet.private_subnets.*.id
 }

@@ -1,12 +1,14 @@
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
 | <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
@@ -33,6 +35,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_config_environment_name"></a> [config\_environment\_name](#input\_config\_environment\_name) | n/a | `string` | n/a | yes |
 | <a name="input_config_profile_name"></a> [config\_profile\_name](#input\_config\_profile\_name) | n/a | `string` | n/a | yes |
+| <a name="input_dev_config_enabled"></a> [dev\_config\_enabled](#input\_dev\_config\_enabled) | n/a | `bool` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
 | <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
 

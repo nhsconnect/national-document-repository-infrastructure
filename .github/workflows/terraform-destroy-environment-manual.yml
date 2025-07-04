@@ -92,6 +92,16 @@ jobs:
         with:
           ref: ${{ inputs.build_branch }}
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install Python Dependencies
+        run: |
+          python3 -m venv ./venv
+          ./venv/bin/pip3 install --upgrade pip boto3
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -118,3 +128,6 @@ jobs:
       - name: Terraform Destroy
         run: terraform destroy -auto-approve -var-file="${{ inputs.terraform_vars }}"
         working-directory: ./infrastructure
+
+      - name: Run Terraform Workspace Cleanup Script
+        run: ./venv/bin/python3 -u scripts/cleanup_terraform_states.py ${{ inputs.sandbox_workspace }}

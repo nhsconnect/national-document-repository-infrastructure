@@ -18,19 +18,19 @@
     },
     "values": {
         "uploadLloydGeorgeWorkflowEnabled": {
-            "enabled": "false"
+            "enabled": "true"
         },
         "uploadLambdaEnabled": {
-            "enabled": "false"
+            "enabled": "true"
         },
         "uploadArfWorkflowEnabled": {
-            "enabled": "false"
+            "enabled": "true"
         },
         "lloydGeorgeValidationStrictModeEnabled": {
             "enabled": "true"
         },
         "mockLoginEnabled": {
-            "enabled": "false"
+            "enabled": "true"
         }
     },
     "version": "1"

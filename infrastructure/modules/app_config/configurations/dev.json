@@ -9,11 +9,11 @@
         "uploadArfWorkflowEnabled": {
             "name": "uploadArfWorkflowEnabled"
         },
-        "useSmartcardAuth": {
-            "name": "useSmartcardAuth"
-        },
         "lloydGeorgeValidationStrictModeEnabled": {
             "name": "lloydGeorgeValidationStrictModeEnabled"
+        },
+        "mockLoginEnabled": {
+            "name": "mockLoginEnabled"
         }
     },
     "values": {
@@ -26,11 +26,11 @@
         "uploadArfWorkflowEnabled": {
             "enabled": "true"
         },
-        "useSmartcardAuth": {
-            "enabled": "false"
-        },
         "lloydGeorgeValidationStrictModeEnabled": {
             "enabled": "true"
+        },
+        "mockLoginEnabled": {
+            "enabled": "false"
         }
     },
     "version": "1"
