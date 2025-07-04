@@ -4,7 +4,9 @@ variable "app_name" {
 }
 
 variable "allow_force_destroy" {
-  type = bool
+  description = "Enable force destroy of the ECR module"
+  type        = bool
+  default     = false
 }
 
 variable "environment" {
