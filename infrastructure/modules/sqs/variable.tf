@@ -71,6 +71,12 @@ variable "dlq_visibility_timeout" {
   default = 0
 }
 
+variable "dlq_message_retention" {
+  description = "Number of seconds the DLQ retains a message"
+  type        = number
+  default     = 1209600
+}
+
 # Tags
 variable "environment" {
   type = string
