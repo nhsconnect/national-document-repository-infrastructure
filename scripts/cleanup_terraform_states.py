@@ -47,7 +47,7 @@ class CleanupTerraformStates:
                 )
             print("All object versions deleted.")
 
-    def delete_record_in_dynamo(self, tf_bucket: str, file_key: str) -> None:
+    def delete_record_in_dynamo(self, tf_bucket: str, file_key: str):
         print(f"Deleting sandbox tfstate DynamoDB record")
         table_name = "ndr-terraform-locks"
         lock_id = f'{tf_bucket}/{file_key}-md5'
@@ -62,7 +62,6 @@ class CleanupTerraformStates:
 
     def main(self, sandbox: str):
         tf_bucket = self.get_terraform_bucket()
-        print(f"tf_bucket: {tf_bucket}")
         pages = self.objects_paginator.paginate(Bucket=tf_bucket, Prefix=self.env_folder)
 
         for page in pages:
