@@ -10,6 +10,7 @@ module "edge_presign_alarm" {
 }
 
 resource "aws_cloudwatch_log_metric_filter" "edge_presign_error" {
+  count          = local.is_sandbox ? 0 : 1
   name           = "EdgePresignErrorFilter"
   pattern        = "%LambdaError%"
   log_group_name = "/aws/lambda/us-east-1.${module.edge-presign-lambda.function_name}"
