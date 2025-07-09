@@ -1,0 +1,6 @@
+repos:
+  - repo: https://github.com/terraform-docs/terraform-docs
+    rev: v0.20.0
+    hooks:
+      - id: terraform-docs
+        args: ["--config", ".terraform-docs.yml"]
