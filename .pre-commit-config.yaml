@@ -1,6 +1,8 @@
 repos:
-  - repo: https://github.com/terraform-docs/terraform-docs
-    rev: v0.20.0
+  - repo: local
     hooks:
       - id: terraform-docs
-        args: ["--config", ".terraform-docs.yml"]
+        name: terraform-docs
+        entry: python scripts/run_terraform_docs.py
+        language: python
+        pass_filenames: false
