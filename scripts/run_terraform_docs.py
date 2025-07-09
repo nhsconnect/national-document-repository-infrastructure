@@ -14,3 +14,7 @@ for module_dir in sorted(module_dirs):
     subprocess.run([
         "terraform-docs", "--config", str(config_path), module_dir
     ], check=True)
+
+print("Scanning these module dirs:")
+for d in sorted(module_dirs):
+    print("-", d)
