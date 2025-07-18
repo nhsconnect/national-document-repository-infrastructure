@@ -86,5 +86,7 @@ resource "aws_sns_topic_subscription" "alarm_notifications_sns_topic_subscriptio
 }
 
 data "aws_ssm_parameter" "cloud_security_notification_email_list" {
-  name = "/prs/${var.environment}/user-input/cloud-security-notification-email-list"
+  # name = "/prs/${var.environment}/user-input/cloud-security-notification-email-list"
+  name = "/prs/${var.environment}/user-input/cloud-security-notification-test-email-list"
+  # TODO: for testing add your email in aws to this variable, for prod, delete this line an uncomment the line above
 }
