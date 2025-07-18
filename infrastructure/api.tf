@@ -49,6 +49,7 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
     module.back_channel_logout_lambda,
     module.document_reference_gateway,
     module.create-doc-ref-lambda,
+    module.create_document_reference_gateway,
     module.create-token-gateway,
     module.create-token-lambda,
     module.delete-doc-ref-gateway,
@@ -74,6 +75,7 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
     module.update-upload-state-lambda,
     module.upload_confirm_result_gateway,
     module.upload_confirm_result_lambda,
+    module.post-document-references-fhir-lambda,
     module.virus_scan_result_gateway,
     module.virus_scan_result_lambda
   ]
