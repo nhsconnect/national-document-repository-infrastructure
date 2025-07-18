@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: terraform-docs
+        name: terraform-docs
+        entry: python scripts/run_terraform_docs.py
+        language: python
+        pass_filenames: false

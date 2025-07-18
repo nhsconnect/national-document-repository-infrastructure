@@ -1,19 +1,60 @@
+# SQS Queue Module with Optional DLQ, Encryption, and FIFO Support
+
+## Features
+
+- SQS queue with:
+  - Configurable visibility timeout, message retention, and wait time
+  - Optional delay for message delivery
+  - Max message size control
+- Optional dead-letter queue (DLQ) setup with redrive policies
+- Support for FIFO and deduplication
+- SSE encryption using SQS-managed or customer-managed KMS keys
+- IAM read/write policy documents
+- Tagged with environment and owner
+
+---
+
+## Usage
+
+```hcl
+module "sqs_queue" {
+  source = "./modules/sqs"
+
+  # Required
+  name        = "order-processing-queue"
+  environment = "prod"
+  owner       = "platform"
+
+  # Optional: Enable FIFO behavior
+  enable_fifo          = true
+  enable_deduplication = true
+
+  # Optional: Retention and size settings
+  message_retention = 86400
+  max_size_message  = 2048
+  delay             = 0
+  receive_wait      = 2
+  max_visibility    = 30
+
+  # Optional: Enable server-side encryption
+  enable_sse        = true
+  kms_master_key_id = "alias/aws/sqs"
+
+  # Optional: Dead-letter queue configuration
+  enable_dlq             = true
+  max_receive_count      = 5
+  dlq_visibility_timeout = 60
+}
+
+
+```
+
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
-
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -24,7 +65,6 @@ No modules.
 | [aws_sqs_queue_redrive_policy.dlq_redrive](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue_redrive_policy) | resource |
 | [aws_iam_policy_document.sqs_read_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.sqs_write_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -45,7 +85,6 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | n/a | `string` | n/a | yes |
 | <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
 | <a name="input_receive_wait"></a> [receive\_wait](#input\_receive\_wait) | Number of seconds sqs will wait for a message when ReceiveMessage is received | `number` | `2` | no |
-
 ## Outputs
 
 | Name | Description |
@@ -57,3 +96,4 @@ No modules.
 | <a name="output_sqs_read_policy_document"></a> [sqs\_read\_policy\_document](#output\_sqs\_read\_policy\_document) | n/a |
 | <a name="output_sqs_url"></a> [sqs\_url](#output\_sqs\_url) | n/a |
 | <a name="output_sqs_write_policy_document"></a> [sqs\_write\_policy\_document](#output\_sqs\_write\_policy\_document) | n/a |
+<!-- END_TF_DOCS -->

@@ -1,5 +1,5 @@
 resource "aws_wafv2_web_acl" "waf_v2_acl" {
-  name        = "${terraform.workspace}-${var.cloudfront_acl ? "cloudfront" : ""}-fw-waf-v2"
+  name        = "${terraform.workspace}${var.api ? "-api" : var.cloudfront_acl ? "-cloudfront" : ""}-fw-waf-v2"
   description = "A WAF to secure the Repo application."
   scope       = var.cloudfront_acl ? "CLOUDFRONT" : "REGIONAL"
 

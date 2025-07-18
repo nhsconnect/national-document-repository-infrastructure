@@ -21,7 +21,6 @@ module "search_patient_alarm" {
   depends_on           = [module.search-patient-details-lambda, module.search_patient_alarm_topic]
 }
 
-
 module "search_patient_alarm_topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id

@@ -1,19 +1,60 @@
+# ECS Fargate Service Module
+
+## Features
+
+- ECS Cluster and Service (with Fargate launch type)
+- Optional Load Balancer (ALB) with HTTP/HTTPS listeners
+- Optional ACM Certificate lookup for HTTPS via domain name
+- Optional Log Group creation for ECS service logs
+- Optional IAM roles and policy attachments for execution
+- Optional CloudWatch Alarms for CPU and ALB status codes
+- Optional Custom security groups and subnet configuration
+
+---
+
+## Usage
+
+```hcl
+module "ecs_service" {
+  source = "./modules/ecs"
+
+  # Required configuration
+  alarm_actions_arn_list     = ["arn:aws:sns:region:acct:alarm-topic"]  # CloudWatch alarm actions
+  ecr_repository_url         = "123456789012.dkr.ecr.eu-west-2.amazonaws.com/my-app"
+  ecs_cluster_name           = "my-ecs-cluster"
+  ecs_cluster_service_name   = "my-app-service"
+  environment                = "prod"
+  owner                      = "platform"
+  logs_bucket                = "my-cloudwatch-logs"
+  private_subnets            = ["subnet-abc123", "subnet-def456"]
+  public_subnets             = ["subnet-xyz789", "subnet-uvw321"]
+  sg_name                    = "my-service-sg"
+  vpc_id                     = "vpc-0abc123"
+
+  # ECS task/service configuration
+  container_port             = 8080           # Port exposed by the Docker container
+  desired_count              = 3              # Number of tasks to run
+  ecs_launch_type            = "FARGATE"
+  ecs_container_definition_cpu    = 512
+  ecs_container_definition_memory = 1024
+  ecs_task_definition_cpu         = 1024
+  ecs_task_definition_memory      = 2048
+  task_role                       = "arn:aws:iam::123456789012:role/my-task-role"
+
+  # Optional ALB and HTTPS setup
+  is_lb_needed         = true
+  certificate_domain   = "myapp.example.com"
+  domain               = "example.com"
+}
+
+```
+
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
-
-## Modules
-
-No modules.
-
 ## Resources
 
 | Name | Type |
@@ -44,7 +85,6 @@ No modules.
 | [aws_vpc_security_group_ingress_rule.ndr_ecs_sg_ingress_http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.ndr_ecs_sg_ingress_https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
 | [aws_acm_certificate.amazon_issued](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/acm_certificate) | data source |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -77,7 +117,6 @@ No modules.
 | <a name="input_sg_name"></a> [sg\_name](#input\_sg\_name) | n/a | `string` | n/a | yes |
 | <a name="input_task_role"></a> [task\_role](#input\_task\_role) | n/a | `any` | `null` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | n/a | `string` | n/a | yes |
-
 ## Outputs
 
 | Name | Description |
@@ -89,3 +128,4 @@ No modules.
 | <a name="output_load_balancer_arn"></a> [load\_balancer\_arn](#output\_load\_balancer\_arn) | The arn of the load balancer |
 | <a name="output_security_group_id"></a> [security\_group\_id](#output\_security\_group\_id) | n/a |
 | <a name="output_task_definition_arn"></a> [task\_definition\_arn](#output\_task\_definition\_arn) | n/a |
+<!-- END_TF_DOCS -->

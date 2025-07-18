@@ -4,14 +4,6 @@ default: help
 install:
 	cd ./infrastructure && npm install
 
-# Pre-commit husky
-.PHONY:pre-commit
-pre-commit:  generate-terraform-docs format-all
-
-# Pre-push husky
-# .PHONY:pre-push
-# pre-commit: 
-
 # Formatting
 .PHONY:format-all
 format-all:

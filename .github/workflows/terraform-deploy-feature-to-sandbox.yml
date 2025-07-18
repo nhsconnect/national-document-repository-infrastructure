@@ -1,22 +1,22 @@
 # .github/workflows/terraform-dev
-name: 'Deploy Feature Branch to Sandbox'
+name: "Deploy Feature Branch to Sandbox"
 
 on:
   workflow_dispatch:
     inputs:
       buildBranch:
-        description: 'Feature branch to push to sandbox.'
+        description: "Feature branch to push to sandbox."
         required: true
-        type: 'string'
+        type: "string"
       sandboxWorkspace:
-        description: 'Which Sandbox to push to.'
+        description: "Which Sandbox to push to."
         required: true
-        type: 'string'
+        type: "string"
       environment:
-        default: 'development'
-        description: 'Which environment should this run against'
+        default: "development"
+        description: "Which environment should this run against"
         required: true
-        type: 'string'
+        type: "string"
 
 permissions:
   pull-requests: write
@@ -29,11 +29,10 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
 
     steps:
-      # Checkout the repository to the GitHub Actions runner
-      - name: Checkout
+      - name: Checkout Base
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.buildBranch}}
+          ref: main
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -53,6 +52,39 @@ jobs:
           terraform_version: 1.11.4
           terraform_wrapper: false
 
+      - name: Terraform Init Base
+        id: base_init
+        run: terraform init -backend-config=backend.conf
+        working-directory: ./infrastructure
+        shell: bash
+
+      - name: Terraform Set Workspace Base
+        id: base_workspace
+        run: terraform workspace select -or-create ${{ github.event.inputs.sandboxWorkspace}}
+        working-directory: ./infrastructure
+        shell: bash
+
+      - name: Terraform Plan Base
+        id: base_plan
+        run: |
+          terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf-base.plan
+        working-directory: ./infrastructure
+        shell: bash
+
+      - name: Terraform Apply Base
+        run: terraform apply -auto-approve -input=false tf-base.plan
+        working-directory: ./infrastructure
+
+      - name: Checkout Branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.buildBranch}}
+
+        # Checks that all Terraform configuration files adhere to a canonical format.
+      - name: Terraform Format
+        run: terraform fmt -check
+        working-directory: ./infrastructure
+
       - name: Terraform Init
         id: init
         run: terraform init -backend-config=backend.conf
@@ -61,14 +93,9 @@ jobs:
 
       - name: Terraform Set Workspace
         id: workspace
-        run: terraform workspace select -or-create ${{ github.event.inputs.sandboxWorkspace}}
+        run: terraform workspace select ${{ github.event.inputs.sandboxWorkspace}}
         working-directory: ./infrastructure
         shell: bash
-
-        # Checks that all Terraform configuration files adhere to a canonical format
-      - name: Terraform Format
-        run: terraform fmt -check
-        working-directory: ./infrastructure
 
       - name: Terraform Plan
         id: plan

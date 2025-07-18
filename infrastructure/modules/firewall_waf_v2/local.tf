@@ -2,7 +2,7 @@ locals {
 
   image_regex = "^\\/images(\\/\\w+)+\\/$"
 
-  waf_rules = [
+  waf_rules_raw = [
     {
       name                    = "AWSCoreRuleSet"
       managed_rule_name       = "AWSManagedRulesCommonRuleSet"
@@ -45,6 +45,12 @@ locals {
       excluded_rules          = []
       bypass                  = []
     }
+  ]
+
+  # Filter out AWSBotControl if var.api is true
+  waf_rules = [
+    for rule in local.waf_rules_raw : rule
+    if !(var.api && rule.name == "AWSBotControl")
   ]
 
   waf_rules_map = zipmap(
