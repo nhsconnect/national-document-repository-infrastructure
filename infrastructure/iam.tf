@@ -173,6 +173,27 @@ resource "aws_iam_policy" "s3_document_data_policy_for_ods_report_lambda" {
   })
 }
 
+data "aws_iam_policy_document" "lambda_toggle_bulk_upload_document" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "lambda:UpdateEventSourceMapping",
+      "lambda:GetEventSourceMapping"
+    ]
+
+    resources = [
+      aws_lambda_event_source_mapping.bulk_upload_esm.arn
+    ]
+  }
+}
+
+resource "aws_iam_policy" "lambda_toggle_bulk_upload_policy" {
+  name   = "${terraform.workspace}_lambda_toggle_bulk_upload_policy"
+  policy = data.aws_iam_policy_document.lambda_toggle_bulk_upload_document.json
+}
+
+
 data "aws_iam_policy_document" "assume_role_policy_for_ods_report_lambda" {
   statement {
     actions = ["sts:AssumeRole"]
