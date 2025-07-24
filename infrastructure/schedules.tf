@@ -184,3 +184,44 @@ resource "aws_lambda_permission" "nhs_oauth_token_generator_schedule" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.nhs_oauth_token_generator_schedule.arn
 }
+resource "aws_cloudwatch_event_rule" "bulk_upload_enable_rule" {
+  name                = "${terraform.workspace}_bulk_upload_enable"
+  description         = "Enable Bulk Upload ingestion"
+  schedule_expression = "cron(0/2 * * * ? *)" # TODO set to "cron(0 19 ? * MON-FRI *)"
+}
+
+resource "aws_cloudwatch_event_rule" "bulk_upload_disable_rule" {
+  name                = "${terraform.workspace}_bulk_upload_disable"
+  description         = "Disable Bulk Upload ingestion"
+  schedule_expression = "cron(1/2 * * * ? *)" # TODO set to "cron(0 7 ? * TUE-SAT *)"
+}
+
+resource "aws_cloudwatch_event_target" "bulk_upload_enable_target" {
+  rule      = aws_cloudwatch_event_rule.bulk_upload_enable_rule.name
+  target_id = "toggle-bulk-upload-enable"
+  arn       = module.toggle-bulk-upload-lambda.lambda_arn
+  input     = jsonencode({ action = "enable" })
+}
+
+resource "aws_cloudwatch_event_target" "bulk_upload_disable_target" {
+  rule      = aws_cloudwatch_event_rule.bulk_upload_disable_rule.name
+  target_id = "toggle-bulk-upload-disable"
+  arn       = module.toggle-bulk-upload-lambda.lambda_arn
+  input     = jsonencode({ action = "disable" })
+}
+
+resource "aws_lambda_permission" "toggle_bulk_upload_enable_permission" {
+  statement_id  = "AllowExecutionFromCloudWatchEnable"
+  action        = "lambda:InvokeFunction"
+  function_name = module.toggle-bulk-upload-lambda.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.bulk_upload_enable_rule.arn
+}
+
+resource "aws_lambda_permission" "toggle_bulk_upload_disable_permission" {
+  statement_id  = "AllowExecutionFromCloudWatchDisable"
+  action        = "lambda:InvokeFunction"
+  function_name = module.toggle-bulk-upload-lambda.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.bulk_upload_disable_rule.arn
+}

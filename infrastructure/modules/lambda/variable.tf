@@ -17,7 +17,8 @@ variable "lambda_environment_variables" {
 }
 
 variable "rest_api_id" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "resource_id" {
@@ -43,7 +44,8 @@ variable "http_methods" {
 }
 
 variable "api_execution_arn" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "iam_role_policy_documents" {
@@ -78,4 +80,3 @@ variable "default_policies" {
     "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy"
   ]
 }
-
