@@ -113,3 +113,7 @@ output "sqs_write_policy_document" {
 output "dlq_name" {
   value = var.enable_dlq ? aws_sqs_queue.queue_deadletter[0].name : null
 }
+
+output "queue_name" {
+  value = aws_sqs_queue.sqs_queue.name
+}
