@@ -41,7 +41,7 @@ resource "aws_iam_policy" "cloudwatch_rum_cognito_access" {
         {
           "Effect" : "Allow",
           "Action" : "rum:PutRumEvents",
-          "Resource" : "arn:aws:rum:${local.current_region}:${local.current_account_id}:appmonitor/${aws_rum_app_monitor.ndr[0].id}"
+          "Resource" : "arn:aws:rum:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:appmonitor/${aws_rum_app_monitor.ndr[0].id}"
         }
       ]
   })
@@ -65,7 +65,7 @@ resource "aws_cloudwatch_log_resource_policy" "rum_log" {
           "logs:DeleteLogGroup",
           "logs:DescribeLogGroups"
         ],
-        Resource = "arn:aws:logs:${local.current_region}:${local.current_account_id}:log-group:/aws/vendedlogs/RUMService-*"
+        Resource = "arn:aws:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vendedlogs/RUMService-*"
       }
     ]
   })
