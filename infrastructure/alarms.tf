@@ -18,10 +18,7 @@ resource "aws_cloudwatch_metric_alarm" "api_gateway_alarm_4XX" {
   alarm_actions     = [aws_sns_topic.alarm_notifications_topic[0].arn]
 
   tags = {
-    Name        = "4XX-status-${aws_api_gateway_rest_api.ndr_doc_store_api.name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "4XX-status-${aws_api_gateway_rest_api.ndr_doc_store_api.name}"
   }
   count = local.is_sandbox ? 0 : 1
 }
@@ -46,10 +43,7 @@ resource "aws_cloudwatch_metric_alarm" "api_gateway_alarm_5XX" {
   alarm_actions     = [aws_sns_topic.alarm_notifications_topic[0].arn]
 
   tags = {
-    Name        = "5XX-status-${aws_api_gateway_rest_api.ndr_doc_store_api.name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "5XX-status-${aws_api_gateway_rest_api.ndr_doc_store_api.name}"
   }
   count = local.is_sandbox ? 0 : 1
 }

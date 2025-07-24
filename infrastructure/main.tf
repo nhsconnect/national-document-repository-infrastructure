@@ -23,7 +23,9 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Workspace = replace(terraform.workspace, "_", "-")
+      Owner       = var.owner
+      Environment = var.environment
+      Workspace   = replace(terraform.workspace, "_", "-")
     }
   }
 }
@@ -38,17 +40,18 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Workspace = replace(terraform.workspace, "_", "-")
+      Owner       = var.owner
+      Environment = var.environment
+      Workspace   = replace(terraform.workspace, "_", "-")
     }
   }
 }
 
 resource "aws_resourcegroups_group" "resource_group" {
-  name        = "${replace(terraform.workspace, "_", "-")}--resource-group"
+  name        = "${replace(terraform.workspace, "_", "-")}-resource_group"
   description = "${replace(terraform.workspace, "_", "-")} workspace resource group."
   tags = {
-    Name      = "${replace(terraform.workspace, "_", "-")}--resource-group"
-    Workspace = replace(terraform.workspace, "_", "-")
+    Name = "${replace(terraform.workspace, "_", "-")}-resource_group"
   }
 
   resource_query {

@@ -14,10 +14,7 @@ resource "aws_wafv2_regex_pattern_set" "large_body_uri" {
   }
 
   tags = {
-    Name        = "${terraform.workspace}-fw-waf-body-size"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-fw-waf-body-size"
   }
 }
 
@@ -32,10 +29,7 @@ resource "aws_wafv2_regex_pattern_set" "xss_body_uri" {
   }
 
   tags = {
-    Name        = "${terraform.workspace}-fw-waf-body-xss"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-fw-waf-body-xss"
   }
 }
 
@@ -50,9 +44,6 @@ resource "aws_wafv2_regex_pattern_set" "exclude_cms_uri" {
   }
 
   tags = {
-    Name        = "${terraform.workspace}-fw-waf-cms-exclude"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-fw-waf-cms-exclude"
   }
 }

@@ -19,9 +19,7 @@ resource "aws_subnet" "virus_scanning_a" {
   cidr_block        = local.subnet_1_cidr_block
 
   tags = {
-    Name        = "Virus scanning subnet for eu-west-2a"
-    Environment = var.environment
-    Owner       = var.owner
+    Name = "Virus scanning subnet for eu-west-2a"
   }
 }
 
@@ -33,9 +31,7 @@ resource "aws_subnet" "virus_scanning_b" {
   cidr_block        = local.subnet_2_cidr_block
 
   tags = {
-    Name        = "Virus scanning subnet for eu-west-2b"
-    Environment = var.environment
-    Owner       = var.owner
+    Name = "Virus scanning subnet for eu-west-2b"
   }
 }
 
@@ -50,9 +46,7 @@ resource "aws_route_table" "virus_scanning" {
   }
 
   tags = {
-    Name        = "Virus scanning route table"
-    Environment = var.environment
-    Owner       = var.owner
+    Name = "Virus scanning route table"
   }
 }
 

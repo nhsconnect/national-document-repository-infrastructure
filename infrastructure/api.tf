@@ -4,10 +4,7 @@ resource "aws_api_gateway_rest_api" "ndr_doc_store_api" {
   description = "Document store API for Repo"
 
   tags = {
-    Name        = "${terraform.workspace}-docstore-api"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-docstore-api"
   }
 }
 

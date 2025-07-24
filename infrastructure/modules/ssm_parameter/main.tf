@@ -5,9 +5,7 @@ resource "aws_ssm_parameter" "secret" {
   value       = var.value
   depends_on  = [var.resource_depends_on]
   tags = {
-    Name        = "${terraform.workspace}-ssm"
-    Environment = var.environment
-    Workspace   = terraform.workspace
-    Owner       = var.owner
+    Name = "${terraform.workspace}-ssm"
   }
 }
+

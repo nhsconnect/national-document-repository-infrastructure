@@ -16,10 +16,7 @@ resource "aws_cloudwatch_metric_alarm" "alb_alarm_4XX" {
   alarm_actions     = var.alarm_actions_arn_list
 
   tags = {
-    Name        = "4XX-status-${aws_lb.ecs_lb[0].name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "4XX-status-${aws_lb.ecs_lb[0].name}"
   }
 }
 
@@ -40,10 +37,7 @@ resource "aws_cloudwatch_metric_alarm" "alb_alarm_5XX" {
   alarm_actions     = var.alarm_actions_arn_list
 
   tags = {
-    Name        = "5XX-status-${aws_lb.ecs_lb[0].name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "5XX-status-${aws_lb.ecs_lb[0].name}"
   }
   count = !local.is_sandbox && var.is_lb_needed ? 1 : 0
 }
@@ -67,10 +61,7 @@ resource "aws_cloudwatch_metric_alarm" "ndr_ecs_service_cpu_high_alarm" {
   alarm_actions     = concat(var.alarm_actions_arn_list, [aws_appautoscaling_policy.ndr_ecs_service_autoscale_up[0].arn])
 
   tags = {
-    Name        = "${var.ecs_cluster_service_name}-cpu-utilization-high"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${var.ecs_cluster_service_name}-cpu-utilization-high"
   }
   count = local.is_sandbox || !var.is_service_needed ? 0 : 1
 }
@@ -94,10 +85,8 @@ resource "aws_cloudwatch_metric_alarm" "ndr_ecs_service_cpu_low_alarm" {
   alarm_actions     = concat(var.alarm_actions_arn_list, [aws_appautoscaling_policy.ndr_ecs_service_autoscale_down[0].arn])
 
   tags = {
-    Name        = "${var.ecs_cluster_service_name}-cpu-utilization-low"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${var.ecs_cluster_service_name}-cpu-utilization-low"
   }
   count = local.is_sandbox || !var.is_service_needed ? 0 : 1
 }
+

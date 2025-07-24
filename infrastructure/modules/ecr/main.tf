@@ -9,10 +9,7 @@ resource "aws_ecr_repository" "ndr-ecr" {
   }
   force_delete = contains(["ndra", "ndrb", "ndrc", "ndrd", "ndr-test"], terraform.workspace)
   tags = {
-    Name        = "${terraform.workspace}-${var.app_name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-${var.app_name}"
   }
 }
 
@@ -72,3 +69,4 @@ resource "aws_ecr_repository_policy" "ndr_ecr_repository_policy" {
 }
 EOF
 }
+

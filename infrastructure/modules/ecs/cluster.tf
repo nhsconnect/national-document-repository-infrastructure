@@ -17,9 +17,7 @@ resource "aws_ecs_cluster" "ndr_ecs_cluster" {
   }
 
   tags = {
-    Name        = "${terraform.workspace}-ecs"
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-ecs"
   }
 }
 

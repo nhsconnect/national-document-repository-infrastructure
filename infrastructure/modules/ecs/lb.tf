@@ -14,10 +14,7 @@ resource "aws_lb" "ecs_lb" {
   }
 
   tags = {
-    Name        = "${terraform.workspace}-lb-${var.ecs_cluster_name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-lb-${var.ecs_cluster_name}"
   }
 }
 
@@ -41,10 +38,7 @@ resource "aws_lb_target_group" "ecs_lb_tg" {
   }
 
   tags = {
-    Name        = "lb_target_group-${var.ecs_cluster_name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "lb_target_group-${var.ecs_cluster_name}"
   }
 }
 

@@ -19,10 +19,7 @@ resource "aws_appconfig_environment" "ndr-app-config-environment" {
   description    = "AppConfig Environment for ${terraform.workspace}"
 
   tags = {
-    Name        = "${terraform.workspace}_repo_app_config_environment"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}_repo_app_config_environment"
   }
 
   depends_on = [aws_appconfig_application.ndr-app-config-application]
@@ -36,10 +33,7 @@ resource "aws_appconfig_configuration_profile" "ndr-app-config-profile" {
   type           = "AWS.AppConfig.FeatureFlags"
 
   tags = {
-    Name        = "${terraform.workspace}_repo_app_config_profile"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}_repo_app_config_profile"
   }
 
   depends_on = [aws_appconfig_application.ndr-app-config-application]
@@ -126,3 +120,4 @@ data "aws_iam_policy_document" "app_config_policy" {
     ]
   }
 }
+

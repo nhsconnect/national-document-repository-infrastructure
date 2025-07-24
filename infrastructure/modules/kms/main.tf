@@ -4,10 +4,7 @@ resource "aws_kms_key" "encryption_key" {
   enable_key_rotation = var.kms_key_rotation_enabled
 
   tags = {
-    Name        = var.kms_key_name
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = var.kms_key_name
   }
 }
 

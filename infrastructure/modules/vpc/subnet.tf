@@ -4,11 +4,8 @@ resource "aws_subnet" "public_subnets" {
   cidr_block        = local.is_production ? element(local.public_subnet_cidrs_prod, count.index) : element(local.public_subnet_cidrs, count.index)
   availability_zone = element(var.availability_zones, count.index)
   tags = {
-    Name        = "${terraform.workspace}-public-subnet-${count.index + 1}"
-    Zone        = "Public"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-public-subnet-${count.index + 1}"
+    Zone = "Public"
   }
 }
 
@@ -18,11 +15,8 @@ resource "aws_subnet" "private_subnets" {
   cidr_block        = local.is_production ? element(local.private_subnet_cidrs_prod, count.index) : element(local.private_subnet_cidrs, count.index)
   availability_zone = element(var.availability_zones, count.index)
   tags = {
-    Name        = "${terraform.workspace}-private-subnet-${count.index + 1}"
-    Zone        = "Private"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-private-subnet-${count.index + 1}"
+    Zone = "Private"
   }
 }
 

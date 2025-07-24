@@ -2,10 +2,7 @@ resource "aws_route53_zone" "ndr_zone" {
   count = var.using_arf_hosted_zone ? 0 : 1
   name  = var.domain
   tags = {
-    Name        = "${terraform.workspace}-ndr_zone"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-ndr_zone"
   }
 }
 

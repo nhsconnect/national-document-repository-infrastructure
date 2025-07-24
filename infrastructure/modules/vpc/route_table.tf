@@ -2,12 +2,8 @@ resource "aws_route_table" "public" {
   count  = local.is_sandbox ? 0 : var.num_public_subnets > 0 ? 1 : 0
   vpc_id = local.is_production ? aws_vpc.vpc[0].id : data.aws_vpc.vpc[0].id
   tags = {
-    Name        = "${terraform.workspace}-public-route-table"
-    Zone        = "Public"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
-
+    Name = "${terraform.workspace}-public-route-table"
+    Zone = "Public"
   }
 }
 
@@ -15,12 +11,8 @@ resource "aws_route_table" "private" {
   count  = local.is_sandbox ? 0 : var.num_public_subnets > 0 ? 1 : 0
   vpc_id = local.is_production ? aws_vpc.vpc[0].id : data.aws_vpc.vpc[0].id
   tags = {
-    Name        = "${terraform.workspace}-private-route-table"
-    Zone        = "Private"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
-
+    Name = "${terraform.workspace}-private-route-table"
+    Zone = "Private"
   }
 }
 
@@ -73,3 +65,4 @@ resource "aws_route" "nat_route" {
   nat_gateway_id         = aws_nat_gateway.public[0].id
   depends_on             = [aws_route_table.private[0]]
 }
+

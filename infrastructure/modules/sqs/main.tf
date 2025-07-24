@@ -11,10 +11,7 @@ resource "aws_sqs_queue" "sqs_queue" {
   kms_master_key_id           = var.kms_master_key_id
 
   tags = {
-    Name        = "${terraform.workspace}-${var.name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-${var.name}"
   }
 }
 
@@ -32,10 +29,7 @@ resource "aws_sqs_queue" "queue_deadletter" {
   kms_master_key_id           = var.kms_master_key_id
 
   tags = {
-    Name        = "${terraform.workspace}-${var.name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-${var.name}"
   }
 }
 

@@ -3,10 +3,7 @@ resource "aws_s3_bucket" "bucket" {
   force_destroy = var.force_destroy
 
   tags = {
-    Name        = "${terraform.workspace}-${var.bucket_name}"
-    Owner       = var.owner
-    Environment = var.environment
-    Workspace   = terraform.workspace
+    Name = "${terraform.workspace}-${var.bucket_name}"
   }
 }
 
@@ -163,3 +160,4 @@ data "aws_iam_policy_document" "s3_write_policy" {
     ]
   }
 }
+
