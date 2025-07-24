@@ -42,6 +42,30 @@ provider "aws" {
     }
   }
 }
+
+resource "aws_resourcegroups_group" "resource_group" {
+  name        = "${replace(terraform.workspace, "_", "-")}--resource-group"
+  description = "${replace(terraform.workspace, "_", "-")} workspace resource group."
+  tags = {
+    Name      = "${replace(terraform.workspace, "_", "-")}--resource-group"
+    Workspace = replace(terraform.workspace, "_", "-")
+  }
+
+  resource_query {
+    query = <<JSON
+{
+  "ResourceTypeFilters": ["AWS::AllSupported"],
+  "TagFilters": [
+    {
+      "Key": "Workspace",
+      "Values": ["${replace(terraform.workspace, "_", "-")}"]
+    }
+  ]
+}
+JSON
+  }
+}
+
 data "aws_caller_identity" "current" {
 }
 
