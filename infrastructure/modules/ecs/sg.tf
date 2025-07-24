@@ -3,7 +3,7 @@ resource "aws_security_group" "ndr_ecs_sg" {
   description = "Allow TLS inbound traffic"
   vpc_id      = var.vpc_id
   tags = {
-    Name = "${terraform.workspace}-sg"
+    Name = var.sg_name
   }
 }
 
