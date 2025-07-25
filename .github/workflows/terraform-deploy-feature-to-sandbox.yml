@@ -97,6 +97,20 @@ jobs:
         working-directory: ./infrastructure
         shell: bash
 
+      - name: Import Log Groups
+        run: |
+          lambda_names=("TokenRequestHandler", "GetDocumentReference", "UpdateUploadStateLambda", "LogoutHandler", "LloydGeorgeStitchLambda", "DataCollectionLambda", "DeleteDocumentObjectS3", "BackChannelLogoutHandler", "GetReportByODS", "NhsOauthTokenGeneratorLambda", "LoginRedirectHandler", "SendFeedbackLambda", "FeatureFlagsLambda", "ManageNrlPointerLambda", "VirusScanResult", "StatisticalReportLambda", "BulkUploadMetadataPreprocessor", "BulkUploadLambda", "BulkUploadMetadataLambda", "PdfStitchingLambda", "SearchPatientDetailsLambda", "SearchDocumentReferencesFHIR", "IMAlertingLambda", "BulkUploadReportLambda", "PostDocumentReferencesFHIR", "AuthoriserLambda", "AccessAuditLambda", "MNSNotificationLambda", "SearchDocumentReferencesLambda", "GenerateLloydGeorgeStitch", "CreateDocRefLambda", "DeleteDocRefLambda", "DocumentManifestJobLambda", "UploadConfirmResultLambda", "GenerateDocumentManifest")
+          workspace="${{ github.event.inputs.sandboxWorkspace }}"
+
+          for i in "${!lambda_names[@]}"; do
+            name="${lambda_names[$i]}"
+            log_group="/aws/lambda/${workspace}_${name}"
+            echo "Importing log group: $log_group"
+            terraform import "aws_cloudwatch_log_group.lambda_logs[0]" "$log_group"
+          done
+        working-directory: ./infrastructure
+        shell: bash
+
       - name: Terraform Plan
         id: plan
         run: |
