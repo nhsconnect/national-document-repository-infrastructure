@@ -4,8 +4,6 @@ domain                            = "access-request-fulfilment.patient-deduction
 certificate_domain                = "access-request-fulfilment.patient-deductions.nhs.uk"
 certificate_subdomain_name_prefix = "api-"
 
-cloudwatch_alarm_evaluation_periods = 5
-
 standalone_vpc_tag    = "ndr-dev"
 standalone_vpc_ig_tag = "ndr-dev"
 
