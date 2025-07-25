@@ -70,6 +70,12 @@ variable "num_private_subnets" {
   type = number
 }
 
+variable "is_sandbox" {
+  type        = bool
+  description = "Disables VPC configuration on sandbox environments"
+  default     = true
+}
+
 # Tags
 variable "environment" {
   type = string

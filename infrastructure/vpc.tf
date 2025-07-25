@@ -15,6 +15,7 @@ module "ndr-vpc-ui" {
   endpoint_interface_services = ["ecr.api", "logs", "secretsmanager", "ecr.dkr", "ssm"]
   endpoint_gateway_services   = ["s3", "dynamodb"]
   security_group_id           = module.ndr-ecs-fargate-app.security_group_id
+  is_sandbox                  = local.is_sandbox
 
   # Tags
   environment = var.environment

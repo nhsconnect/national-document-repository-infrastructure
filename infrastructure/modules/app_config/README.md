@@ -57,6 +57,7 @@ module "app_config" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_config_environment_name"></a> [config\_environment\_name](#input\_config\_environment\_name) | n/a | `string` | n/a | yes |
 | <a name="input_config_profile_name"></a> [config\_profile\_name](#input\_config\_profile\_name) | n/a | `string` | n/a | yes |
+| <a name="input_dev_config_enabled"></a> [dev\_config\_enabled](#input\_dev\_config\_enabled) | n/a | `bool` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
 | <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
 ## Outputs
