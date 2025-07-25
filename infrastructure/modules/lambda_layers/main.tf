@@ -5,7 +5,7 @@ locals {
 data "archive_file" "lambda_layer_placeholder" {
   type        = "zip"
   source_file = "placeholder_lambda.py"
-  output_path = "placeholder_lambda_payload.zip"
+  output_path = var.layer_zip_file_name
 }
 
 resource "aws_lambda_layer_version" "lambda_layer" {
