@@ -66,10 +66,9 @@ module "edge_presign_alarm_topic" {
 }
 
 module "edge-presign-lambda" {
-  source         = "./modules/lambda_edge"
-  lambda_timeout = 5
-  name           = "EdgePresignLambda"
-  handler        = "handlers.edge_presign_handler.lambda_handler"
+  source  = "./modules/lambda_edge"
+  name    = "EdgePresignLambda"
+  handler = "handlers.edge_presign_handler.lambda_handler"
   iam_role_policies = [
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
     aws_iam_policy.ssm_access_policy.arn,
