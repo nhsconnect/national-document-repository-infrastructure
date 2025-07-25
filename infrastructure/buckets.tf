@@ -116,6 +116,20 @@ module "ndr-bulk-staging-store" {
   ]
 }
 
+# Bucket to hold trusted CA's for MTLS
+module "s3bucket_truststore" {
+  source = "./modules/s3"
+  access_logs_enabled       = local.is_production
+  access_logs_bucket_id     = local.access_logs_bucket_id
+  bucket_name               = var.staging_store_bucket_name
+  environment    = var.environment
+  owner                     = var.owner
+
+  # aws_account_id = var.aws_account_id
+  # project        = var.project
+  # region         = var.region
+}
+
 # Lifecycle Rules
 resource "aws_s3_bucket_lifecycle_configuration" "lg-lifecycle-rules" {
   bucket = module.ndr-lloyd-george-store.bucket_id
@@ -372,4 +386,15 @@ module "pdm-document-store" {
   environment              = var.environment
   owner                    = var.owner
   force_destroy            = local.is_force_destroy
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "pdm_document_store" {
+  bucket = module.pdm-document-store.bucket_id
+  rule {
+    id     = "default-to-intelligent-tiering"
+    status = "Enabled"
+    transition {
+      storage_class = "INTELLIGENT_TIERING"
+    }
+  }
 }
