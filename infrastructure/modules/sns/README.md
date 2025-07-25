@@ -22,9 +22,6 @@ module "sns_topic" {
   # Required: Name of the topic to create
   topic_name = "alerts-topic"
 
-  # Required: AWS account ID
-  current_account_id = "123456789012"
-
   # Required: Protocol to use for the subscription
   topic_protocol = "sqs"
 

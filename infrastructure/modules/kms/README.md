@@ -26,7 +26,6 @@ module "kms_key" {
   # Required
   environment          = "prod"
   owner                = "platform"
-  current_account_id   = "123456789012"
 
   # Required: List of AWS services allowed to use this key (e.g., "s3.amazonaws.com", "lambda.amazonaws.com")
   service_identifiers = [

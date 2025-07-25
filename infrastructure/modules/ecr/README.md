@@ -23,9 +23,6 @@ module "ecr_repository" {
   environment = "prod"
 
   # Required
-  current_account_id = "123456789012"
-
-  # Required
   owner = "platform"
 }
 

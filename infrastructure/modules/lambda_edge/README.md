@@ -22,9 +22,6 @@ module "s3_proxy_lambda" {
   # Required: Handler function in the code package (e.g., "index.handler")
   handler = "index.handler"
 
-  # Required: ID of the current AWS account
-  current_account_id = "123456789012"
-
   # Required: Name of the target S3 bucket
   bucket_name = "my-app-assets"
 
