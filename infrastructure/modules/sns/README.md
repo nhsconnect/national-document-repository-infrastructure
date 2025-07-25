@@ -22,9 +22,6 @@ module "sns_topic" {
   # Required: Name of the topic to create
   topic_name = "alerts-topic"
 
-  # Required: AWS account ID
-  current_account_id = "123456789012"
-
   # Required: Protocol to use for the subscription
   topic_protocol = "sqs"
 
@@ -87,7 +84,6 @@ module "sns_topic" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_current_account_id"></a> [current\_account\_id](#input\_current\_account\_id) | n/a | `string` | n/a | yes |
 | <a name="input_delivery_policy"></a> [delivery\_policy](#input\_delivery\_policy) | Attach delivery or IAM policy | `string` | n/a | yes |
 | <a name="input_enable_deduplication"></a> [enable\_deduplication](#input\_enable\_deduplication) | Prevent content based duplication in notification queue | `bool` | `false` | no |
 | <a name="input_enable_fifo"></a> [enable\_fifo](#input\_enable\_fifo) | Attach first in first out policy to notification queue | `bool` | `false` | no |

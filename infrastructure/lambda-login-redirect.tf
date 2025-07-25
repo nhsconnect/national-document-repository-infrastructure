@@ -61,7 +61,6 @@ module "login_redirect_alarm" {
 module "login_redirect-alarm_topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "login_redirect-alarms-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.login_redirect_lambda.lambda_arn

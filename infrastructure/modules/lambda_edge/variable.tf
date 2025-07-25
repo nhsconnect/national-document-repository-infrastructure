@@ -6,11 +6,6 @@ variable "handler" {
   type = string
 }
 
-variable "lambda_timeout" {
-  type    = number
-  default = 30
-}
-
 variable "memory_size" {
   type    = number
   default = 128
@@ -38,10 +33,5 @@ variable "bucket_name" {
 
 variable "table_name" {
   description = "The name of the bucket"
-  type        = string
-}
-
-variable "current_account_id" {
-  description = "AWS Account ID"
   type        = string
 }

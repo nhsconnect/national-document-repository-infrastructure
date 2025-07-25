@@ -1,7 +1,3 @@
-variable "current_account_id" {
-  type = string
-}
-
 variable "kms_key_name" {
   type = string
 }

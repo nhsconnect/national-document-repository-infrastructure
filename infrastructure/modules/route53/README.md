@@ -28,9 +28,6 @@ module "dns" {
   # Required: Domain name for the Route53 hosted zone (e.g. "example.com")
   domain = "example.com"
 
-  # Required: Certificate domain for TLS validation
-  certificate_domain = "*.example.com"
-
   # Required: Target DNS name for the Fargate or load-balanced endpoint
   dns_name = "fargate-lb-123456.eu-west-2.elb.amazonaws.com"
 
@@ -66,7 +63,6 @@ module "dns" {
 | <a name="input_api_gateway_full_domain_name"></a> [api\_gateway\_full\_domain\_name](#input\_api\_gateway\_full\_domain\_name) | Full domain name for api gateway custom domain. Example: api-dev.access-request-fulfilment.patient-deductions.nhs.uk | `string` | n/a | yes |
 | <a name="input_api_gateway_subdomain_name"></a> [api\_gateway\_subdomain\_name](#input\_api\_gateway\_subdomain\_name) | Subdomain name for api gateway custom domain. Example: api-dev | `string` | n/a | yes |
 | <a name="input_api_gateway_zone_id"></a> [api\_gateway\_zone\_id](#input\_api\_gateway\_zone\_id) | Zone Id for api gateway custom domain | `string` | n/a | yes |
-| <a name="input_certificate_domain"></a> [certificate\_domain](#input\_certificate\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_dns_name"></a> [dns\_name](#input\_dns\_name) | n/a | `string` | n/a | yes |
 | <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |

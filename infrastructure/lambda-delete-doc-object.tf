@@ -11,7 +11,6 @@ module "delete-document-object-alarm" {
 module "delete-document-object-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "delete-document-object-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.delete-document-object-lambda.lambda_arn

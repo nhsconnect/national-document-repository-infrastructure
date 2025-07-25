@@ -12,7 +12,6 @@ module "data-collection-alarm" {
 module "data-collection-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "data-collection-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.data-collection-lambda.lambda_arn

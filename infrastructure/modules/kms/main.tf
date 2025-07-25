@@ -16,12 +16,13 @@ resource "aws_kms_alias" "encryption_key_alias" {
   target_key_id = aws_kms_key.encryption_key.id
 }
 
+data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "kms_key_base" {
   statement {
     effect = "Allow"
     principals {
-      identifiers = ["arn:aws:iam::${var.current_account_id}:root"]
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
       type        = "AWS"
     }
     actions   = ["kms:*"]

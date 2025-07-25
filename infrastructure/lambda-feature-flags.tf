@@ -25,7 +25,6 @@ module "feature_flags_alarm" {
 module "feature_flags_alarm_topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "feature_flags_alarms-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.feature-flags-lambda.lambda_arn

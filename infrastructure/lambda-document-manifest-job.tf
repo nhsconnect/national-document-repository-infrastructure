@@ -25,7 +25,6 @@ module "document_manifest_alarm" {
 module "document_manifest_alarm_topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "create_doc_manifest-alarms-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.document-manifest-job-lambda.lambda_arn
