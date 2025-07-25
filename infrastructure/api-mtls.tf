@@ -21,7 +21,7 @@ resource "aws_api_gateway_domain_name" "mtls_custom_api_domain" {
   }
 
   mutual_tls_authentication {
-    truststore_uri     = "s3://${module.s3bucket_truststore.id}"
+    truststore_uri = "s3://${module.s3bucket_truststore.id}"
   }
 }
 
