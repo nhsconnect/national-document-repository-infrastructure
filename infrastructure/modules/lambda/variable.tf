@@ -79,3 +79,20 @@ variable "default_policies" {
   ]
 }
 
+variable "non_persistent_workspaces" {
+  type        = list(string)
+  description = "A list of workspaces that do not require persistent logs"
+  default     = ["ndr-dev", "ndra", "ndrb", "ndrc", "ndrd"]
+}
+
+variable "default_lambda_layers" {
+  type = list(string)
+  default = [
+    "arn:aws:lambda:eu-west-2:282860088358:layer:AWS-AppConfig-Extension:120"
+  ]
+}
+
+variable "extra_lambda_layers" {
+  type    = list(string)
+  default = ["arn:aws:lambda:eu-west-2:580247275435:layer:LambdaInsightsExtension:53"]
+}

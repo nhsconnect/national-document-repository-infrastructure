@@ -25,7 +25,7 @@ provider "aws" {
     tags = {
       Owner       = var.owner
       Environment = var.environment
-      Workspace   = replace(terraform.workspace, "_", "-")
+      Workspace   = terraform.workspace
     }
   }
 }
@@ -42,16 +42,16 @@ provider "aws" {
     tags = {
       Owner       = var.owner
       Environment = var.environment
-      Workspace   = replace(terraform.workspace, "_", "-")
+      Workspace   = terraform.workspace
     }
   }
 }
 
 resource "aws_resourcegroups_group" "resource_group" {
-  name        = "${replace(terraform.workspace, "_", "-")}-resource_group"
-  description = "${replace(terraform.workspace, "_", "-")} workspace resource group."
+  name        = "${terraform.workspace}-resource_group"
+  description = "${terraform.workspace} workspace resource group."
   tags = {
-    Name = "${replace(terraform.workspace, "_", "-")}-resource_group"
+    Name = "${terraform.workspace}-resource_group"
   }
 
   resource_query {
@@ -61,7 +61,7 @@ resource "aws_resourcegroups_group" "resource_group" {
   "TagFilters": [
     {
       "Key": "Workspace",
-      "Values": ["${replace(terraform.workspace, "_", "-")}"]
+      "Values": ["${terraform.workspace}"]
     }
   ]
 }
