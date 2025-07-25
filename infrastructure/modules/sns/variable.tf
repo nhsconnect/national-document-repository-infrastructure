@@ -28,14 +28,9 @@ variable "topic_endpoint" {
   default = null
 }
 
-
 variable "topic_endpoint_list" {
   type    = any
   default = []
-}
-
-variable "current_account_id" {
-  type = string
 }
 
 variable "sns_encryption_key_id" {

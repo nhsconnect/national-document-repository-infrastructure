@@ -41,6 +41,8 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "lambda_policy" {
   statement {
     effect = "Allow"
@@ -49,7 +51,7 @@ data "aws_iam_policy_document" "lambda_policy" {
       "logs:CreateLogStream",
       "logs:PutLogEvents"
     ]
-    resources = ["arn:aws:logs:eu-west-2:${var.current_account_id}:log-group:*"]
+    resources = ["arn:aws:logs:eu-west-2:${data.aws_caller_identity.current.account_id}:log-group:*"]
   }
 
   statement {
@@ -63,7 +65,7 @@ data "aws_iam_policy_document" "lambda_policy" {
     actions = [
       "dynamodb:UpdateItem",
     ]
-    resources = ["arn:aws:dynamodb:eu-west-2:${var.current_account_id}:table/${var.table_name}"]
+    resources = ["arn:aws:dynamodb:eu-west-2:${data.aws_caller_identity.current.account_id}:table/${var.table_name}"]
   }
 }
 

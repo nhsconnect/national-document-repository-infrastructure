@@ -39,7 +39,6 @@ resource "aws_cloudwatch_metric_alarm" "edge_presign_lambda_error" {
 module "edge_presign_alarm_topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "edge_presign-alarms-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.edge-presign-lambda.lambda_arn
@@ -79,7 +78,6 @@ module "edge-presign-lambda" {
   providers = {
     aws = aws.us_east_1
   }
-  current_account_id = data.aws_caller_identity.current.account_id
-  bucket_name        = module.ndr-lloyd-george-store.bucket_id
-  table_name         = module.cloudfront_edge_dynamodb_table.table_name
+  bucket_name = module.ndr-lloyd-george-store.bucket_id
+  table_name  = module.cloudfront_edge_dynamodb_table.table_name
 }

@@ -12,7 +12,6 @@ module "generate-lloyd-george-stitch-alarm" {
 module "generate-lloyd-george-stitch-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "generate-lloyd-george-stitch-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.generate-lloyd-george-stitch-lambda.lambda_arn

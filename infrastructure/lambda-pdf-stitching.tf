@@ -48,7 +48,6 @@ module "pdf-stitching-lambda-alarms" {
 module "pdf-stitching-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "pdf-stitching-alarm-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.pdf-stitching-lambda.lambda_arn

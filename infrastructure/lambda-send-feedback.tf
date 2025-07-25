@@ -35,7 +35,6 @@ module "send-feedback-alarm" {
 module "send-feedback-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "send-feedback-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.send-feedback-lambda.lambda_arn

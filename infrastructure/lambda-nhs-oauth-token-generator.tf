@@ -31,7 +31,6 @@ module "nhs-oauth-token-generator-alarm" {
 module "nhs-oauth-token-generator-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "nhs-oauth-token-generator-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.nhs-oauth-token-generator-lambda.lambda_arn

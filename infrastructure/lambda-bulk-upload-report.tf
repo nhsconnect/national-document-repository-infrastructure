@@ -62,7 +62,6 @@ module "bulk-upload-report-alarm" {
 module "bulk-upload-report-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "bulk-upload-report-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.bulk-upload-report-lambda.lambda_arn

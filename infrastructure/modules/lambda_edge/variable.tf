@@ -40,8 +40,3 @@ variable "table_name" {
   description = "The name of the bucket"
   type        = string
 }
-
-variable "current_account_id" {
-  description = "AWS Account ID"
-  type        = string
-}

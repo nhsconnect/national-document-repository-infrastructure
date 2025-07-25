@@ -41,7 +41,6 @@ module "bulk-upload-metadata-alarm" {
 module "bulk-upload-metadata-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "bulk-upload-metadata-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.bulk-upload-metadata-lambda.lambda_arn

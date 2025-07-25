@@ -25,7 +25,6 @@ module "upload_confirm_result_alarm" {
 module "upload_confirm_result_alarm_topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  current_account_id    = data.aws_caller_identity.current.account_id
   topic_name            = "upload_confirm_result_alarm-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.upload_confirm_result_lambda.lambda_arn
