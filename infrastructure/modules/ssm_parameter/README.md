@@ -54,10 +54,10 @@ module "ssm_param" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_description"></a> [description](#input\_description) | Description of the parameter | `string` | `null` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | Tags | `string` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment tag used for classifying the SSM parameter. | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of SSM parameter | `string` | `null` | no |
-| <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
-| <a name="input_resource_depends_on"></a> [resource\_depends\_on](#input\_resource\_depends\_on) | n/a | `string` | `""` | no |
+| <a name="input_owner"></a> [owner](#input\_owner) | Owner tag used to identify the team or individual responsible for the resource. | `string` | n/a | yes |
+| <a name="input_resource_depends_on"></a> [resource\_depends\_on](#input\_resource\_depends\_on) | Optional resource to depend on before creating the SSM parameter. | `string` | `""` | no |
 | <a name="input_type"></a> [type](#input\_type) | Valid types are String, StringList and SecureString. | `string` | `"SecureString"` | no |
 | <a name="input_value"></a> [value](#input\_value) | Value of the parameter | `string` | `null` | no |
 ## Outputs

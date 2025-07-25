@@ -96,20 +96,20 @@ module "document_reference_dynamodb_table" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_attributes"></a> [attributes](#input\_attributes) | List of nested attribute definitions | `list(map(string))` | `[]` | no |
-| <a name="input_billing_mode"></a> [billing\_mode](#input\_billing\_mode) | n/a | `string` | `"PAY_PER_REQUEST"` | no |
-| <a name="input_deletion_protection_enabled"></a> [deletion\_protection\_enabled](#input\_deletion\_protection\_enabled) | n/a | `bool` | `null` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
-| <a name="input_global_secondary_indexes"></a> [global\_secondary\_indexes](#input\_global\_secondary\_indexes) | n/a | `any` | `[]` | no |
-| <a name="input_hash_key"></a> [hash\_key](#input\_hash\_key) | n/a | `string` | `null` | no |
-| <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
-| <a name="input_point_in_time_recovery_enabled"></a> [point\_in\_time\_recovery\_enabled](#input\_point\_in\_time\_recovery\_enabled) | n/a | `bool` | `false` | no |
-| <a name="input_sort_key"></a> [sort\_key](#input\_sort\_key) | n/a | `string` | `null` | no |
-| <a name="input_stream_enabled"></a> [stream\_enabled](#input\_stream\_enabled) | n/a | `bool` | `false` | no |
-| <a name="input_stream_view_type"></a> [stream\_view\_type](#input\_stream\_view\_type) | n/a | `string` | `"NEW_AND_OLD_IMAGES"` | no |
-| <a name="input_table_name"></a> [table\_name](#input\_table\_name) | Name of the DynamoDB table | `string` | `null` | no |
-| <a name="input_ttl_attribute_name"></a> [ttl\_attribute\_name](#input\_ttl\_attribute\_name) | n/a | `string` | `""` | no |
-| <a name="input_ttl_enabled"></a> [ttl\_enabled](#input\_ttl\_enabled) | n/a | `bool` | `false` | no |
+| <a name="input_attributes"></a> [attributes](#input\_attributes) | List of nested attribute definitions. | `list(map(string))` | `[]` | no |
+| <a name="input_billing_mode"></a> [billing\_mode](#input\_billing\_mode) | DynamoDB billing mode (e.g., PAY\_PER\_REQUEST). | `string` | `"PAY_PER_REQUEST"` | no |
+| <a name="input_deletion_protection_enabled"></a> [deletion\_protection\_enabled](#input\_deletion\_protection\_enabled) | Prevents table from accidental deletion. | `bool` | `null` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Deployment environment tag used for naming and labeling (e.g., dev, prod). | `string` | n/a | yes |
+| <a name="input_global_secondary_indexes"></a> [global\_secondary\_indexes](#input\_global\_secondary\_indexes) | List of optional Global Secondary Indexes. | `any` | `[]` | no |
+| <a name="input_hash_key"></a> [hash\_key](#input\_hash\_key) | Primary partition key for the table. | `string` | `null` | no |
+| <a name="input_owner"></a> [owner](#input\_owner) | Identifies the team or person responsible for the resource (used for tagging). | `string` | n/a | yes |
+| <a name="input_point_in_time_recovery_enabled"></a> [point\_in\_time\_recovery\_enabled](#input\_point\_in\_time\_recovery\_enabled) | Enables PITR for backups. | `bool` | `false` | no |
+| <a name="input_sort_key"></a> [sort\_key](#input\_sort\_key) | Optional sort key for composite primary key. | `string` | `null` | no |
+| <a name="input_stream_enabled"></a> [stream\_enabled](#input\_stream\_enabled) | Whether DynamoDB Streams are enabled. | `bool` | `false` | no |
+| <a name="input_stream_view_type"></a> [stream\_view\_type](#input\_stream\_view\_type) | Type of stream view (e.g., OLD\_IMAGE). | `string` | `"NEW_AND_OLD_IMAGES"` | no |
+| <a name="input_table_name"></a> [table\_name](#input\_table\_name) | Name of the DynamoDB table. | `string` | `null` | no |
+| <a name="input_ttl_attribute_name"></a> [ttl\_attribute\_name](#input\_ttl\_attribute\_name) | Name of the TTL attribute. | `string` | `""` | no |
+| <a name="input_ttl_enabled"></a> [ttl\_enabled](#input\_ttl\_enabled) | Whether to enable TTL (Time to Live) on items. | `bool` | `false` | no |
 ## Outputs
 
 | Name | Description |

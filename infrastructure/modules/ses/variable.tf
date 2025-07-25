@@ -1,15 +1,19 @@
 variable "domain_prefix" {
-  type = string
+  description = "The subdomain or prefix used to construct the full SES identity domain."
+  type        = string
 }
 
 variable "domain" {
-  type = string
+  description = "The root domain name to be registered with SES and used for verification."
+  type        = string
 }
 
 variable "zone_id" {
-  type = string
+  description = "The Route53 hosted zone ID where DNS verification records will be created."
+  type        = string
 }
 
 variable "enable" {
-  type = bool
+  description = "Whether to enable the creation of SES identity, DKIM, and DNS records."
+  type        = bool
 }

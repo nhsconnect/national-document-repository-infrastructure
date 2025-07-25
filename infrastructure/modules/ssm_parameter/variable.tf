@@ -23,14 +23,17 @@ variable "type" {
 }
 
 variable "resource_depends_on" {
-  default = ""
+  description = "Optional resource to depend on before creating the SSM parameter."
+  default     = ""
 }
 
 # Tags
 variable "environment" {
-  type = string
+  description = "Environment tag used for classifying the SSM parameter."
+  type        = string
 }
 
 variable "owner" {
-  type = string
+  description = "Owner tag used to identify the team or individual responsible for the resource."
+  type        = string
 }

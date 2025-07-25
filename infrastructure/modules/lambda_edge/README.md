@@ -73,16 +73,16 @@ module "s3_proxy_lambda" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name of the bucket to proxy | `string` | n/a | yes |
-| <a name="input_current_account_id"></a> [current\_account\_id](#input\_current\_account\_id) | AWS Account ID | `string` | n/a | yes |
-| <a name="input_handler"></a> [handler](#input\_handler) | n/a | `string` | n/a | yes |
-| <a name="input_iam_role_policies"></a> [iam\_role\_policies](#input\_iam\_role\_policies) | n/a | `list(string)` | n/a | yes |
-| <a name="input_lambda_ephemeral_storage"></a> [lambda\_ephemeral\_storage](#input\_lambda\_ephemeral\_storage) | n/a | `number` | `512` | no |
-| <a name="input_lambda_timeout"></a> [lambda\_timeout](#input\_lambda\_timeout) | n/a | `number` | `30` | no |
-| <a name="input_memory_size"></a> [memory\_size](#input\_memory\_size) | n/a | `number` | `128` | no |
-| <a name="input_name"></a> [name](#input\_name) | n/a | `string` | n/a | yes |
+| <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | The name of the S3 bucket the Lambda will proxy requests to. | `string` | n/a | yes |
+| <a name="input_current_account_id"></a> [current\_account\_id](#input\_current\_account\_id) | AWS account ID where the Lambda function is deployed. | `string` | n/a | yes |
+| <a name="input_handler"></a> [handler](#input\_handler) | Handler function in the code package (e.g., 'index.handler'). | `string` | n/a | yes |
+| <a name="input_iam_role_policies"></a> [iam\_role\_policies](#input\_iam\_role\_policies) | List of IAM policy ARNs or JSON documents to attach to the Lambda execution role. | `list(string)` | n/a | yes |
+| <a name="input_lambda_ephemeral_storage"></a> [lambda\_ephemeral\_storage](#input\_lambda\_ephemeral\_storage) | Amount of ephemeral storage (in MB) allocated to the Lambda function. | `number` | `512` | no |
+| <a name="input_lambda_timeout"></a> [lambda\_timeout](#input\_lambda\_timeout) | Timeout value (in seconds) for the Lambda function. | `number` | `30` | no |
+| <a name="input_memory_size"></a> [memory\_size](#input\_memory\_size) | Amount of memory (in MB) to allocate to the Lambda function. | `number` | `128` | no |
+| <a name="input_name"></a> [name](#input\_name) | Unique name for the Lambda function. | `string` | n/a | yes |
 | <a name="input_reserved_concurrent_executions"></a> [reserved\_concurrent\_executions](#input\_reserved\_concurrent\_executions) | The number of concurrent execution allowed for lambda. A value of 0 will stop lambda from running, and -1 removes any concurrency limitations. Default to -1. | `number` | `-1` | no |
-| <a name="input_table_name"></a> [table\_name](#input\_table\_name) | The name of the bucket | `string` | n/a | yes |
+| <a name="input_table_name"></a> [table\_name](#input\_table\_name) | The name of the DynamoDB table used by the Lambda function. | `string` | n/a | yes |
 ## Outputs
 
 | Name | Description |

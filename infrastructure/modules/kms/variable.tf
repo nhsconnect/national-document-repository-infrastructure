@@ -1,45 +1,55 @@
 variable "current_account_id" {
-  type = string
+  description = "AWS account ID where the KMS key policy is applied."
+  type        = string
 }
 
 variable "kms_key_name" {
-  type = string
+  description = "Name of the KMS key to be created."
+  type        = string
 }
 
 variable "kms_key_description" {
-  type = string
+  description = "Description of the KMS key."
+  type        = string
 }
 
 variable "kms_key_rotation_enabled" {
-  type    = bool
-  default = true
+  description = "Enable automatic KMS key rotation."
+  type        = bool
+  default     = true
 }
 
 variable "environment" {
-  type = string
+  description = "Deployment environment (e.g., dev, staging, prod)."
+  type        = string
 }
 
 variable "owner" {
-  type = string
+  description = "Owner tag for identifying the resource owner."
+  type        = string
 }
 
 variable "service_identifiers" {
-  type = list(string)
+  description = "List of AWS service principal identifiers allowed to use the key (e.g., 's3.amazonaws.com')."
+  type        = list(string)
 }
 
 variable "aws_identifiers" {
-  type    = list(string)
-  default = []
+  description = "List of ARNs that will be granted decrypt-only access."
+  type        = list(string)
+  default     = []
 }
 
 variable "allow_decrypt_for_arn" {
-  type    = bool
-  default = false
+  description = "Flag to allow generating a decrypt-only policy for specified ARNs."
+  type        = bool
+  default     = false
 }
 
 variable "allowed_arn" {
-  type    = list(string)
-  default = []
+  description = "List of ARNs that are allowed full encrypt/decrypt access to the KMS key."
+  type        = list(string)
+  default     = []
 }
 
 output "kms_arn" {

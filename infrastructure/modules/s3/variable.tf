@@ -1,5 +1,5 @@
 variable "bucket_name" {
-  description = "the name of the bucket"
+  description = "The name of the S3 bucket to create."
   type        = string
 }
 
@@ -10,42 +10,48 @@ variable "force_destroy" {
 }
 
 variable "enable_cors_configuration" {
-  type    = bool
-  default = false
+  description = "Whether to enable CORS configuration for the S3 bucket."
+  type        = bool
+  default     = false
 }
 
 variable "enable_bucket_versioning" {
-  type    = bool
-  default = false
+  description = "Whether to enable versioning on the bucket."
+  type        = bool
+  default     = false
 }
 
 variable "cors_rules" {
-  default = []
+  description = "List of CORS rules to apply to the S3 bucket."
+  default     = []
 }
 # Tags
 variable "environment" {
-  type = string
+  description = "Environment label used for tagging (e.g., 'dev', 'prod')."
+  type        = string
 }
 
 variable "owner" {
-  type = string
+  description = "Owner label used for resource tagging."
+  type        = string
 }
 
 variable "cloudfront_arn" {
+  description = "CloudFront distribution ARN association and policy toggles"
   type        = string
   default     = "null"
-  description = "CloudFront Distribution ARN association and policy toggles"
 }
 
 variable "cloudfront_enabled" {
+  description = "Enables the correct policy config for CloudFront associated S3 bucket"
   type        = bool
   default     = false
-  description = "Enables the correct policy config for CloudFront associated S3 bucket"
 }
 
 variable "access_logs_enabled" {
-  type    = bool
-  default = false
+  description = "Whether to enable S3 access logging for this bucket."
+  type        = bool
+  default     = false
 }
 
 variable "access_logs_bucket_id" {

@@ -55,10 +55,10 @@ module "app_config" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_config_environment_name"></a> [config\_environment\_name](#input\_config\_environment\_name) | n/a | `string` | n/a | yes |
-| <a name="input_config_profile_name"></a> [config\_profile\_name](#input\_config\_profile\_name) | n/a | `string` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
-| <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
+| <a name="input_config_environment_name"></a> [config\_environment\_name](#input\_config\_environment\_name) | Name of the AppConfig environment (e.g., dev, prod). | `string` | n/a | yes |
+| <a name="input_config_profile_name"></a> [config\_profile\_name](#input\_config\_profile\_name) | Name of the AppConfig configuration profile. | `string` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | Deployment environment tag used for naming and labeling (e.g., dev, prod) | `string` | n/a | yes |
+| <a name="input_owner"></a> [owner](#input\_owner) | Identifies the team or person responsible for the resource (used for tagging). | `string` | n/a | yes |
 ## Outputs
 
 | Name | Description |

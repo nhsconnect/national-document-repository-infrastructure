@@ -65,13 +65,13 @@ module "dns" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_api_gateway_full_domain_name"></a> [api\_gateway\_full\_domain\_name](#input\_api\_gateway\_full\_domain\_name) | Full domain name for api gateway custom domain. Example: api-dev.access-request-fulfilment.patient-deductions.nhs.uk | `string` | n/a | yes |
 | <a name="input_api_gateway_subdomain_name"></a> [api\_gateway\_subdomain\_name](#input\_api\_gateway\_subdomain\_name) | Subdomain name for api gateway custom domain. Example: api-dev | `string` | n/a | yes |
-| <a name="input_api_gateway_zone_id"></a> [api\_gateway\_zone\_id](#input\_api\_gateway\_zone\_id) | Zone Id for api gateway custom domain | `string` | n/a | yes |
-| <a name="input_certificate_domain"></a> [certificate\_domain](#input\_certificate\_domain) | n/a | `string` | n/a | yes |
-| <a name="input_dns_name"></a> [dns\_name](#input\_dns\_name) | n/a | `string` | n/a | yes |
-| <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
-| <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
-| <a name="input_using_arf_hosted_zone"></a> [using\_arf\_hosted\_zone](#input\_using\_arf\_hosted\_zone) | n/a | `bool` | `true` | no |
+| <a name="input_api_gateway_zone_id"></a> [api\_gateway\_zone\_id](#input\_api\_gateway\_zone\_id) | The Route53 zone ID associated with the API Gateway custom domain. | `string` | n/a | yes |
+| <a name="input_certificate_domain"></a> [certificate\_domain](#input\_certificate\_domain) | The domain name used for locating the TLS certificate (e.g., '*.example.com'). | `string` | n/a | yes |
+| <a name="input_dns_name"></a> [dns\_name](#input\_dns\_name) | The target DNS name for the record, typically the Fargate or Load Balancer endpoint. | `string` | n/a | yes |
+| <a name="input_domain"></a> [domain](#input\_domain) | The root domain name used to find or create the Route53 hosted zone. | `string` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment tag used for context and identification (e.g., 'dev', 'prod'). | `string` | n/a | yes |
+| <a name="input_owner"></a> [owner](#input\_owner) | Owner tag used for resource tagging and identification. | `string` | n/a | yes |
+| <a name="input_using_arf_hosted_zone"></a> [using\_arf\_hosted\_zone](#input\_using\_arf\_hosted\_zone) | Whether to use a shared hosted zone for ARF or multi-module deployments. | `bool` | `true` | no |
 ## Outputs
 
 | Name | Description |

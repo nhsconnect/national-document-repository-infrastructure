@@ -1,26 +1,32 @@
 variable "environment" {
-  type = string
+  description = "Environment tag used for context and identification (e.g., 'dev', 'prod')."
+  type        = string
 }
 
 variable "owner" {
-  type = string
+  description = "Owner tag used for resource tagging and identification."
+  type        = string
 }
 
 variable "dns_name" {
-  type = string
+  description = "The target DNS name for the record, typically the Fargate or Load Balancer endpoint."
+  type        = string
 }
 
 variable "domain" {
-  type = string
+  description = "The root domain name used to find or create the Route53 hosted zone."
+  type        = string
 }
 
 variable "certificate_domain" {
-  type = string
+  description = "The domain name used for locating the TLS certificate (e.g., '*.example.com')."
+  type        = string
 }
 
 variable "using_arf_hosted_zone" {
-  type    = bool
-  default = true
+  description = "Whether to use a shared hosted zone for ARF or multi-module deployments."
+  type        = bool
+  default     = true
 }
 
 variable "api_gateway_subdomain_name" {
@@ -34,7 +40,7 @@ variable "api_gateway_full_domain_name" {
 }
 
 variable "api_gateway_zone_id" {
-  description = "Zone Id for api gateway custom domain"
+  description = "The Route53 zone ID associated with the API Gateway custom domain."
   type        = string
 }
 

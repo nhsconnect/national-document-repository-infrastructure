@@ -68,15 +68,15 @@ module "api_gateway_resource" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_api_gateway_id"></a> [api\_gateway\_id](#input\_api\_gateway\_id) | n/a | `string` | n/a | yes |
-| <a name="input_api_key_required"></a> [api\_key\_required](#input\_api\_key\_required) | n/a | `bool` | `false` | no |
-| <a name="input_authorization"></a> [authorization](#input\_authorization) | n/a | `string` | n/a | yes |
-| <a name="input_authorizer_id"></a> [authorizer\_id](#input\_authorizer\_id) | Required resource id when setting authorization to 'CUSTOM' | `string` | `""` | no |
-| <a name="input_gateway_path"></a> [gateway\_path](#input\_gateway\_path) | n/a | `string` | n/a | yes |
-| <a name="input_http_methods"></a> [http\_methods](#input\_http\_methods) | n/a | `list(string)` | n/a | yes |
-| <a name="input_origin"></a> [origin](#input\_origin) | n/a | `string` | `"'*'"` | no |
-| <a name="input_parent_id"></a> [parent\_id](#input\_parent\_id) | n/a | `string` | n/a | yes |
-| <a name="input_require_credentials"></a> [require\_credentials](#input\_require\_credentials) | Sets the value of 'Access-Control-Allow-Credentials' which controls whether auth cookies are needed | `bool` | n/a | yes |
+| <a name="input_api_gateway_id"></a> [api\_gateway\_id](#input\_api\_gateway\_id) | ID of the existing API Gateway REST API. | `string` | n/a | yes |
+| <a name="input_api_key_required"></a> [api\_key\_required](#input\_api\_key\_required) | Whether an API key is required to access this resource. | `bool` | `false` | no |
+| <a name="input_authorization"></a> [authorization](#input\_authorization) | Authorization type for the method (e.g., NONE, AWS\_IAM, CUSTOM). | `string` | n/a | yes |
+| <a name="input_authorizer_id"></a> [authorizer\_id](#input\_authorizer\_id) | Required resource id when setting authorization to 'CUSTOM'. | `string` | `""` | no |
+| <a name="input_gateway_path"></a> [gateway\_path](#input\_gateway\_path) | Sub-path to create under the parent resource (e.g., users, status). | `string` | n/a | yes |
+| <a name="input_http_methods"></a> [http\_methods](#input\_http\_methods) | List of allowed HTTP methods for the resource (e.g., ["GET", "POST"]). | `list(string)` | n/a | yes |
+| <a name="input_origin"></a> [origin](#input\_origin) | Allowed origin for CORS requests (e.g., '*', or specific domain). | `string` | `"'*'"` | no |
+| <a name="input_parent_id"></a> [parent\_id](#input\_parent\_id) | ID of the parent API Gateway resource (e.g., root path or another nested resource). | `string` | n/a | yes |
+| <a name="input_require_credentials"></a> [require\_credentials](#input\_require\_credentials) | Sets the value of 'Access-Control-Allow-Credentials' which controls whether auth cookies are needed. | `bool` | n/a | yes |
 ## Outputs
 
 | Name | Description |

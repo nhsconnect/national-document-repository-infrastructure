@@ -53,10 +53,10 @@ module "waf_acl" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_api"></a> [api](#input\_api) | True if using the firewall for an api - removes AWSBotControl | `bool` | `false` | no |
-| <a name="input_cloudfront_acl"></a> [cloudfront\_acl](#input\_cloudfront\_acl) | n/a | `bool` | n/a | yes |
-| <a name="input_environment"></a> [environment](#input\_environment) | n/a | `string` | n/a | yes |
-| <a name="input_owner"></a> [owner](#input\_owner) | n/a | `string` | n/a | yes |
+| <a name="input_api"></a> [api](#input\_api) | True if using the firewall for an api - removes AWSBotControl. | `bool` | `false` | no |
+| <a name="input_cloudfront_acl"></a> [cloudfront\_acl](#input\_cloudfront\_acl) | Set to true if this WAF ACL is for a CloudFront distribution. | `bool` | n/a | yes |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment name used for tagging and resource naming. | `string` | n/a | yes |
+| <a name="input_owner"></a> [owner](#input\_owner) | Name of the owner used for tagging. | `string` | n/a | yes |
 ## Outputs
 
 | Name | Description |

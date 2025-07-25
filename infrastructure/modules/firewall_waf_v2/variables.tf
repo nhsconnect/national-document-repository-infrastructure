@@ -1,18 +1,21 @@
 variable "environment" {
-  type = string
+  description = "Environment name used for tagging and resource naming."
+  type        = string
 }
 
 variable "owner" {
-  type = string
+  description = "Name of the owner used for tagging."
+  type        = string
 }
 
 variable "cloudfront_acl" {
-  type = bool
+  description = "Set to true if this WAF ACL is for a CloudFront distribution."
+  type        = bool
 }
 
 variable "api" {
+  description = "True if using the firewall for an api - removes AWSBotControl."
   type        = bool
-  description = "True if using the firewall for an api - removes AWSBotControl"
   default     = false
 }
 

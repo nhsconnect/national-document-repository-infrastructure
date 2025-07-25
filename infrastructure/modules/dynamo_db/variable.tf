@@ -1,69 +1,81 @@
 variable "table_name" {
-  description = "Name of the DynamoDB table"
+  description = "Name of the DynamoDB table."
   type        = string
   default     = null
 }
 
 variable "attributes" {
-  description = "List of nested attribute definitions"
+  description = "List of nested attribute definitions."
   type        = list(map(string))
   default     = []
 }
 
 variable "hash_key" {
-  type    = string
-  default = null
+  description = "Primary partition key for the table."
+  type        = string
+  default     = null
 }
 
 variable "sort_key" {
-  type    = string
-  default = null
+  description = "Optional sort key for composite primary key."
+  type        = string
+  default     = null
 }
 
 variable "billing_mode" {
-  type    = string
-  default = "PAY_PER_REQUEST"
+  description = "DynamoDB billing mode (e.g., PAY_PER_REQUEST)."
+  type        = string
+  default     = "PAY_PER_REQUEST"
 }
 
 variable "ttl_enabled" {
-  type    = bool
-  default = false
+  description = "Whether to enable TTL (Time to Live) on items."
+  type        = bool
+  default     = false
 }
 
 variable "ttl_attribute_name" {
-  type    = string
-  default = ""
+  description = "Name of the TTL attribute."
+  type        = string
+  default     = ""
 }
 
 variable "global_secondary_indexes" {
-  type    = any
-  default = []
+  description = "List of optional Global Secondary Indexes."
+  type        = any
+  default     = []
 }
 
 variable "deletion_protection_enabled" {
-  type    = bool
-  default = null
+  description = "Prevents table from accidental deletion."
+  type        = bool
+  default     = null
 }
 
 variable "stream_enabled" {
-  type    = bool
-  default = false
+  description = "Whether DynamoDB Streams are enabled."
+  type        = bool
+  default     = false
 }
 
 variable "stream_view_type" {
-  type    = string
-  default = "NEW_AND_OLD_IMAGES"
+  description = "Type of stream view (e.g., OLD_IMAGE)."
+  type        = string
+  default     = "NEW_AND_OLD_IMAGES"
 }
 
 variable "environment" {
-  type = string
+  description = "Deployment environment tag used for naming and labeling (e.g., dev, prod)."
+  type        = string
 }
 
 variable "owner" {
-  type = string
+  description = "Identifies the team or person responsible for the resource (used for tagging)."
+  type        = string
 }
 
 variable "point_in_time_recovery_enabled" {
-  type    = bool
-  default = false
+  description = "Enables PITR for backups."
+  type        = bool
+  default     = false
 }

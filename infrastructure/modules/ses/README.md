@@ -49,10 +49,10 @@ module "ses_identity" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_domain"></a> [domain](#input\_domain) | n/a | `string` | n/a | yes |
-| <a name="input_domain_prefix"></a> [domain\_prefix](#input\_domain\_prefix) | n/a | `string` | n/a | yes |
-| <a name="input_enable"></a> [enable](#input\_enable) | n/a | `bool` | n/a | yes |
-| <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | n/a | `string` | n/a | yes |
+| <a name="input_domain"></a> [domain](#input\_domain) | The root domain name to be registered with SES and used for verification. | `string` | n/a | yes |
+| <a name="input_domain_prefix"></a> [domain\_prefix](#input\_domain\_prefix) | The subdomain or prefix used to construct the full SES identity domain. | `string` | n/a | yes |
+| <a name="input_enable"></a> [enable](#input\_enable) | Whether to enable the creation of SES identity, DKIM, and DNS records. | `bool` | n/a | yes |
+| <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | The Route53 hosted zone ID where DNS verification records will be created. | `string` | n/a | yes |
 ## Outputs
 
 No outputs.

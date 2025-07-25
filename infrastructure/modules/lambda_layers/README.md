@@ -44,9 +44,8 @@ module "lambda_layer" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_account_id"></a> [account\_id](#input\_account\_id) | n/a | `string` | n/a | yes |
-| <a name="input_layer_name"></a> [layer\_name](#input\_layer\_name) | n/a | `string` | n/a | yes |
-| <a name="input_layer_zip_file_name"></a> [layer\_zip\_file\_name](#input\_layer\_zip\_file\_name) | n/a | `string` | `"placeholder_lambda_payload.zip"` | no |
+| <a name="input_account_id"></a> [account\_id](#input\_account\_id) | The AWS account ID used to generate IAM policy for layer access. | `string` | n/a | yes |
+| <a name="input_layer_name"></a> [layer\_name](#input\_layer\_name) | Logical name assigned to the Lambda layer. | `string` | n/a | yes |
 ## Outputs
 
 | Name | Description |
