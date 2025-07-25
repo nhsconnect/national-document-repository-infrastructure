@@ -192,8 +192,6 @@ variable "cloud_only_service_instances" {
   default = 1
 }
 
-variable "poll_frequency" {}
-
 variable "cloudwatch_alarm_evaluation_periods" {}
 
 variable "apim_environment" {}
