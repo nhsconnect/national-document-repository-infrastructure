@@ -91,7 +91,7 @@ module "lambda" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_api_execution_arn"></a> [api\_execution\_arn](#input\_api\_execution\_arn) | Execution ARN of the API Gateway used for granting invoke permissions. | `string` | n/a | yes |
+| <a name="input_api_execution_arn"></a> [api\_execution\_arn](#input\_api\_execution\_arn) | Execution ARN of the API Gateway used for granting invoke permissions. | `string` | `""` | no |
 | <a name="input_default_policies"></a> [default\_policies](#input\_default\_policies) | List of default IAM policy ARNs to attach to the Lambda execution role. | `list(string)` | <pre>[<br/>  "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",<br/>  "arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy"<br/>]</pre> | no |
 | <a name="input_handler"></a> [handler](#input\_handler) | Function entry point in the codebase (e.g., 'index.handler'). | `string` | n/a | yes |
 | <a name="input_http_methods"></a> [http\_methods](#input\_http\_methods) | List of HTTP methods to integrate with the Lambda function. | `list(string)` | `[]` | no |
@@ -105,7 +105,7 @@ module "lambda" {
 | <a name="input_name"></a> [name](#input\_name) | Unique name for the Lambda function. | `string` | n/a | yes |
 | <a name="input_reserved_concurrent_executions"></a> [reserved\_concurrent\_executions](#input\_reserved\_concurrent\_executions) | The number of concurrent execution allowed for lambda. A value of 0 will stop lambda from running, and -1 removes any concurrency limitations. Default to -1. | `number` | `-1` | no |
 | <a name="input_resource_id"></a> [resource\_id](#input\_resource\_id) | ID of the API Gateway resource (path) to attach Lambda to. | `string` | `""` | no |
-| <a name="input_rest_api_id"></a> [rest\_api\_id](#input\_rest\_api\_id) | ID of the associated API Gateway REST API. | `string` | n/a | yes |
+| <a name="input_rest_api_id"></a> [rest\_api\_id](#input\_rest\_api\_id) | ID of the associated API Gateway REST API. | `string` | `""` | no |
 ## Outputs
 
 | Name | Description |
