@@ -1,0 +1,277 @@
+Listing resources tagged with Workspace=ndra
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group/sg-0fe47dbae983fc363
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group-rule/sgr-0ed5ae56bc0a21b85
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:vpc/vpc-076b27d0e8b5066f5
+Tagged resource: arn:aws:ecs:eu-west-2:533825906475:service/ndra-app-cluster/ndra-ecs-cluster-service
+Tagged resource: arn:aws:ecs:eu-west-2:533825906475:task-definition/ndra-task-app-cluster:547
+Tagged resource: arn:aws:ecs:eu-west-2:533825906475:task-definition/mesh-forwarder:1
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/2e0f73e1-624d-4f44-b682-2c2bee333cf5
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/c1761e72-db8f-4e3a-b669-1f16ec8cee70
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/f8d596b6-9919-43e9-880f-9efc29e2172f
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/30ddbd17-404a-4812-9c1a-9237b9b24364
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/6f810128-bafd-4c8b-8c28-9e9c435b57f2
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/2a730492-0738-4503-a184-eda4b339cf8c
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/74b94203-6ef4-4180-bb5e-97c627f72291
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/d8561662-b945-4335-9a6c-b5f87a8da5d3
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/a2582c8e-8b70-46c6-b76a-edc633977d25
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/60476374-aacd-47da-bd72-48b6bef7c9c9
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/b851e7d0-327b-4681-9d4f-810dd8f110fb
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/07bea15b-c3e7-4850-902c-5639d96ab933
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/d85952a7-64d0-4e0a-8c5b-11bfd17cf26b
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/76ca7a58-515f-4a07-84a4-be6841f89595
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/3912321a-8fc8-49ae-8f83-bb7cb17d59dd
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/31234920-530f-4c5e-95a5-4d660666e3da
+Tagged resource: arn:aws:appconfig:eu-west-2:533825906475:application/889sssq/environment/drz5lze
+Tagged resource: arn:aws:appconfig:eu-west-2:533825906475:application/te9u6uc/environment/m4ak0c5/deployment/1
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group-rule/sgr-029add7a05b9f359e
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:vpc-endpoint/vpce-08da5e7bae8cd859d
+Tagged resource: arn:aws:ecs:eu-west-2:533825906475:cluster/ndra-app-cluster
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/cbb6ccf4-d667-49b1-856d-92df03a2e697
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/9505ead7-48d3-42d0-b1a6-767127f7fe49
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/55109768-3ddf-47f8-a1ca-e17ae0a6daee
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/09f2b9b4-297c-43eb-a050-3c742b404533
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/1b139171-131f-43a9-99eb-d6dd3e05a700
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/795ff707-db38-46ff-a5b7-5ba17c7acb5c
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/f02abb05-c39c-4cac-9088-1aed57b323e7
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/0f7a0718-8f9f-49b3-b2c8-2757038397ec
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/14561d2c-93be-49bb-ae05-4ed36a03db34
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/c2259b06-b569-4c80-8ee9-1a38218188b4
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/60096df3-43ba-405d-ae9c-ca8c08cd5b0d
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/eca4ca9f-bc11-470a-90c2-5ec8d77754bc
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/bb3f10a9-5be2-4093-b8ef-d6513cc5a5e4
+Tagged resource: arn:aws:appconfig:eu-west-2:533825906475:application/889sssq/configurationprofile/boa5lef
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group-rule/sgr-0b6a6f7b831faa2b5
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/df30cd95-3526-4329-a154-1229aa01218e
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/dc8bbe6b-598f-4004-8fd8-881e1493aa05
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/2024d1c1-0856-4544-a5ef-aec3edefb2cd
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/5615d5d7-47c6-4217-a756-af648ff2f29c
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/2d922469-d50e-4c98-893c-dfc955ca2546
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/0ee65842-6ab1-498a-921b-310c82bc5e93
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/6e9f2d2f-9035-4fd6-9e74-2f1d623ad4e0
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/af95dd92-eb1b-41ee-a0f6-7505aa3c823f
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/595112b5-4030-44d4-8a33-eecf0553e4aa
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/0ec16fd4-5380-4784-8d37-108e64029cf2
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/881fc647-3b68-4cd1-afa9-9599dd6431fa
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/2068ca7a-e7c8-4eda-bcd4-50d916c978cd
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/2eb61eec-5b49-43fb-8132-45732fc0f94f
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/fd10a18c-14fb-46d3-9162-85cb61ee24cd
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/68c62bec-dcd2-42ea-b8ad-2f7d112a1ced
+Tagged resource: arn:aws:appconfig:eu-west-2:533825906475:application/889sssq/configurationprofile/d1prnz4
+Tagged resource: arn:aws:appconfig:eu-west-2:533825906475:application/889sssq/configurationprofile/o44s9fo
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group/sg-0cb2291eea749db43
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group-rule/sgr-095b598f0bb2a023a
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/e9945098-6e2a-41b9-b717-1442a880cd61
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/c1219439-1253-4284-b94a-daa9b2abe2d6
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/01ed4c3c-f1df-4bc5-9c95-d7a5b5928188
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/ac2a050e-ab24-423d-bf6e-8af7aa960a7d
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/31fb3c4b-a469-4cc4-8a4c-f02a0bf8ce0e
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/54b67f88-e006-4f46-983f-55c0d7a02b71
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/a7deb2ad-a0d8-496d-a88b-163c3ab99215
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/fd4c23ef-8234-4044-b261-b54fecae7b03
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/f5cdc4a6-9c9b-4fc0-ade8-f13d8fd8b248
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/94c482b0-ac15-40a9-b3fc-12960e92abae
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/3919dafd-a79c-4266-9094-d11a3f8d5e3d
+Filtering by workspace: ndra
+No Lambda functions found.
+Filtering KMS aliases by workspace: ndra
+KMS alias: alias/aws/kendra
+KMS Key ID: a2293f73-d6e3-4cfd-b9b7-2283272450bf
+Filtering log groups by workspace: ndra
+CloudWatch Logs log group: /aws/ecs/containerinsights/ndra-app-cluster/performance
+CloudWatch Logs log group: /aws/ecs/containerinsights/ndra-data-collection/performance
+CloudWatch Logs log group: /aws/lambda/ndra_DocumentManifestByNHSNumberLambda
+CloudWatch Logs log group: /aws/lambda/ndra_DocumentReferenceVirusScanCheck
+CloudWatch Logs log group: /aws/lambda/ndra_GenerateStitchRecord
+CloudWatch Logs log group: /aws/lambda/ndra_GetReportsByODSLambda
+CloudWatch Logs log group: /aws/lambda/ndra_LloydGeorgeStitch
+CloudWatch Logs log group: /aws/lambda/ndra_NemsMessageLambda
+CloudWatch Logs log group: /aws/lambda/ndra_SearchDocumentReferencesFHIRLambda
+CloudWatch Logs log group: /aws/lambda/ndra_SearchPatientDetails
+CloudWatch Logs log group: /aws/lambda/ndra_TeamsAlertLambda
+CloudWatch Logs log group: /aws/lambda/ndra_TeamsAlertingLambda
+CloudWatch Logs log group: /aws/lambda/ndra_TestDocumentReferencesLambda
+CloudWatch Logs log group: /aws/lambda/ndra_ToggleBulkUploadLambda
+CloudWatch Logs log group: /aws/lambda/ndra_UpdatePatientOdsLambda
+CloudWatch Logs log group: /aws/lambda/ndra_UploadDocumentReferencesFHIR
+CloudWatch Logs log group: /aws/lambda/us-east-1.ndra_EdgePresignLambda
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor068d3ed2
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor0a2c453e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor0bbc13a0
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor0df50f84
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor0eb326a4
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor14863b52
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor1a87b8b8
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor1dccef65
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor23e3046a
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor2607a78c
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor2ecea88b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor2ffd052c
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor3082ba63
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor342a10e1
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor37a62bf0
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor3cf775a5
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor3e50909b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor46cf99ec
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor4712bcdd
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor493ec334
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor49c3113e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor4a92e3f4
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor4d1d4dd5
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor4e5aee14
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor56b4068e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor56ed83e9
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor5b1137c7
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor5bbaff10
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor5c3298e7
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor5cda2b0d
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor5f675703
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor61ea5428
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor62b0c56d
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor6625f294
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor67f95132
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor692506af
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor6c08ee81
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor6dddd550
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor6f358fed
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor74e2abfd
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor794c3507
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor7ae88711
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor804686be
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor85a34c1e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor85acaeca
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor85b00fd9
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor8631bc75
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor86aa8c03
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor8be9bd2b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor9615adba
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor98570945
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor9a43558e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitor9cff1997
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitora01d2502
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitora3468ae4
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitora424ffc2
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitoraa96385c
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorae226eb9
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitoraec754ce
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorb102029c
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorb154ddc5
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorb1d73721
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorb549168d
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorb6b276d8
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorb722fce5
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorb7b50684
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorb91edde5
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorba41961e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorc1ba0d81
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorc2126fea
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorc42a00e1
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorc96af9c0
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorcacd7834
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitord068e88a
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitord2fc1fca
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitore09a7c46
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitore2958d67
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitore871780e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitore9e62cb3
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitoreb9290f0
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorefcdd329
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorf04aa8a7
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorf321e00c
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorf7f76e16
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorf8ab8bb1
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorf8c59cb8
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorfc3bb6de
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndra-app-monitorff9116f3
+Filtering Secrets Manager secrets by workspace: ndra
+No Secrets Manager secrets found.
+Filtering S3 buckets by workspace: ndra
+No S3 buckets found.
+Filtering DynamoDB tables by workspace: ndra
+No DynamoDB tables found.
+Filtering API Gateway resources by workspace: ndra
+No API Gateway resources found.
+Filtering SSM Parameters by workspace: ndra
+No SSM Parameters found.
+Filtering Firehose delivery streams by workspace: ndra
+No Kinesis Data Firehose delivery streams found containing the substring: ndra
+Filtering SQS queues by workspace: ndra
+No SQS queues found containing the substring: ndra
+Filtering Step Functions by workspace: ndra
+No Step Functions found containing the substring: ndra
+Filtering CloudWatch Events rules by workspace: ndra
+No CloudWatch Events rules found containing the substring: ndra
+Filtering IAM roles and policies by workspace: ndra
+No IAM roles found.
+No IAM policies found.
+Filtering Resource Groups by substring: ndra
+Resource Group: AppManager-ECS-ndra-app-cluster
+Filtering Backup Vaults by substring: ndra
+No Backup Vaults found containing the substring: ndra
+Filtering ECS clusters by substring: ndra
+No ECS clusters found containing the substring: ndra
+Filtering ECR repositories by substring: ndra
+No ECR repositories found containing the substring: ndra
+Filtering SNS topics by substring: ndra
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-back-channel-logout-alarms-topic20240423133031053500000090
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-back-channel-logout-alarms-topic202405291106214451000000a8
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-bulk-upload-metadata-topic2024042313304983350000009e
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-bulk-upload-report-topic2024042313304747190000009c
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-bulk-upload-report-topic202405291106183477000000a2
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-bulk-upload-topic202404231330512862000000a0
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-bulk-upload-topic202405291106195674000000a4
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-create_doc-alarms-topic20240423132826478900000016
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-create_doc-alarms-topic2024042313291097950000004a
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-create_doc_manifest-alarms-topic20240423132826509500000018
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-delete_doc-alarms-topic2024042313282738870000001a
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-feature_flags_alarms-topic2024042313282504770000000e
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-lloyd-george-stitch-topic2024042313282750930000001e
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-login_redirect-alarms-topic2024042313304616230000009a
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-logout-alarms-topic2024042313291439440000004c
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-logout-alarms-topic202404231331461582000000ab
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-logout-alarms-topic202405291106201633000000a6
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-mesh-forwarder-nems-events-sns-topic20240423133038107000000092
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-nems-message-lambda-alarm-topic202404231331576748000000ad
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-nems-message-lambda-alarm-topic202405291106149994000000a0
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-search_doc_references-alarms-topic20240423132826391200000014
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-search_patient_details_alarms-topic2024042313282749880000001c
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-send-feedback-topic202404231331055190000000a7
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-update-upload-state-topic202404231331271104000000a9
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-upload_confirm_result_alarm-topic20240423132825320700000012
+SNS topic: arn:aws:sns:eu-west-2:533825906475:ndra-sns-virus_scan_result_alarm-topic20240423132825083700000010
+Filtering Route 53 hosted zones by substring: ndra
+No Route 53 hosted zones found containing the substring: ndra
+No SES identities found containing the substring: ndra
+No VPCs found containing the substring: ndra
+No subnets found containing the substring: ndra
+WAFv2 Web ACLs (Scope: REGIONAL)
+  No REGIONAL Web ACLs found matching "ndra"
+WAFv2 Web ACLs (Scope: CLOUDFRONT)
+  No CLOUDFRONT Web ACLs found matching "ndra"
+No CloudFront distributions found containing the substring: ndra
+No CloudWatch metrics found containing the substring: ndra
+No CloudWatch alarms found containing the substring: ndra
+No AppConfig applications found containing the substring: ndra
+Listing Lambda Layers containing: ndra
+Lambda Layer: ndra_alerting_lambda_layer
+Lambda Layer: ndra_core_lambda_layer
+Lambda Layer: ndra_data_lambda_layer
+Lambda Layer: ndra_reports_lambda_layer
+Listing IAM Instance Profiles containing: ndra
+No IAM Instance Profiles found.
+Listing CloudWatch Dashboards containing: ndra
+No CloudWatch Dashboards found.
+Listing VPC Endpoints containing: ndra
+No VPC Endpoints found.
+Listing EFS File Systems containing: ndra
+No EFS File Systems found.
+Listing ELBs containing: ndra
+No Elastic Load Balancers found.
+Listing Target Groups containing: ndra
+No Target Groups found.
+⚠️ Note: Cognito APIs are regional — you may need to loop over regions.
+Listing Cognito User Pools containing: ndra
+No Cognito User Pools found.
+No Cognito Identity Pools found.
+No EventBridge Buses found.
+No SNS Subscriptions found.
+No Lambda Event Source Mappings found.

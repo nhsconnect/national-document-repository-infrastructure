@@ -10,6 +10,7 @@ resource "aws_lambda_function" "lambda" {
   timeout                        = var.lambda_timeout
   memory_size                    = var.memory_size
   reserved_concurrent_executions = var.reserved_concurrent_executions
+  kms_key_arn                    = aws_kms_key.lambda_kms_key.arn
   ephemeral_storage {
     size = var.lambda_ephemeral_storage
   }
@@ -30,6 +31,60 @@ resource "aws_cloudwatch_log_group" "lambda_logs" {
   count             = contains(var.persistent_workspaces, terraform.workspace) ? 0 : 1
   name              = "/aws/lambda/${terraform.workspace}_${var.name}"
   retention_in_days = 1
+}
+
+data "aws_iam_policy_document" "lambda_kms_policy" {
+  statement {
+    sid    = "AllowLambdaExecutionRole"
+    effect = "Allow"
+
+    principals {
+      type = "AWS"
+      identifiers = [
+        aws_iam_role.lambda_execution_role.arn
+      ]
+    }
+
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:GenerateDataKey"
+    ]
+
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "lambda_kms_usage" {
+  name = "lambda_kms_usage"
+  role = aws_iam_role.lambda_execution_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:GenerateDataKey"
+        ],
+        Resource = aws_kms_key.lambda_kms_key.arn
+      }
+    ]
+  })
+}
+
+resource "aws_kms_key" "lambda_kms_key" {
+  deletion_window_in_days = var.kms_deletion_window
+  description             = "Custom KMS Key for ${terraform.workspace}_${var.name}"
+  enable_key_rotation     = true
+  policy                  = data.aws_iam_policy_document.lambda_kms_policy.json
+}
+
+resource "aws_kms_alias" "lambda_kms_key_alias" {
+  name          = "alias/${lower("${terraform.workspace}_${var.name}")}"
+  target_key_id = aws_kms_key.lambda_kms_key.key_id
 }
 
 resource "aws_api_gateway_integration" "lambda_integration" {
@@ -71,7 +126,7 @@ resource "aws_iam_role" "lambda_execution_role" {
 }
 
 data "aws_iam_policy_document" "merged_policy" {
-  source_policy_documents = var.iam_role_policy_documents
+  source_policy_documents = concat(var.iam_role_policy_documents, resource.aws_iam_role_policy.lambda_kms_usage.json)
 }
 
 resource "aws_iam_policy" "combined_policies" {

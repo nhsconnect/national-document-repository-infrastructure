@@ -1,0 +1,210 @@
+Listing resources tagged with Workspace=ndrc
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group-rule/sgr-0b4d335fcfff4df91
+Tagged resource: arn:aws:ecs:eu-west-2:533825906475:cluster/ndrc-app-cluster
+Tagged resource: arn:aws:ecs:eu-west-2:533825906475:service/ndrc-app-cluster/ndrc-ecs-cluster-service
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/cee516be-f3c8-453c-90a3-7c985d298dae
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/b0845e2f-066e-4a41-9915-9b3279cc0176
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/819d913d-53dd-48cd-9959-b75d2336e875
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/5aec8ed6-5125-4bcc-a1e2-0e7f6be0f4fa
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/38e1a4e3-be69-4d8f-af02-fa7fa1df1e9f
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/2417e75f-eb4b-42f9-b728-6c49143b8edd
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/a91b0061-0761-4992-aa30-bfdff3e26a24
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/11214fb5-9942-485c-b36c-3895d8e1d1b3
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/c4453a16-61a1-4b9f-b3d4-7e90b9f37376
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/2d6c86c8-9067-4efe-bb67-ddca279e06b5
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/3a722599-522a-4a5d-b9f1-25f4dd9e3ce6
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/9b232368-dbc3-4ee4-82a3-0e26113c7ae7
+Tagged resource: arn:aws:appconfig:eu-west-2:533825906475:application/1g8320p/environment/dn0obgd/deployment/1
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group-rule/sgr-0bdd1edf3245c4a89
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group-rule/sgr-09cb07ea84a53df07
+Tagged resource: arn:aws:ecs:eu-west-2:533825906475:task-definition/ndrc-task-app-cluster:339
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/c713fba1-2784-4e61-9c52-63c587308473
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/983cc2f2-8909-474e-abf8-1f2c91dac7a3
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/8598bdb5-98af-4b43-a2d8-d2924e4ebf3f
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/9b293a5b-3f03-4014-b9a5-b65cf04b63f6
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/c23cc7da-ba45-4adb-91cb-e3e49112481b
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/cba18ea3-4161-4bcf-af9c-9ed405935d4b
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/bca4abc4-57b8-43e7-9891-85f971244a23
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/fde69bf5-1635-42ec-a7ef-cd8f0c41f4ce
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/d50956bc-4e78-4f2b-8e1a-30c62f2d938f
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/149cd777-0ddd-4281-a793-5e5c051fd509
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/b6cd0903-8c79-4ccf-81ed-e2f553585bd7
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/a23126bc-0545-4c8c-8d9d-4c3249ca02bb
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/63b2579d-d209-45c8-b02f-6966f49508f0
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/525d465f-db41-4ba7-8b4d-54be063bd69d
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/7dd3764a-a3ec-4539-81a9-f96136e60f35
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/ff23e2d1-6985-45c8-8d70-0f8927f4644e
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/7248c82a-6eea-471e-9a8c-fe3d5bbbe1b9
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/1b500427-8bad-4137-8236-e163bbda2b1a
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/a19091d1-07f9-4deb-97c9-ae55b3980d57
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/f7e2e003-e3e2-43bb-8f63-aa506096bc79
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/45b8fefd-9d67-42dc-a0b2-80e5b192aa1d
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/f71b05a3-bc08-45e6-a1ce-ba2d833e0e12
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/759be4bb-9b7a-48ab-94a5-b59b638e1fa0
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/c4de468b-17ec-4860-b8c8-d8f012ca9295
+Tagged resource: arn:aws:appconfig:eu-west-2:533825906475:application/4tt4eop/environment/mohg9qh/deployment/1
+Tagged resource: arn:aws:ec2:eu-west-2:533825906475:security-group-rule/sgr-0315ad65c0358b599
+Tagged resource: arn:aws:ecs:eu-west-2:533825906475:task-definition/ndrc-task-app-cluster:352
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/6e10eaea-4e96-401e-a94a-fc2a2adb9773
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/2839752b-d989-477b-8206-0d1afe12c5c6
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/e9314bb5-f65a-44ff-9878-101a77856a24
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/603be1ad-23f9-4f2b-b0bd-f1233c8d1cf4
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/1760710b-18d9-42e0-a3f2-ad2944d38483
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/962b9eb8-9386-49f7-baf0-de315348515f
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/5123701c-d73c-4a13-a1b7-978abc8e8b22
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/7470b33e-63ef-46ee-bf17-b9439aa78c14
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/455951fa-392a-44f9-8aaa-27981c658b57
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/fd657ee8-0fa2-42c2-82a7-cb5ef775b298
+Tagged resource: arn:aws:kms:eu-west-2:533825906475:key/e0b9c6b7-5dd3-44b3-871d-0a4138f637b6
+Filtering by workspace: ndrc
+No Lambda functions found.
+Filtering KMS aliases by workspace: ndrc
+No KMS aliases found.
+Filtering log groups by workspace: ndrc
+CloudWatch Logs log group: /aws/ecs/containerinsights/ndrc-app-cluster/performance
+CloudWatch Logs log group: /aws/lambda/us-east-1.ndrc_EdgePresignLambda
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor01b8741e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor0a3fc9cb
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor1a4a1e0d
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor1af953d4
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor1d40b624
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor1e4db23d
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor25470785
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor26f388d4
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor282f6873
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor306ec7c8
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor32fcb66a
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor39eb1a45
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor3b1f6664
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor41685d08
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor491165d6
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor49cf005e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor4d1ef7d9
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor53f6031b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor54c03366
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor5b4b7a2e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor5c9c89ec
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor5eeb9f1c
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor6065d960
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor65eb8d8e
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor682baf15
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor6a4d8776
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor6cb15ea3
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor75858560
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor7cbfd8aa
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor8154ef52
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor81c864bb
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor85dd9942
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor9122bb89
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor91615a6b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitor9dffb62f
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitora322989c
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitora3bd7017
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitora4551a92
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitora4c95ffa
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorac2b1e2b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorad890540
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorae2b35e8
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorb01925ae
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorb091ce6b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorb3d058a3
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorb67b791b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorb6f93662
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorc1743c12
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorc96e802b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorcb9e45c0
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorcceb73d4
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorce0cd543
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorce373052
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorcfd64e6a
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorcfdd2db0
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitord07c1ae6
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitord1533d52
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitord2d98152
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitord4d5b1da
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitord757f346
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitord765bab4
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitordf123b0b
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitordfaf3dd5
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitore1631dc0
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitore2df53ac
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitore37484d1
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitore442c634
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitore48746b5
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitore81559e5
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorec667b37
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorf6575be3
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorf67f014f
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorf7a4e66c
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorf8db9b4a
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorf97acfd0
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorfa326678
+CloudWatch Logs log group: /aws/vendedlogs/RUMService_ndrc-app-monitorfd0a2c9e
+Filtering Secrets Manager secrets by workspace: ndrc
+No Secrets Manager secrets found.
+Filtering S3 buckets by workspace: ndrc
+No S3 buckets found.
+Filtering DynamoDB tables by workspace: ndrc
+No DynamoDB tables found.
+Filtering API Gateway resources by workspace: ndrc
+No API Gateway resources found.
+Filtering SSM Parameters by workspace: ndrc
+No SSM Parameters found.
+Filtering Firehose delivery streams by workspace: ndrc
+No Kinesis Data Firehose delivery streams found containing the substring: ndrc
+Filtering SQS queues by workspace: ndrc
+No SQS queues found containing the substring: ndrc
+Filtering Step Functions by workspace: ndrc
+No Step Functions found containing the substring: ndrc
+Filtering CloudWatch Events rules by workspace: ndrc
+No CloudWatch Events rules found containing the substring: ndrc
+Filtering IAM roles and policies by workspace: ndrc
+No IAM roles found.
+No IAM policies found.
+Filtering Resource Groups by substring: ndrc
+Resource Group: AppManager-ECS-ndrc-app-cluster
+Filtering Backup Vaults by substring: ndrc
+No Backup Vaults found containing the substring: ndrc
+Filtering ECS clusters by substring: ndrc
+No ECS clusters found containing the substring: ndrc
+Filtering ECR repositories by substring: ndrc
+No ECR repositories found containing the substring: ndrc
+Filtering SNS topics by substring: ndrc
+No SNS topics found containing the substring: ndrc
+Filtering Route 53 hosted zones by substring: ndrc
+No Route 53 hosted zones found containing the substring: ndrc
+No SES identities found containing the substring: ndrc
+No VPCs found containing the substring: ndrc
+No subnets found containing the substring: ndrc
+WAFv2 Web ACLs (Scope: REGIONAL)
+  No REGIONAL Web ACLs found matching "ndrc"
+WAFv2 Web ACLs (Scope: CLOUDFRONT)
+  No CLOUDFRONT Web ACLs found matching "ndrc"
+No CloudFront distributions found containing the substring: ndrc
+No CloudWatch metrics found containing the substring: ndrc
+No CloudWatch alarms found containing the substring: ndrc
+No AppConfig applications found containing the substring: ndrc
+Listing Lambda Layers containing: ndrc
+Lambda Layer: ndrc_alerting_lambda_layer
+Lambda Layer: ndrc_core_lambda_layer
+Lambda Layer: ndrc_data_lambda_layer
+Lambda Layer: ndrc_reports_lambda_layer
+Listing IAM Instance Profiles containing: ndrc
+No IAM Instance Profiles found.
+Listing CloudWatch Dashboards containing: ndrc
+No CloudWatch Dashboards found.
+Listing VPC Endpoints containing: ndrc
+No VPC Endpoints found.
+Listing EFS File Systems containing: ndrc
+No EFS File Systems found.
+Listing ELBs containing: ndrc
+No Elastic Load Balancers found.
+Listing Target Groups containing: ndrc
+No Target Groups found.
+⚠️ Note: Cognito APIs are regional — you may need to loop over regions.
+Listing Cognito User Pools containing: ndrc
+No Cognito User Pools found.
+No Cognito Identity Pools found.
+No EventBridge Buses found.
+No SNS Subscriptions found.
+Lambda Event Source Mapping UUID: 749d0d9b-0757-4490-bb38-efc187985514
