@@ -121,13 +121,9 @@ module "s3bucket_truststore" {
   source                = "./modules/s3"
   access_logs_enabled   = local.is_production
   access_logs_bucket_id = local.access_logs_bucket_id
-  bucket_name           = var.staging_store_bucket_name
+  bucket_name           = var.trustore_bucket_name
   environment           = var.environment
   owner                 = var.owner
-
-  # aws_account_id = var.aws_account_id
-  # project        = var.project
-  # region         = var.region
 }
 
 # Lifecycle Rules
