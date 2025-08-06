@@ -55,24 +55,24 @@ data "aws_iam_policy_document" "lambda_kms_policy" {
   }
 }
 
-resource "aws_iam_role_policy" "lambda_kms_usage" {
-  name = "lambda_kms_usage"
-  role = aws_iam_role.lambda_execution_role.id
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "kms:Encrypt",
-          "kms:Decrypt",
-          "kms:GenerateDataKey"
-        ],
-        Resource = aws_kms_key.lambda_kms_key.arn
-      }
+data "aws_iam_policy_document" "lambda_kms_usage" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:GenerateDataKey"
     ]
-  })
+    resources = [
+      aws_kms_key.lambda_kms_key.arn
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "lambda_kms_usage" {
+  name   = "lambda_kms_usage"
+  role   = aws_iam_role.lambda_execution_role.id
+  policy = data.aws_iam_policy_document.lambda_kms_usage.json
 }
 
 resource "aws_kms_key" "lambda_kms_key" {
@@ -83,7 +83,7 @@ resource "aws_kms_key" "lambda_kms_key" {
 }
 
 resource "aws_kms_alias" "lambda_kms_key_alias" {
-  name          = "alias/${lower("${terraform.workspace}_${var.name}")}"
+  name          = "alias/${terraform.workspace}_${var.name}"
   target_key_id = aws_kms_key.lambda_kms_key.key_id
 }
 
@@ -126,7 +126,7 @@ resource "aws_iam_role" "lambda_execution_role" {
 }
 
 data "aws_iam_policy_document" "merged_policy" {
-  source_policy_documents = concat(var.iam_role_policy_documents, resource.aws_iam_role_policy.lambda_kms_usage.json)
+  source_policy_documents = concat(var.iam_role_policy_documents, [data.aws_iam_policy_document.lambda_kms_usage.json])
 }
 
 resource "aws_iam_policy" "combined_policies" {

@@ -53,8 +53,9 @@ module "delete-document-object-lambda" {
     module.ndr-app-config.app_config_policy,
     aws_iam_policy.dynamodb_stream_delete_object_policy.policy
   ]
-  rest_api_id       = null
-  api_execution_arn = null
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = null
+  api_execution_arn   = null
   lambda_environment_variables = {
     APPCONFIG_APPLICATION   = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT   = module.ndr-app-config.app_config_environment_id

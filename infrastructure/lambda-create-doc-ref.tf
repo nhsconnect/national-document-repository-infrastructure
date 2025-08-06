@@ -71,10 +71,11 @@ module "create-doc-ref-lambda" {
     aws_iam_policy.ssm_access_policy.policy,
     module.ndr-app-config.app_config_policy,
   ]
-  rest_api_id  = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id  = module.create_document_reference_gateway.gateway_resource_id
-  http_methods = ["POST"]
-  memory_size  = 512
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id         = module.create_document_reference_gateway.gateway_resource_id
+  http_methods        = ["POST"]
+  memory_size         = 512
 
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
