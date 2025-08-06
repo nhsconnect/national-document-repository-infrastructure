@@ -115,5 +115,5 @@ variable "extra_lambda_layers" {
 variable "kms_deletion_window" {
   description = "Lambda KMS time to deletion in days"
   type        = number
-  default     = 7
+  default     = 30
 }

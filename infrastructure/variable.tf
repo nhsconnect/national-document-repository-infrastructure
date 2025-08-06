@@ -249,3 +249,9 @@ variable "enable_xray_tracing" {
   type        = bool
   default     = false
 }
+
+variable "kms_deletion_window" {
+  description = "KMS time to deletion in days"
+  type        = number
+  default     = 30
+}
