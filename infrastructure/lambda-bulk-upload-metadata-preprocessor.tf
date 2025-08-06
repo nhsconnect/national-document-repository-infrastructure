@@ -9,6 +9,7 @@ module "bulk_upload_metadata_preprocessor_lambda" {
     module.ndr-app-config.app_config_policy
   ]
   kms_deletion_window = var.kms_deletion_window
+  account_id          = data.aws_caller_identity.current.account_id
   rest_api_id         = null
   api_execution_arn   = null
 

@@ -11,6 +11,7 @@ module "post-document-references-fhir-lambda" {
     aws_iam_policy.ssm_access_policy.policy
   ]
   kms_deletion_window = var.kms_deletion_window
+  account_id          = data.aws_caller_identity.current.account_id
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id         = module.fhir_document_reference_gateway[0].gateway_resource_id
   http_methods        = ["POST"]

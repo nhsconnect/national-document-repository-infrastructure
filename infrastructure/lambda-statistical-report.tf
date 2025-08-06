@@ -55,6 +55,7 @@ module "statistical-report-lambda" {
     aws_iam_policy.cloudwatch_log_query_policy.policy
   ]
   kms_deletion_window = var.kms_deletion_window
+  account_id          = data.aws_caller_identity.current.account_id
   rest_api_id         = null
   api_execution_arn   = null
 

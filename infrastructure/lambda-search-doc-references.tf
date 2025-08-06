@@ -66,6 +66,7 @@ module "search-document-references-lambda" {
     module.ndr-app-config.app_config_policy
   ]
   kms_deletion_window = var.kms_deletion_window
+  account_id          = data.aws_caller_identity.current.account_id
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id         = module.search-document-references-gateway.gateway_resource_id
   http_methods        = ["GET"]

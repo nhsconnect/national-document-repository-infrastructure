@@ -10,6 +10,7 @@ module "manage-nrl-pointer-lambda" {
     aws_iam_policy.ssm_access_policy.policy
   ]
   kms_deletion_window = var.kms_deletion_window
+  account_id          = data.aws_caller_identity.current.account_id
   rest_api_id         = null
   api_execution_arn   = null
   lambda_environment_variables = {
