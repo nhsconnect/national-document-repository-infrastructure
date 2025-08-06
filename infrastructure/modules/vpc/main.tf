@@ -20,12 +20,17 @@ resource "aws_default_security_group" "default" {
   vpc_id  = local.is_production ? aws_vpc.vpc[0].id : data.aws_vpc.vpc[0].id
   ingress = []
   egress  = []
+  tags = {
+    Name      = "core-sg"
+    Workspace = "core"
+  }
 }
 
 data "aws_internet_gateway" "ig" {
   count = local.is_production ? 0 : 1
   tags = {
-    Name = "${var.standalone_vpc_ig_tag}-vpc-internet-gateway"
+    Name      = "${var.standalone_vpc_ig_tag}-vpc-internet-gateway"
+    Workspace = "core"
   }
 }
 
@@ -33,7 +38,8 @@ resource "aws_internet_gateway" "ig" {
   count  = local.is_production ? 1 : 0
   vpc_id = local.is_production ? aws_vpc.vpc[0].id : data.aws_vpc.vpc[0].id
   tags = {
-    Name = "${terraform.workspace}-vpc-internet-gateway"
+    Name      = "${terraform.workspace}-vpc-internet-gateway"
+    Workspace = "core"
   }
 }
 
@@ -43,7 +49,8 @@ resource "aws_vpc_endpoint" "ndr_gateway_vpc_endpoint" {
   service_name    = "com.amazonaws.eu-west-2.${var.endpoint_gateway_services[count.index]}"
   route_table_ids = [aws_route_table.private[0].id]
   tags = {
-    Name = "${terraform.workspace}-${var.endpoint_gateway_services[count.index]}-vpc"
+    Name      = "${terraform.workspace}-${var.endpoint_gateway_services[count.index]}-vpc"
+    Workspace = "core"
   }
 }
 
@@ -57,7 +64,8 @@ resource "aws_vpc_endpoint" "ndr_interface_vpc_endpoint" {
 
   service_name = "com.amazonaws.eu-west-2.${var.endpoint_interface_services[count.index]}"
   tags = {
-    Name = "${terraform.workspace}-${var.endpoint_interface_services[count.index]}-vpc"
+    Name      = "${terraform.workspace}-${var.endpoint_interface_services[count.index]}-vpc"
+    Workspace = "core"
   }
 }
 
