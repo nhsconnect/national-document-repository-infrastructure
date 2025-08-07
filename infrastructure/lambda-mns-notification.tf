@@ -12,8 +12,10 @@ module "mns-notification-lambda" {
     module.ndr-app-config.app_config_policy,
     aws_iam_policy.kms_mns_lambda_access[0].policy,
   ]
-  rest_api_id       = null
-  api_execution_arn = null
+  kms_deletion_window = var.kms_deletion_window
+  account_id          = data.aws_caller_identity.current.account_id
+  rest_api_id         = null
+  api_execution_arn   = null
   lambda_environment_variables = {
     APPCONFIG_APPLICATION      = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT      = module.ndr-app-config.app_config_environment_id

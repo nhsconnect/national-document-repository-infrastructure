@@ -111,3 +111,14 @@ variable "extra_lambda_layers" {
   type    = list(string)
   default = ["arn:aws:lambda:eu-west-2:580247275435:layer:LambdaInsightsExtension:53"]
 }
+
+variable "kms_deletion_window" {
+  description = "Lambda KMS time to deletion in days"
+  type        = number
+  default     = 30
+}
+
+variable "account_id" {
+  description = "Current AWS account ID"
+  type        = number
+}
