@@ -16,3 +16,9 @@ module "lambda-layer-alerting" {
   layer_name = "alerting"
 }
 
+module "lambda-layer-reports" {
+  source     = "./modules/lambda_layers"
+  account_id = data.aws_caller_identity.current.account_id
+  layer_name = "reports"
+}
+
