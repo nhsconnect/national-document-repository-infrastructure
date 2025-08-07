@@ -33,6 +33,8 @@ resource "aws_cloudwatch_log_group" "lambda_logs" {
   retention_in_days = 1
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "lambda_kms_policy" {
   statement {
     sid    = "AllowRootAccountAccess"
@@ -41,7 +43,7 @@ data "aws_iam_policy_document" "lambda_kms_policy" {
     principals {
       type = "AWS"
       identifiers = [
-        "arn:aws:iam::${var.account_id}:root"
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
       ]
     }
 
