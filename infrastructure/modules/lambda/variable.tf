@@ -118,7 +118,3 @@ variable "kms_deletion_window" {
   default     = 30
 }
 
-variable "account_id" {
-  description = "Current AWS account ID"
-  type        = number
-}

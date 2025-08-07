@@ -59,7 +59,6 @@ module "generate-lloyd-george-stitch-lambda" {
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document
   ]
   kms_deletion_window = var.kms_deletion_window
-  account_id          = data.aws_caller_identity.current.account_id
   rest_api_id         = null
   api_execution_arn   = null
   lambda_environment_variables = {
