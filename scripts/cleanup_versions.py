@@ -94,13 +94,12 @@ class CleanupVersions:
             response = self.lambda_client.list_layer_versions(
                 LayerName=layer["LayerName"]
             )
-            print(response)
             versions_to_remove = [
                 layer_version["Version"]
                 for layer_version in response["LayerVersions"][:-1]
             ]
             layer_versions.update({layer["LayerName"]: versions_to_remove})
-            print(layer_versions)
+
         return layer_versions
 
     def delete_lambda_layer_versions(self):
