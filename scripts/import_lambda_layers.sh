@@ -48,7 +48,16 @@ for SUFFIX in "${!LAYER_SUFFIX_TO_TF_RESOURCE[@]}"; do
   else
     echo "📦 Importing..."
     cd ../infrastructure/
-    terraform import -config=. -var-file="$TFVARS" "$TF_RESOURCE" "$LAYER_ARN"
+    if terraform state list | grep -q "$TF_RESOURCE"; then
+      echo "ℹ️  Skipping import: $TF_RESOURCE is already managed in state."
+    else
+      echo "📦 Importing $TF_RESOURCE..."
+      if terraform import -config=. -var-file="$TFVARS" "$TF_RESOURCE" "$LAYER_ARN"; then
+        echo "✅ Imported: $TF_RESOURCE"
+      else
+        echo "⚠️  Failed to import: $TF_RESOURCE"
+      fi
+    fi
   fi
 
   echo "--------------------------------------------"
