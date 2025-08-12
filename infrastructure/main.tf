@@ -12,12 +12,10 @@ terraform {
     }
   }
   backend "s3" {
-    # TODO remove dynamodb_table
-    dynamodb_table = "ndr-terraform-locks"
-    use_lockfile   = true
-    region         = "eu-west-2"
-    key            = "ndr/terraform.tfstate"
-    encrypt        = true
+    use_lockfile = true
+    region       = "eu-west-2"
+    key          = "ndr/terraform.tfstate"
+    encrypt      = true
   }
 }
 provider "aws" {
