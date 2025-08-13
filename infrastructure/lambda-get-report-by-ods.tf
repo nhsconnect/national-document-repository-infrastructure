@@ -76,13 +76,6 @@ module "get-report-by-ods-lambda" {
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
-    module.get-report-by-ods-gateway,
-    aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0]
+    module.get-report-by-ods-gateway
   ]
-}
-
-resource "aws_iam_role_policy_attachment" "policy_audit_get-report-by-ods-lambda" {
-  count      = local.is_sandbox ? 0 : 1
-  role       = module.get-report-by-ods-lambda.lambda_execution_role_name
-  policy_arn = try(aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0].arn, null)
 }

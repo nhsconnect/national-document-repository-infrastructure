@@ -64,7 +64,6 @@ module "generate-lloyd-george-stitch-lambda" {
     APPCONFIG_APPLICATION         = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT         = module.ndr-app-config.app_config_environment_id
     APPCONFIG_CONFIGURATION       = module.ndr-app-config.app_config_configuration_profile_id
-    SPLUNK_SQS_QUEUE_URL          = try(module.sqs-splunk-queue[0].sqs_url, null)
     STITCH_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_metadata_dynamodb_table_name}"
     WORKSPACE                     = terraform.workspace
     PRESIGNED_ASSUME_ROLE         = aws_iam_role.stitch_presign_url_role.arn
@@ -75,7 +74,6 @@ module "generate-lloyd-george-stitch-lambda" {
   is_invoked_from_gateway       = false
 
   depends_on = [
-    aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0],
     module.ndr-app-config,
     module.ndr-document-store,
     module.ndr-lloyd-george-store,
@@ -97,12 +95,6 @@ resource "aws_iam_policy" "dynamodb_stream_stitch_policy" {
       },
     ]
   })
-}
-
-resource "aws_iam_role_policy_attachment" "policy_generate_stitch_lambda" {
-  count      = local.is_sandbox ? 0 : 1
-  role       = module.generate-lloyd-george-stitch-lambda.lambda_execution_role_name
-  policy_arn = try(aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0].arn, null)
 }
 
 resource "aws_lambda_event_source_mapping" "dynamodb_stream_stitch" {

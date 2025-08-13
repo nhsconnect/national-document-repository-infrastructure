@@ -1,12 +1,3 @@
-module "sqs-splunk-queue" {
-  source      = "./modules/sqs"
-  name        = "splunk-queue"
-  count       = local.is_sandbox ? 0 : 1
-  environment = var.environment
-  owner       = var.owner
-}
-
-
 module "sqs-lg-bulk-upload-metadata-queue" {
   source               = "./modules/sqs"
   name                 = "lg-bulk-upload-metadata-queue.fifo"

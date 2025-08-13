@@ -66,7 +66,6 @@ module "generate-document-manifest-lambda" {
     APPCONFIG_CONFIGURATION    = module.ndr-app-config.app_config_configuration_profile_id
     ZIPPED_STORE_BUCKET_NAME   = "${terraform.workspace}-${var.zip_store_bucket_name}"
     ZIPPED_STORE_DYNAMODB_NAME = "${terraform.workspace}_${var.zip_store_dynamodb_table_name}"
-    SPLUNK_SQS_QUEUE_URL       = try(module.sqs-splunk-queue[0].sqs_url, null)
     WORKSPACE                  = terraform.workspace
     PRESIGNED_ASSUME_ROLE      = aws_iam_role.manifest_presign_url_role.arn
   }
@@ -74,7 +73,6 @@ module "generate-document-manifest-lambda" {
   is_invoked_from_gateway       = false
 
   depends_on = [
-    aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0],
     module.ndr-app-config,
     module.zip_store_reference_dynamodb_table,
     module.ndr-zip-request-store,
@@ -97,12 +95,6 @@ resource "aws_iam_policy" "dynamodb_stream_manifest" {
       },
     ]
   })
-}
-
-resource "aws_iam_role_policy_attachment" "policy_generate_manifest_lambda" {
-  count      = local.is_sandbox ? 0 : 1
-  role       = module.generate-document-manifest-lambda.lambda_execution_role_name
-  policy_arn = try(aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0].arn, null)
 }
 
 resource "aws_lambda_event_source_mapping" "dynamodb_stream_manifest" {
