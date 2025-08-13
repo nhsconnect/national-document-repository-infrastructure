@@ -2,6 +2,8 @@ locals {
   lambda_layer_aws_name = "${terraform.workspace}_${var.layer_name}_lambda_layer"
 }
 
+data "aws_caller_identity" "current" {}
+
 data "archive_file" "lambda_layer_placeholder" {
   type        = "zip"
   source_file = "placeholder_lambda.py"
