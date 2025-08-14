@@ -46,7 +46,7 @@ jobs:
           echo Lambda Function Name: ${{ inputs.lambda_function_name }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: 'nhsconnect/national-document-repository-infrastructure'
           ref: ${{ inputs.build_branch }}
