@@ -116,6 +116,23 @@ module "ndr-bulk-staging-store" {
   ]
 }
 
+# Bucket to hold trusted CA's for MTLS
+# module "s3bucket_truststore" {
+#   source                = "./modules/s3"
+#   access_logs_enabled   = local.is_production
+#   access_logs_bucket_id = local.access_logs_bucket_id
+#   bucket_name           = var.trustore_bucket_name
+#   environment           = var.environment
+#   owner                 = var.owner
+# }
+
+# Certificate for MTLS
+# data "aws_s3_object" "truststore_ext_cert" {
+#   bucket = module.s3bucket_truststore.bucket_id
+#   key    = var.ca_pem_filename
+# }
+
+
 # Lifecycle Rules
 resource "aws_s3_bucket_lifecycle_configuration" "lg-lifecycle-rules" {
   bucket = module.ndr-lloyd-george-store.bucket_id
