@@ -30,7 +30,6 @@ resource "aws_s3_bucket_acl" "ndr_lock_bucket_acl" {
   bucket     = aws_s3_bucket.ndr_lock_bucket.id
   acl        = "private"
   depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
-
 }
 
 resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
@@ -67,22 +66,22 @@ resource "aws_s3_bucket_public_access_block" "public_access_block" {
   restrict_public_buckets = true
 }
 
-resource "aws_dynamodb_table" "dynamodb_terraform_state_lock" {
-  name           = "ndr-terraform-locks"
-  hash_key       = "LockID"
-  read_capacity  = 20
-  write_capacity = 20
-
-  attribute {
-    name = "LockID"
-    type = "S"
-  }
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
 data "aws_caller_identity" "current" {}
+
+# resource "aws_dynamodb_table" "dynamodb_terraform_state_lock" {
+#   name           = "ndr-terraform-locks"
+#   hash_key       = "LockID"
+#   read_capacity  = 20
+#   write_capacity = 20
+
+#   attribute {
+#     name = "LockID"
+#     type = "S"
+#   }
+#   lifecycle {
+#     prevent_destroy = true
+#   }
+# }
 
 variable "region" {
   type        = string
