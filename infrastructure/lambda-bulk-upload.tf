@@ -20,8 +20,9 @@ module "bulk-upload-lambda" {
     aws_iam_policy.ssm_access_policy.policy,
     module.ndr-app-config.app_config_policy
   ]
-  rest_api_id       = null
-  api_execution_arn = null
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = null
+  api_execution_arn   = null
 
   lambda_environment_variables = {
     APPCONFIG_APPLICATION      = module.ndr-app-config.app_config_application_id

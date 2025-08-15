@@ -11,9 +11,10 @@ module "document_upload_check_lambda" {
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
   ]
-  rest_api_id       = null
-  http_methods      = null
-  api_execution_arn = null
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = null
+  http_methods        = null
+  api_execution_arn   = null
   lambda_environment_variables = {
     LLOYD_GEORGE_DYNAMODB_NAME = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
     STAGING_STORE_BUCKET_NAME  = "${terraform.workspace}-${var.staging_store_bucket_name}"
@@ -52,3 +53,4 @@ resource "aws_lambda_permission" "document_upload_check_lambda" {
   principal     = "s3.amazonaws.com"
   source_arn    = "arn:aws:s3:::${module.ndr-bulk-staging-store.bucket_id}"
 }
+

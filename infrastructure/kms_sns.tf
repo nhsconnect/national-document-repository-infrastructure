@@ -5,4 +5,5 @@ module "sns_encryption_key" {
   environment         = var.environment
   owner               = var.owner
   service_identifiers = ["sns.amazonaws.com", "cloudwatch.amazonaws.com"]
+  kms_deletion_window = var.kms_deletion_window
 }

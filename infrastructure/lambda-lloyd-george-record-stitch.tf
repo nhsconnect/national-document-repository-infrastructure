@@ -65,11 +65,12 @@ module "lloyd-george-stitch-lambda" {
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
     module.cloudfront_edge_dynamodb_table.dynamodb_write_policy_document
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.lloyd-george-stitch-gateway.gateway_resource_id
-  http_methods      = ["GET", "POST"]
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
-  lambda_timeout    = 450
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id         = module.lloyd-george-stitch-gateway.gateway_resource_id
+  http_methods        = ["GET", "POST"]
+  api_execution_arn   = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  lambda_timeout      = 450
   lambda_environment_variables = {
     APPCONFIG_APPLICATION         = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT         = module.ndr-app-config.app_config_environment_id

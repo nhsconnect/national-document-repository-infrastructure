@@ -1,9 +1,10 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_kms_key" "encryption_key" {
-  description         = var.kms_key_description
-  policy              = data.aws_iam_policy_document.combined_policy_documents.json
-  enable_key_rotation = var.kms_key_rotation_enabled
+  description             = var.kms_key_description
+  policy                  = data.aws_iam_policy_document.combined_policy_documents.json
+  enable_key_rotation     = var.kms_key_rotation_enabled
+  deletion_window_in_days = var.kms_deletion_window
 
   tags = {
     Name = var.kms_key_name
