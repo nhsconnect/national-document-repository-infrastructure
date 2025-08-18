@@ -29,3 +29,8 @@ moved {
   from = aws_api_gateway_resource.nrl_sandbox
   to   = aws_api_gateway_resource.api_sandbox
 }
+
+moved {
+  from = aws_api_gateway_resource.sandbox_get_document_reference
+  to   = aws_api_gateway_resource.sandbox_document_reference
+}
