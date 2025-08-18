@@ -1,11 +1,11 @@
 locals {
-  mock_200_response = file("${path.module}/nrl_mock_responses/200_response.json")
-  mock_401_response = file("${path.module}/nrl_mock_responses/401_response.json")
-  mock_403_response = file("${path.module}/nrl_mock_responses/403_response.json")
-  mock_404_response = file("${path.module}/nrl_mock_responses/404_response.json")
+  mock_200_response = file("${path.module}/fhir_api_mock_responses/get_document_reference/200_response.json")
+  mock_401_response = file("${path.module}/fhir_api_mock_responses/get_document_reference/401_response.json")
+  mock_403_response = file("${path.module}/fhir_api_mock_responses/get_document_reference/403_response.json")
+  mock_404_response = file("${path.module}/fhir_api_mock_responses/get_document_reference/404_response.json")
 }
 
-resource "aws_api_gateway_resource" "nrl_sandbox" {
+resource "aws_api_gateway_resource" "api_sandbox" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id   = aws_api_gateway_rest_api.ndr_doc_store_api.root_resource_id
   path_part   = "sandbox"
@@ -13,7 +13,7 @@ resource "aws_api_gateway_resource" "nrl_sandbox" {
 
 resource "aws_api_gateway_resource" "sandbox_get_document_reference" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  parent_id   = aws_api_gateway_resource.nrl_sandbox.id
+  parent_id   = aws_api_gateway_resource.api_sandbox.id
   path_part   = "DocumentReference"
 }
 
