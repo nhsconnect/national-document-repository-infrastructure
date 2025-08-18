@@ -1,5 +1,5 @@
 locals {
-  mock_200_response = file("${path.module}/fhir_api_mock_responses/search_document_reference/200_response.json")
+  search_mock_200_response = file("${path.module}/fhir_api_mock_responses/search_document_reference/200_response.json")
 }
 
 
@@ -48,7 +48,7 @@ resource "aws_api_gateway_integration_response" "search_document_reference_mock_
   status_code       = aws_api_gateway_method_response.response_200.status_code
   selection_pattern = "200"
   response_templates = {
-    "application/json" = local.mock_200_response
+    "application/json" = local.search_mock_200_response
   }
 }
 
