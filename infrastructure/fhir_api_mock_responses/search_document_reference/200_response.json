@@ -1,0 +1,57 @@
+{
+    "resourceType": "Bundle",
+    "type": "searchset",
+    "timestamp": 1755512479,
+    "total": 1,
+    "entry": [
+        {
+            "resource": {
+                "id": "16521000000101~43b0bed8-aceb-429d-b5ae-39dd1e178b22",
+                "resourceType": "DocumentReference",
+                "docStatus": "final",
+                "status": "current",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "16521000000101",
+                            "display": "Lloyd George record folder"
+                        }
+                    ]
+                },
+                "subject": {
+                    "identifier": {
+                        "system": "https://fhir.nhs.uk/Id/nhs-number",
+                        "value": "9000000009"
+                    }
+                },
+                "date": "2022-08-13T14:52:13.453809Z",
+                "author": [
+                    {
+                        "identifier": {
+                            "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                            "value": "Y12345"
+                        }
+                    }
+                ],
+                "custodian": {
+                    "identifier": {
+                        "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                        "value": "Y12345"
+                    }
+                },
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "application/pdf",
+                            "language": "en-GB",
+                            "url": "https://sandbox-dev.api.service.nhs.uk/national-document-repository/DocumentReference/16521000000101~43b0bed8-aceb-429d-b5ae-39dd1e178b22",
+                            "title": "document.pdf",
+                            "creation": "2023-01-01"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

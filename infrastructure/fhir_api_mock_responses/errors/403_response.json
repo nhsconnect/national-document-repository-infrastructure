@@ -1,0 +1,19 @@
+{
+    "resourceType": "OperationOutcome",
+    "issue": [
+        {
+            "severity": "error",
+            "code": "exception",
+            "details": {
+                "coding": [
+                    {
+                        "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-SpineErrorOrWarningCode",
+                        "code": "ACCESS_DENIED",
+                        "display": "Access has been denied to process this request"
+                    }
+                ]
+            },
+            "diagnostics": "User is unauthorised to view record"
+        }
+    ]
+}

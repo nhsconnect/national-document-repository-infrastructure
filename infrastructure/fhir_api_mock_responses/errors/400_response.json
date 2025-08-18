@@ -7,13 +7,13 @@
             "details": {
                 "coding": [
                     {
-                        "system": "http://hl7.org/fhir/issue-type",
-                        "code": "forbidden",
-                        "display": "Forbidden"
+                        "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-SpineErrorOrWarningCode",
+                        "code": "MISSING_VALUE",
+                        "display": "Missing value"
                     }
                 ]
             },
-            "diagnostics": "An error occurred while fetching the document"
+            "diagnostics": "Missing request parameters"
         }
     ]
 }

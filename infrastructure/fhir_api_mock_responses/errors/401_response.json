@@ -7,9 +7,9 @@
             "details": {
                 "coding": [
                     {
-                        "system": "http://hl7.org/fhir/issue-type",
-                        "code": "unknown",
-                        "display": "Unknown"
+                        "system": "https://fhir.hl7.org.uk/CodeSystem/UKCore-SpineErrorOrWarningCode",
+                        "code": "ACCESS_DENIED",
+                        "display": "Access has been denied to process this request"
                     }
                 ]
             },
