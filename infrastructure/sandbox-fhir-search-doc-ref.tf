@@ -6,20 +6,20 @@ locals {
 }
 
 
-resource "aws_api_gateway_method" "sandbox_get_document_reference" {
+resource "aws_api_gateway_method" "sandbox_search_document_reference" {
   rest_api_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id      = aws_api_gateway_resource.sandbox_get_document_reference.id
+  resource_id      = aws_api_gateway_resource.sandbox_document_reference.id
   http_method      = "GET"
   authorization    = "NONE"
   api_key_required = true
 }
 
 
-resource "aws_api_gateway_integration" "get_document_reference_mock" {
+resource "aws_api_gateway_integration" "search_document_reference_mock" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id = aws_api_gateway_resource.sandbox_get_document_reference_path_parameter.id
+  resource_id = aws_api_gateway_resource.sandbox_document_reference.id
   type        = "MOCK"
-  http_method = aws_api_gateway_method.sandbox_get_document_reference.http_method
+  http_method = aws_api_gateway_method.sandbox_search_document_reference.http_method
   request_templates = {
     "application/json" = <<EOF
     {
@@ -39,15 +39,15 @@ resource "aws_api_gateway_integration" "get_document_reference_mock" {
 
 resource "aws_api_gateway_method_response" "response_200" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id = aws_api_gateway_resource.sandbox_get_document_reference_path_parameter.id
-  http_method = aws_api_gateway_method.sandbox_get_document_reference.http_method
+  resource_id = aws_api_gateway_resource.sandbox_document_reference.id
+  http_method = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code = "200"
 }
 
-resource "aws_api_gateway_integration_response" "get_document_reference_mock_200_response" {
+resource "aws_api_gateway_integration_response" "search_document_reference_mock_200_response" {
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = aws_api_gateway_resource.sandbox_get_document_reference_path_parameter.id
-  http_method       = aws_api_gateway_method.sandbox_get_document_reference.http_method
+  resource_id       = aws_api_gateway_resource.sandbox_document_reference.id
+  http_method       = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code       = aws_api_gateway_method_response.response_200.status_code
   selection_pattern = "200"
   response_templates = {
@@ -57,15 +57,15 @@ resource "aws_api_gateway_integration_response" "get_document_reference_mock_200
 
 resource "aws_api_gateway_method_response" "response_401" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id = aws_api_gateway_resource.sandbox_get_document_reference_path_parameter.id
-  http_method = aws_api_gateway_method.sandbox_get_document_reference.http_method
+  resource_id = aws_api_gateway_resource.sandbox_document_reference.id
+  http_method = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code = "401"
 }
 
-resource "aws_api_gateway_integration_response" "get_document_reference_mock_401_response" {
+resource "aws_api_gateway_integration_response" "search_document_reference_mock_401_response" {
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = aws_api_gateway_resource.sandbox_get_document_reference_path_parameter.id
-  http_method       = aws_api_gateway_method.sandbox_get_document_reference.http_method
+  resource_id       = aws_api_gateway_resource.sandbox_document_reference.id
+  http_method       = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code       = aws_api_gateway_method_response.response_401.status_code
   selection_pattern = "401"
   response_templates = {
@@ -75,15 +75,15 @@ resource "aws_api_gateway_integration_response" "get_document_reference_mock_401
 
 resource "aws_api_gateway_method_response" "response_403" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id = aws_api_gateway_resource.sandbox_get_document_reference_path_parameter.id
-  http_method = aws_api_gateway_method.sandbox_get_document_reference.http_method
+  resource_id = aws_api_gateway_resource.sandbox_document_reference.id
+  http_method = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code = "403"
 }
 
-resource "aws_api_gateway_integration_response" "get_document_reference_mock_403_response" {
+resource "aws_api_gateway_integration_response" "search_document_reference_mock_403_response" {
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = aws_api_gateway_resource.sandbox_get_document_reference_path_parameter.id
-  http_method       = aws_api_gateway_method.sandbox_get_document_reference.http_method
+  resource_id       = aws_api_gateway_resource.sandbox_document_reference.id
+  http_method       = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code       = aws_api_gateway_method_response.response_403.status_code
   selection_pattern = "403"
   response_templates = {
@@ -93,15 +93,15 @@ resource "aws_api_gateway_integration_response" "get_document_reference_mock_403
 
 resource "aws_api_gateway_method_response" "response_404" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id = aws_api_gateway_resource.sandbox_get_document_reference_path_parameter.id
-  http_method = aws_api_gateway_method.sandbox_get_document_reference.http_method
+  resource_id = aws_api_gateway_resource.sandbox_search_document_reference_path_parameter.id
+  http_method = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code = "404"
 }
 
-resource "aws_api_gateway_integration_response" "get_document_reference_mock_404_response" {
+resource "aws_api_gateway_integration_response" "search_document_reference_mock_404_response" {
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = aws_api_gateway_resource.sandbox_get_document_reference_path_parameter.id
-  http_method       = aws_api_gateway_method.sandbox_get_document_reference.http_method
+  resource_id       = aws_api_gateway_resource.sandbox_search_document_reference_path_parameter.id
+  http_method       = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code       = aws_api_gateway_method_response.response_404.status_code
   selection_pattern = "404"
   response_templates = {

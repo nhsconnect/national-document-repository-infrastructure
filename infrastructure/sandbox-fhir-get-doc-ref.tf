@@ -11,7 +11,7 @@ resource "aws_api_gateway_resource" "api_sandbox" {
   path_part   = "sandbox"
 }
 
-resource "aws_api_gateway_resource" "sandbox_get_document_reference" {
+resource "aws_api_gateway_resource" "sandbox_document_reference" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
   parent_id   = aws_api_gateway_resource.api_sandbox.id
   path_part   = "DocumentReference"
@@ -19,7 +19,7 @@ resource "aws_api_gateway_resource" "sandbox_get_document_reference" {
 
 resource "aws_api_gateway_resource" "sandbox_get_document_reference_path_parameter" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  parent_id   = aws_api_gateway_resource.sandbox_get_document_reference.id
+  parent_id   = aws_api_gateway_resource.sandbox_document_reference.id
   path_part   = "{id}"
 }
 
