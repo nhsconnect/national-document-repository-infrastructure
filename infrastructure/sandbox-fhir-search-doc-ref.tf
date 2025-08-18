@@ -37,7 +37,7 @@ resource "aws_api_gateway_integration" "search_document_reference_mock" {
   }
 }
 
-resource "aws_api_gateway_method_response" "response_200" {
+resource "aws_api_gateway_method_response" "search_document_reference_response_200" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id = aws_api_gateway_resource.sandbox_document_reference.id
   http_method = aws_api_gateway_method.sandbox_search_document_reference.http_method
@@ -55,7 +55,7 @@ resource "aws_api_gateway_integration_response" "search_document_reference_mock_
   }
 }
 
-resource "aws_api_gateway_method_response" "response_401" {
+resource "aws_api_gateway_method_response" "search_document_reference_response_401" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id = aws_api_gateway_resource.sandbox_document_reference.id
   http_method = aws_api_gateway_method.sandbox_search_document_reference.http_method
@@ -73,7 +73,7 @@ resource "aws_api_gateway_integration_response" "search_document_reference_mock_
   }
 }
 
-resource "aws_api_gateway_method_response" "response_403" {
+resource "aws_api_gateway_method_response" "search_document_reference_response_403" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id = aws_api_gateway_resource.sandbox_document_reference.id
   http_method = aws_api_gateway_method.sandbox_search_document_reference.http_method
@@ -91,16 +91,16 @@ resource "aws_api_gateway_integration_response" "search_document_reference_mock_
   }
 }
 
-resource "aws_api_gateway_method_response" "response_404" {
+resource "aws_api_gateway_method_response" "search_document_reference_response_404" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id = aws_api_gateway_resource.sandbox_search_document_reference_path_parameter.id
+  resource_id = aws_api_gateway_resource.sandbox_document_reference.id
   http_method = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code = "404"
 }
 
 resource "aws_api_gateway_integration_response" "search_document_reference_mock_404_response" {
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = aws_api_gateway_resource.sandbox_search_document_reference_path_parameter.id
+  resource_id       = aws_api_gateway_resource.sandbox_document_reference.id
   http_method       = aws_api_gateway_method.sandbox_search_document_reference.http_method
   status_code       = aws_api_gateway_method_response.response_404.status_code
   selection_pattern = "404"
