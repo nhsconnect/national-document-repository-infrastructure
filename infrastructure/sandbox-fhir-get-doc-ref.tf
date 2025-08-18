@@ -1,8 +1,8 @@
 locals {
   get_mock_200_response = file("${path.module}/fhir_api_mock_responses/get_document_reference/200_response.json")
-  mock_401_response = file("${path.module}/fhir_api_mock_responses/errors/401_response.json")
-  mock_403_response = file("${path.module}/fhir_api_mock_responses/errors/403_response.json")
-  mock_404_response = file("${path.module}/fhir_api_mock_responses/errors/404_response.json")
+  mock_401_response     = file("${path.module}/fhir_api_mock_responses/errors/401_response.json")
+  mock_403_response     = file("${path.module}/fhir_api_mock_responses/errors/403_response.json")
+  mock_404_response     = file("${path.module}/fhir_api_mock_responses/errors/404_response.json")
 }
 
 resource "aws_api_gateway_resource" "api_sandbox" {
