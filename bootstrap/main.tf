@@ -66,8 +66,6 @@ resource "aws_s3_bucket_public_access_block" "public_access_block" {
   restrict_public_buckets = true
 }
 
-data "aws_caller_identity" "current" {}
-
 resource "aws_dynamodb_table" "dynamodb_terraform_state_lock" {
   name           = "ndr-terraform-locks"
   hash_key       = "LockID"
@@ -82,6 +80,8 @@ resource "aws_dynamodb_table" "dynamodb_terraform_state_lock" {
     prevent_destroy = true
   }
 }
+
+data "aws_caller_identity" "current" {}
 
 variable "region" {
   type        = string
