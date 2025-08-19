@@ -59,12 +59,13 @@ module "get-report-by-ods-lambda" {
     module.statistical-reports-store.s3_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.get-report-by-ods-gateway.gateway_resource_id
-  http_methods      = ["GET"]
-  memory_size       = 1769
-  lambda_timeout    = 900
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id         = module.get-report-by-ods-gateway.gateway_resource_id
+  http_methods        = ["GET"]
+  memory_size         = 1769
+  lambda_timeout      = 900
+  api_execution_arn   = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION      = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT      = module.ndr-app-config.app_config_environment_id

@@ -71,10 +71,11 @@ module "send-feedback-lambda" {
     aws_iam_policy.ses_send_email_policy.policy,
     module.ndr-app-config.app_config_policy
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.send-feedback-gateway.gateway_resource_id
-  http_methods      = ["POST"]
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id         = module.send-feedback-gateway.gateway_resource_id
+  http_methods        = ["POST"]
+  api_execution_arn   = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION         = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT         = module.ndr-app-config.app_config_environment_id

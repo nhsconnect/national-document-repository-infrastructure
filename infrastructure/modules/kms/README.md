@@ -73,6 +73,7 @@ module "kms_key" {
 | <a name="input_allowed_arn"></a> [allowed\_arn](#input\_allowed\_arn) | List of ARNs that are allowed full encrypt/decrypt access to the KMS key. | `list(string)` | `[]` | no |
 | <a name="input_aws_identifiers"></a> [aws\_identifiers](#input\_aws\_identifiers) | List of ARNs that will be granted decrypt-only access. | `list(string)` | `[]` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Deployment environment (e.g., dev, staging, prod). | `string` | n/a | yes |
+| <a name="input_kms_deletion_window"></a> [kms\_deletion\_window](#input\_kms\_deletion\_window) | Lambda KMS time to deletion in days | `number` | `30` | no |
 | <a name="input_kms_key_description"></a> [kms\_key\_description](#input\_kms\_key\_description) | Description of the KMS key. | `string` | n/a | yes |
 | <a name="input_kms_key_name"></a> [kms\_key\_name](#input\_kms\_key\_name) | Name of the KMS key to be created. | `string` | n/a | yes |
 | <a name="input_kms_key_rotation_enabled"></a> [kms\_key\_rotation\_enabled](#input\_kms\_key\_rotation\_enabled) | Enable automatic KMS key rotation. | `bool` | `true` | no |

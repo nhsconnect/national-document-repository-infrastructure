@@ -54,8 +54,9 @@ module "statistical-report-lambda" {
     module.statistical-reports-store.s3_write_policy_document,
     aws_iam_policy.cloudwatch_log_query_policy.policy
   ]
-  rest_api_id       = null
-  api_execution_arn = null
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = null
+  api_execution_arn   = null
 
   lambda_environment_variables = {
     APPCONFIG_APPLICATION      = module.ndr-app-config.app_config_application_id

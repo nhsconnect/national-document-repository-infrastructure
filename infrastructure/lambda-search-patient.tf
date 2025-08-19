@@ -60,10 +60,11 @@ module "search-patient-details-lambda" {
     module.auth_session_dynamodb_table.dynamodb_write_policy_document,
     module.auth_session_dynamodb_table.dynamodb_read_policy_document,
   ]
-  rest_api_id  = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id  = module.search-patient-details-gateway.gateway_resource_id
-  http_methods = ["GET"]
-  memory_size  = 1769
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id         = module.search-patient-details-gateway.gateway_resource_id
+  http_methods        = ["GET"]
+  memory_size         = 1769
   lambda_environment_variables = {
     APPCONFIG_APPLICATION          = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT          = module.ndr-app-config.app_config_environment_id
