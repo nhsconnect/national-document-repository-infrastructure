@@ -68,20 +68,20 @@ resource "aws_s3_bucket_public_access_block" "public_access_block" {
 
 data "aws_caller_identity" "current" {}
 
-# resource "aws_dynamodb_table" "dynamodb_terraform_state_lock" {
-#   name           = "ndr-terraform-locks"
-#   hash_key       = "LockID"
-#   read_capacity  = 20
-#   write_capacity = 20
+resource "aws_dynamodb_table" "dynamodb_terraform_state_lock" {
+  name           = "ndr-terraform-locks"
+  hash_key       = "LockID"
+  read_capacity  = 20
+  write_capacity = 20
 
-#   attribute {
-#     name = "LockID"
-#     type = "S"
-#   }
-#   lifecycle {
-#     prevent_destroy = true
-#   }
-# }
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+  lifecycle {
+    prevent_destroy = true
+  }
+}
 
 variable "region" {
   type        = string
