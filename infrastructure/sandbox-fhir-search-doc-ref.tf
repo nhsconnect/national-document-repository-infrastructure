@@ -45,7 +45,7 @@ resource "aws_api_gateway_integration_response" "search_document_reference_mock_
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = aws_api_gateway_resource.sandbox_document_reference.id
   http_method       = aws_api_gateway_method.sandbox_search_document_reference.http_method
-  status_code       = aws_api_gateway_method_response.response_200.status_code
+  status_code       = aws_api_gateway_method_response.search_document_reference_response_200.status_code
   selection_pattern = "200"
   response_templates = {
     "application/json" = local.search_mock_200_response
@@ -63,7 +63,7 @@ resource "aws_api_gateway_integration_response" "search_document_reference_mock_
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = aws_api_gateway_resource.sandbox_document_reference.id
   http_method       = aws_api_gateway_method.sandbox_search_document_reference.http_method
-  status_code       = aws_api_gateway_method_response.response_401.status_code
+  status_code       = aws_api_gateway_method_response.search_document_reference_response_401.status_code
   selection_pattern = "401"
   response_templates = {
     "application/json" = local.mock_401_response
@@ -81,7 +81,7 @@ resource "aws_api_gateway_integration_response" "search_document_reference_mock_
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = aws_api_gateway_resource.sandbox_document_reference.id
   http_method       = aws_api_gateway_method.sandbox_search_document_reference.http_method
-  status_code       = aws_api_gateway_method_response.response_403.status_code
+  status_code       = aws_api_gateway_method_response.search_document_reference_response_403.status_code
   selection_pattern = "403"
   response_templates = {
     "application/json" = local.mock_403_response
@@ -99,7 +99,7 @@ resource "aws_api_gateway_integration_response" "search_document_reference_mock_
   rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id       = aws_api_gateway_resource.sandbox_document_reference.id
   http_method       = aws_api_gateway_method.sandbox_search_document_reference.http_method
-  status_code       = aws_api_gateway_method_response.response_404.status_code
+  status_code       = aws_api_gateway_method_response.search_document_reference_response_404.status_code
   selection_pattern = "404"
   response_templates = {
     "application/json" = local.mock_404_response
