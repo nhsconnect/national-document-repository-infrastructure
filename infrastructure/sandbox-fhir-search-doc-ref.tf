@@ -20,7 +20,7 @@ resource "aws_api_gateway_integration" "search_document_reference_mock" {
   request_templates = {
     "application/json" = <<EOF
     {
-      #if ( $input.params('subject:identifier') == 'https://fhir.nhs.uk/Id/nhs-number%7C900000001' )
+      #if ( $input.params('subject:identifier') == 'https://fhir.nhs.uk/Id/nhs-number|900000009' )
         "statusCode": 200
       #elseif ( $input.params('id') == '401' ) 
         "statusCode": 401 
