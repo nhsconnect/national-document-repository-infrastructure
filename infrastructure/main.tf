@@ -1,6 +1,4 @@
 # Terraform Config
-#testgit
-
 
 terraform {
   required_providers {
