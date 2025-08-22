@@ -30,7 +30,6 @@ resource "aws_s3_bucket_acl" "ndr_lock_bucket_acl" {
   bucket     = aws_s3_bucket.ndr_lock_bucket.id
   acl        = "private"
   depends_on = [aws_s3_bucket_ownership_controls.s3_bucket_acl_ownership]
-
 }
 
 resource "aws_s3_bucket_ownership_controls" "s3_bucket_acl_ownership" {
@@ -45,7 +44,6 @@ resource "aws_s3_bucket_versioning" "ndr_s3_state" {
   versioning_configuration {
     status = "Enabled"
   }
-
 }
 resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
   bucket = aws_s3_bucket.ndr_lock_bucket.id
