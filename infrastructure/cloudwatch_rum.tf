@@ -65,7 +65,7 @@ resource "aws_cloudwatch_log_resource_policy" "rum_log" {
           "logs:DeleteLogGroup",
           "logs:DescribeLogGroups"
         ],
-        Resource = "arn:aws:logs:${local.current_region}:${local.current_account_id}:log-group:/aws/vendedlogs/RUMService-*"
+        Resource = "arn:aws:logs:${local.current_region}:${local.current_account_id}:log-group:/aws/vendedlogs/RUMService_*"
       }
     ]
   })

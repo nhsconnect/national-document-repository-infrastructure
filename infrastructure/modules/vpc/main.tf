@@ -20,6 +20,9 @@ resource "aws_default_security_group" "default" {
   vpc_id  = local.is_production ? aws_vpc.vpc[0].id : data.aws_vpc.vpc[0].id
   ingress = []
   egress  = []
+  tags = {
+    Workspace = "core"
+  }
 }
 
 data "aws_internet_gateway" "ig" {
