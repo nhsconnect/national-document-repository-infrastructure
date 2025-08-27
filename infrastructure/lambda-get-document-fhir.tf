@@ -46,6 +46,6 @@ module "get-doc-fhir-lambda" {
     CLOUDFRONT_URL             = module.cloudfront-distribution-lg.cloudfront_url
     PDS_FHIR_IS_STUBBED        = local.is_sandbox
   }
-  depends_on = [aws_api_gateway_method.get_document_reference]
+  depends_on = [aws_api_gateway_method.get_document_reference, aws_api_gateway_resource.get_document_reference]
 }
 
