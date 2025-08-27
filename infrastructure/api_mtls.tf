@@ -36,9 +36,9 @@ resource "aws_api_gateway_base_path_mapping" "api_mapping_mtls" {
 resource "aws_api_gateway_deployment" "ndr_api_deploy_mtls" {
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
 
-  depends_on = [ 
+  depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api_mtls,
-    ]
+  ]
 
   lifecycle {
     create_before_destroy = true
