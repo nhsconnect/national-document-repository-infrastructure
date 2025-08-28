@@ -104,7 +104,7 @@ resource "aws_iam_policy" "ses_send_email_policy" {
           "ses:SendEmail",
         ],
         Resource = [
-          "arn:aws:ses:${local.current_region}:${local.current_account_id}:identity/*",
+          "arn:aws:ses:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:identity/*",
         ]
       }
     ]
