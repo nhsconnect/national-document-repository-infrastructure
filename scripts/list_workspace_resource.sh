@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# source /utils/workspace_utils.sh
-#
-TERRAFORM_WORKSPACE="$1"
+TERRAFORM_WORKSPACE=""
+do_delete=false
 
 function _list_tagged_resources() {
   local workspace=$1
@@ -100,6 +99,26 @@ function _list_log_groups() {
 
   for log_group in $log_groups; do
     echo "CloudWatch Logs log group: $log_group"
+  done
+}
+
+function _delete_log_groups() {
+  local workspace=$1
+  local log_groups
+
+  # List all log groups and filter those containing the specified substring
+  log_groups=$(aws logs describe-log-groups | jq -r --arg substring "$workspace" '.logGroups[] | select(.logGroupName | contains($substring)) | .logGroupName')
+
+  # Check if any log groups were found
+  if [ -z "$log_groups" ]; then
+    echo "No CloudWatch Logs log groups found containing the substring: $workspace"
+    return 0
+  fi
+
+  # Loop through each log group and delete it
+  for log_group in $log_groups; do
+    echo "Deleting CloudWatch Logs log group: $log_group"
+    aws logs delete-log-group --log-group-name "$log_group"
   done
 }
 
@@ -644,6 +663,23 @@ function _list_cloudwatch_alarms() {
   done
 }
 
+function _delete_cloudwatch_alarms() {
+  local workspace=$1
+
+  alarms=$(aws cloudwatch describe-alarms --output json | jq -r --arg SUBSTRING "$workspace" '.MetricAlarms[] | select(.AlarmName | contains($SUBSTRING)) | .AlarmName')
+
+  if [ -z "$alarms" ]; then
+    echo "No CloudWatch alarms containing the substring: $workspace"
+    return 0
+  fi
+
+  echo "Deleting the following CloudWatch alarms:"
+  for alarm in $alarms; do
+    echo "$alarm"
+  done
+  aws cloudwatch delete-alarms --alarm-names $alarms
+}
+
 function _list_appconfig() {
   local workspace=$1
   SUBSTRING="$workspace"
@@ -681,6 +717,27 @@ function _list_lambda_layers() {
   for layer in $layers; do
     echo "Lambda Layer: $layer"
   done
+}
+
+function _delete_lambda_layers() {
+  local workspace=$1
+  local layers=$(aws lambda list-layers --output json)
+
+  if [ -n "$workspace" ]; then
+    layers=$(echo "$layers" | jq -r --arg SUBSTRING "$workspace" '.Layers[] | select(.LayerName | contains($SUBSTRING)) | .LayerName')
+  fi
+
+  [ -z "$layers" ] && echo "No Lambda Layers found containing substring: $workspace" && return 0
+
+  for layer in $layers; do
+    echo "Deleting versions for Lambda Layer: $layer"
+    versions=$(aws lambda list-layer-versions --layer-name "$layer" --output json | jq -r '.LayerVersions[].Version')
+    for v in $versions; do
+      echo "  - Deleting $layer version $v"
+      aws lambda delete-layer-version --layer-name "$layer" --version-number "$v"
+    done
+  done
+
 }
 
 function _list_cloudwatch_dashboards() {
@@ -851,12 +908,23 @@ function _list_sns_subscriptions() {
   local subs=$(aws sns list-subscriptions --output json)
 
   if [ -n "$workspace" ]; then
-    subs=$(echo "$subs" | jq -r --arg SUBSTRING "$workspace" '.Subscriptions[] | select(.SubscriptionArn | contains($SUBSTRING) or .TopicArn | contains($SUBSTRING)) | .SubscriptionArn')
+    subs=$(echo "$subs" | jq -r --arg SUBSTRING "$workspace-sns" ' .Subscriptions[] | select((.SubscriptionArn | contains($SUBSTRING)) or (.TopicArn | contains($SUBSTRING))) | .SubscriptionArn')
   else
     subs=$(echo "$subs" | jq -r '.Subscriptions[] | .SubscriptionArn')
   fi
 
   [ -z "$subs" ] && echo "No SNS Subscriptions found." && return 0
+
+  for sub in $subs; do
+    echo "SNS Subscription: $sub"
+  done
+}
+
+function _delete_sns_subscriptions() {
+  local workspace=$1
+  local subs=$(aws sns list-subscriptions --output json)
+  subs=$(echo "$subs" | jq -r --arg SUBSTRING "$workspace-sns" ' .Subscriptions[] | select((.SubscriptionArn | contains($SUBSTRING)) or (.TopicArn | contains($SUBSTRING))) | .SubscriptionArn')
+  [ -z "$subs" ] && echo "No SNS Subscriptions found for $workspace" && return 0
 
   for sub in $subs; do
     echo "SNS Subscription: $sub"
@@ -923,4 +991,42 @@ function _list_workspace_resources() {
   _list_lambda_event_source_mappings "$TERRAFORM_WORKSPACE"
 }
 
-_list_workspace_resources
+function _delete_workspace_resources() {
+  if [[ -z "${TERRAFORM_WORKSPACE:-}" ]]; then
+    echo "❌ ERROR: TERRAFORM_WORKSPACE is not set."
+    exit 1
+  fi
+
+  case "$TERRAFORM_WORKSPACE" in
+  ndr-dev | ndr-test | pre-prod | prod)
+    echo "❌ ERROR: Deletion is not allowed for workspace: $TERRAFORM_WORKSPACE"
+    exit 1
+    ;;
+  esac
+
+  _delete_log_groups "$TERRAFORM_WORKSPACE"
+  _delete_lambda_layers "$TERRAFORM_WORKSPACE"
+  _delete_cloudwatch_alarms "$TERRAFORM_WORKSPACE"
+  _delete_sns_subscriptions "$TERRAFORM_WORKSPACE"
+}
+
+# Parse args
+for arg in "$@"; do
+  case "$arg" in
+  --delete)
+    do_delete=true
+    shift
+    ;;
+  *)
+    TERRAFORM_WORKSPACE="$arg"
+    shift
+    ;;
+  esac
+done
+
+# Run correct function
+if $do_delete; then
+  _delete_workspace_resources
+else
+  _list_workspace_resources
+fi
