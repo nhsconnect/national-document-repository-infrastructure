@@ -41,7 +41,7 @@ resource "aws_api_gateway_integration" "post_doc_fhir_lambda_integration" {
 resource "aws_lambda_permission" "lambda_permission_post_mtls_api" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name =  module.post-document-references-fhir-lambda[0].lambda_arn
+  function_name = module.post-document-references-fhir-lambda[0].lambda_arn
   principal     = "apigateway.amazonaws.com"
   # The "/*/*" portion grants access from any method on any resource
   # within the API Gateway REST API.
