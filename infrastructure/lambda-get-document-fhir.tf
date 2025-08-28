@@ -63,7 +63,7 @@ module "get-doc-fhir-lambda" {
     CLOUDFRONT_URL             = module.cloudfront-distribution-lg.cloudfront_url
     PDS_FHIR_IS_STUBBED        = local.is_sandbox
   }
-  depends_on = [aws_api_gateway_method.get_document_reference, aws_api_gateway_resource.get_document_reference]
+  depends_on = [aws_api_gateway_method.get_document_reference]
 }
 
 resource "aws_api_gateway_integration" "get_doc_fhir_lambda_integration" {
@@ -76,7 +76,7 @@ resource "aws_api_gateway_integration" "get_doc_fhir_lambda_integration" {
 }
 
 resource "aws_lambda_permission" "lambda_permission_get_mtls_api" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowAPImTLSGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = module.get-doc-fhir-lambda[0].lambda_arn
   principal     = "apigateway.amazonaws.com"

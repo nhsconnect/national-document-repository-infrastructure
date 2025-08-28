@@ -42,7 +42,7 @@ resource "aws_api_gateway_integration" "search_doc_fhir_lambda_integration" {
 }
 
 resource "aws_lambda_permission" "lambda_permission_search_mtls_api" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowAPImTLSGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = module.search-document-references-fhir-lambda[0].lambda_arn
   principal     = "apigateway.amazonaws.com"

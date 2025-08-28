@@ -39,7 +39,7 @@ resource "aws_api_gateway_integration" "post_doc_fhir_lambda_integration" {
 }
 
 resource "aws_lambda_permission" "lambda_permission_post_mtls_api" {
-  statement_id  = "AllowAPIGatewayInvoke"
+  statement_id  = "AllowAPImTLSGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = module.post-document-references-fhir-lambda[0].lambda_arn
   principal     = "apigateway.amazonaws.com"
