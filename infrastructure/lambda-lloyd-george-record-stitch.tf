@@ -65,11 +65,12 @@ module "lloyd-george-stitch-lambda" {
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
     module.cloudfront_edge_dynamodb_table.dynamodb_write_policy_document
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.lloyd-george-stitch-gateway.gateway_resource_id
-  http_methods      = ["GET", "POST"]
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
-  lambda_timeout    = 450
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id         = module.lloyd-george-stitch-gateway.gateway_resource_id
+  http_methods        = ["GET", "POST"]
+  api_execution_arn   = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  lambda_timeout      = 450
   lambda_environment_variables = {
     APPCONFIG_APPLICATION         = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT         = module.ndr-app-config.app_config_environment_id
@@ -78,7 +79,6 @@ module "lloyd-george-stitch-lambda" {
     LLOYD_GEORGE_DYNAMODB_NAME    = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
     STITCH_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_metadata_dynamodb_table_name}"
     CLOUDFRONT_URL                = module.cloudfront-distribution-lg.cloudfront_url
-    SPLUNK_SQS_QUEUE_URL          = try(module.sqs-splunk-queue[0].sqs_url, null)
     WORKSPACE                     = terraform.workspace
     PRESIGNED_ASSUME_ROLE         = aws_iam_role.stitch_presign_url_role.arn
     EDGE_REFERENCE_TABLE          = module.cloudfront_edge_dynamodb_table.table_name
@@ -87,16 +87,9 @@ module "lloyd-george-stitch-lambda" {
     aws_api_gateway_rest_api.ndr_doc_store_api,
     module.ndr-lloyd-george-store,
     module.lloyd-george-stitch-gateway,
-    aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0],
     module.ndr-app-config,
     module.cloudfront-distribution-lg,
     module.stitch_metadata_reference_dynamodb_table,
     module.lloyd_george_reference_dynamodb_table
   ]
-}
-
-resource "aws_iam_role_policy_attachment" "lambda_stitch-lambda" {
-  count      = local.is_sandbox ? 0 : 1
-  role       = module.lloyd-george-stitch-lambda.lambda_execution_role_name
-  policy_arn = try(aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0].arn, null)
 }

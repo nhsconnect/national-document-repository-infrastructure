@@ -10,3 +10,5 @@ standalone_vpc_ig_tag = "ndr-dev"
 cloud_security_email_param_environment = "dev"
 
 apim_environment = "internal-dev."
+
+kms_deletion_window = 7

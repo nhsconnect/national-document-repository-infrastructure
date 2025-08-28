@@ -29,8 +29,9 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
 
     steps:
+      # Checkout the repository to the GitHub Actions runner
       - name: Checkout Base
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
 
@@ -76,7 +77,7 @@ jobs:
         working-directory: ./infrastructure
 
       - name: Checkout Branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.inputs.buildBranch}}
 

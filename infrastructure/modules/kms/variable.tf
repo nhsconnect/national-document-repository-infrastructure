@@ -47,6 +47,12 @@ variable "allowed_arn" {
   default     = []
 }
 
+variable "kms_deletion_window" {
+  description = "Lambda KMS time to deletion in days"
+  type        = number
+  default     = 30
+}
+
 output "kms_arn" {
   value = aws_kms_key.encryption_key.arn
 }

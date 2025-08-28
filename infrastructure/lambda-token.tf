@@ -21,10 +21,11 @@ module "create-token-lambda" {
     module.auth_state_dynamodb_table.dynamodb_write_policy_document,
     module.ndr-app-config.app_config_policy
   ]
-  rest_api_id       = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id       = module.create-token-gateway.gateway_resource_id
-  http_methods      = ["GET"]
-  api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  kms_deletion_window = var.kms_deletion_window
+  rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id         = module.create-token-gateway.gateway_resource_id
+  http_methods        = ["GET"]
+  api_execution_arn   = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION           = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT           = module.ndr-app-config.app_config_environment_id
@@ -36,7 +37,6 @@ module "create-token-lambda" {
     AUTH_STATE_TABLE_NAME   = "${terraform.workspace}_${var.auth_state_dynamodb_table_name}"
     AUTH_SESSION_TABLE_NAME = "${terraform.workspace}_${var.auth_session_dynamodb_table_name}"
     ENVIRONMENT             = var.environment
-    SPLUNK_SQS_QUEUE_URL    = try(module.sqs-splunk-queue[0].sqs_url, null)
   }
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
@@ -44,7 +44,6 @@ module "create-token-lambda" {
     module.auth_session_dynamodb_table,
     module.auth_state_dynamodb_table,
     module.create-token-gateway,
-    aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0],
     module.ndr-app-config
   ]
   memory_size = 1769
@@ -90,11 +89,4 @@ module "create_token-alarm_topic" {
   })
 
   depends_on = [module.create-token-lambda, module.sns_encryption_key]
-}
-
-
-resource "aws_iam_role_policy_attachment" "policy_audit_token_lambda" {
-  count      = local.is_sandbox ? 0 : 1
-  role       = module.create-token-lambda.lambda_execution_role_name
-  policy_arn = try(aws_iam_policy.lambda_audit_splunk_sqs_queue_send_policy[0].arn, null)
 }

@@ -57,6 +57,12 @@ variable "statistical_reports_bucket_name" {
   default     = "statistical-reports"
 }
 
+variable "truststore_bucket_name" {
+  type        = string
+  description = "The name of the S3 bucket to store trusted CA's for MTLS"
+  default     = "ndr-truststore"
+}
+
 # DynamoDB Table Variables
 
 variable "pdm_dynamodb_table_name" {
@@ -248,4 +254,10 @@ variable "enable_xray_tracing" {
   description = "Enable AWS X-Ray tracing for the API Gateway stage."
   type        = bool
   default     = false
+}
+
+variable "kms_deletion_window" {
+  description = "KMS time to deletion in days"
+  type        = number
+  default     = 30
 }

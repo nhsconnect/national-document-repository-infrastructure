@@ -13,6 +13,7 @@ module "mns_encryption_key" {
   service_identifiers   = ["sns.amazonaws.com"]
   aws_identifiers       = [data.aws_ssm_parameter.mns_lambda_role.value]
   allow_decrypt_for_arn = true
+  kms_deletion_window   = var.kms_deletion_window
 }
 
 module "sqs-mns-notification-queue" {
