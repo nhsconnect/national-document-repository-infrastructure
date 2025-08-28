@@ -28,3 +28,22 @@ module "post-document-references-fhir-lambda" {
     PRESIGNED_ASSUME_ROLE           = aws_iam_role.create_post_presign_url_role.arn
   }
 }
+
+resource "aws_api_gateway_integration" "post_doc_fhir_lambda_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
+  resource_id             = module.fhir_document_reference_mtls_gateway.gateway_resource_id
+  http_method             = "POST"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = module.post-document-references-fhir-lambda[0].lambda_invoke_arn
+}
+
+resource "aws_lambda_permission" "lambda_permission_post_mtls_api" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name =  module.post-document-references-fhir-lambda[0].lambda_arn
+  principal     = "apigateway.amazonaws.com"
+  # The "/*/*" portion grants access from any method on any resource
+  # within the API Gateway REST API.
+  source_arn = "${aws_api_gateway_rest_api.ndr_doc_store_api_mtls.execution_arn}/*/*"
+}
