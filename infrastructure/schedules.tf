@@ -225,3 +225,33 @@ resource "aws_lambda_permission" "toggle_bulk_upload_disable_permission" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.bulk_upload_disable_rule.arn
 }
+
+resource "aws_cloudwatch_event_target" "v2_bulk_upload_enable_target" {
+  rule      = aws_cloudwatch_event_rule.bulk_upload_enable_rule.name
+  target_id = "v2-toggle-bulk-upload-enable"
+  arn       = module.v2-toggle-bulk-upload-lambda.lambda_arn
+  input     = jsonencode({ action = "enable" })
+}
+
+resource "aws_cloudwatch_event_target" "v2_bulk_upload_disable_target" {
+  rule      = aws_cloudwatch_event_rule.bulk_upload_disable_rule.name
+  target_id = "v2-toggle-bulk-upload-disable"
+  arn       = module.v2-toggle-bulk-upload-lambda.lambda_arn
+  input     = jsonencode({ action = "disable" })
+}
+
+resource "aws_lambda_permission" "v2_toggle_bulk_upload_enable_permission" {
+  statement_id  = "AllowExecutionFromCloudWatchEnable"
+  action        = "lambda:InvokeFunction"
+  function_name = module.v2-toggle-bulk-upload-lambda.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.bulk_upload_enable_rule.arn
+}
+
+resource "aws_lambda_permission" "v2_toggle_bulk_upload_disable_permission" {
+  statement_id  = "AllowExecutionFromCloudWatchDisable"
+  action        = "lambda:InvokeFunction"
+  function_name = module.v2-toggle-bulk-upload-lambda.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.bulk_upload_disable_rule.arn
+}

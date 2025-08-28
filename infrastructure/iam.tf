@@ -196,6 +196,25 @@ resource "aws_iam_policy" "lambda_toggle_bulk_upload_policy" {
   policy = data.aws_iam_policy_document.lambda_toggle_bulk_upload_document.json
 }
 
+data "aws_iam_policy_document" "v2_lambda_toggle_bulk_upload_document" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "lambda:UpdateEventSourceMapping",
+      "lambda:GetEventSourceMapping"
+    ]
+
+    resources = [
+      aws_lambda_event_source_mapping.v2_bulk_upload_lambda.arn
+    ]
+  }
+}
+
+resource "aws_iam_policy" "v2_lambda_toggle_bulk_upload_policy" {
+  name   = "${terraform.workspace}_v2_lambda_toggle_bulk_upload_policy"
+  policy = data.aws_iam_policy_document.v2_lambda_toggle_bulk_upload_document.json
+}
 
 data "aws_iam_policy_document" "assume_role_policy_for_ods_report_lambda" {
   statement {
