@@ -12,7 +12,7 @@ module "route53_fargate_ui" {
 }
 
 resource "aws_route53_record" "ndr_mtls_api_record" {
-  name    = local.mtls_api_gateway_full_domain_name
+  name    = aws_api_gateway_domain_name.custom_api_domain_mtls.domain_name
   type    = "A"
   zone_id = module.route53_fargate_ui.zone_id
 
