@@ -38,7 +38,7 @@ resource "aws_api_gateway_integration" "search_doc_fhir_lambda_integration" {
   http_method             = "GET"
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = module.search-document-references-fhir-lambda[0].lambda_invoke_arn
+  uri                     = module.search-document-references-fhir-lambda[0].invoke_arn
 }
 
 resource "aws_lambda_permission" "lambda_permission_search_mtls_api" {

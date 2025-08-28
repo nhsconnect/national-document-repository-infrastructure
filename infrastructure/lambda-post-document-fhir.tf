@@ -35,7 +35,7 @@ resource "aws_api_gateway_integration" "post_doc_fhir_lambda_integration" {
   http_method             = "POST"
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = module.post-document-references-fhir-lambda[0].lambda_invoke_arn
+  uri                     = module.post-document-references-fhir-lambda[0].invoke_arn
 }
 
 resource "aws_lambda_permission" "lambda_permission_post_mtls_api" {
