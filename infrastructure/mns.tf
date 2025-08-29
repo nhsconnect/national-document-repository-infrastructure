@@ -4,7 +4,6 @@ data "aws_ssm_parameter" "mns_lambda_role" {
 
 
 module "mns_encryption_key" {
-  count                 = 1
   source                = "./modules/kms"
   kms_key_name          = "alias/mns-notification-encryption-key-kms-${terraform.workspace}"
   kms_key_description   = "Custom KMS Key to enable server side encryption for mns subscriptions"
@@ -17,7 +16,6 @@ module "mns_encryption_key" {
 }
 
 module "sqs-mns-notification-queue" {
-  count                  = 1
   source                 = "./modules/sqs"
   name                   = "mns-notification-queue"
   max_size_message       = 256 * 1024        # allow message size up to 256 KB
@@ -27,16 +25,14 @@ module "sqs-mns-notification-queue" {
   max_visibility         = 901
   delay                  = 60
   enable_sse             = null
-  kms_master_key_id      = module.mns_encryption_key[0].id
+  kms_master_key_id      = module.mns_encryption_key.id
   enable_dlq             = true
   dlq_visibility_timeout = 0
   max_receive_count      = 3
 }
 
 resource "aws_sqs_queue_policy" "mns_sqs_access" {
-  count = 1
-
-  queue_url = module.sqs-mns-notification-queue[0].sqs_url
+  queue_url = module.sqs-mns-notification-queue.sqs_url
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -47,7 +43,7 @@ resource "aws_sqs_queue_policy" "mns_sqs_access" {
           AWS = data.aws_ssm_parameter.mns_lambda_role.value
         },
         Action   = "SQS:SendMessage",
-        Resource = module.sqs-mns-notification-queue[0].sqs_arn
+        Resource = module.sqs-mns-notification-queue.sqs_arn
       }
     ]
   })
@@ -66,7 +62,7 @@ resource "aws_cloudwatch_metric_alarm" "msn_dlq_new_message" {
   alarm_actions       = [module.mns-dlq-alarm-topic.arn]
 
   dimensions = {
-    QueueName = module.sqs-mns-notification-queue[0].dlq_name
+    QueueName = module.sqs-mns-notification-queue.dlq_name
   }
 }
 
@@ -97,5 +93,5 @@ module "mns-dlq-alarm-topic" {
       }
     ]
   })
-  depends_on = [module.sqs-mns-notification-queue[0]]
+  depends_on = [module.sqs-mns-notification-queue]
 }

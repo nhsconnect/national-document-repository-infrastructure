@@ -23,3 +23,67 @@ moved {
   from = module.upload_confirm_result_alarm_topic
   to   = module.document-status-check-alarm-topic
 }
+
+#NDR-205
+
+moved {
+  from = module.fhir_document_reference_gateway[0]
+  to   = module.fhir_document_reference_gateway
+}
+
+moved {
+  from = module.post-document-references-fhir-lambda[0].aws_iam_role.lambda_execution_role
+  to   = module.post-document-references-fhir-lambda.aws_iam_role.lambda_execution_role
+}
+
+moved {
+  from = module.post-document-references-fhir-lambda[0].aws_cloudwatch_log_group.lambda_logs[0]
+  to   = module.post-document-references-fhir-lambda.aws_cloudwatch_log_group.lambda_logs[0]
+}
+
+moved {
+  from = module.post-document-references-fhir-lambda[0].aws_lambda_function.lambda
+  to   = module.post-document-references-fhir-lambda.aws_lambda_function.lambda
+}
+
+moved {
+  from = module.post-document-references-fhir-lambda[0].aws_kms_alias.lambda
+  to   = module.post-document-references-fhir-lambda.aws_kms_alias.lambda
+}
+moved {
+  from = module.post-document-references-fhir-lambda[0].aws_iam_policy.combined_policies
+  to   = module.post-document-references-fhir-lambda.aws_iam_policy.combined_policies
+}
+
+moved {
+  from = module.post-document-references-fhir-lambda[0].aws_lambda_permission.lambda_permission[0]
+  to   = module.post-document-references-fhir-lambda.aws_lambda_permission.lambda_permission[0]
+}
+
+moved {
+  from = module.get-doc-fhir-lambda[0].aws_iam_role.lambda_execution_role
+  to   = module.get-doc-fhir-lambda.aws_iam_role.lambda_execution_role
+}
+
+moved {
+  from = module.get-doc-fhir-lambda[0].aws_cloudwatch_log_group.lambda_logs[0]
+  to   = module.get-doc-fhir-lambda.aws_cloudwatch_log_group.lambda_logs[0]
+}
+
+moved {
+  from = module.get-doc-fhir-lambda[0].aws_lambda_function.lambda
+  to   = module.get-doc-fhir-lambda.aws_lambda_function.lambda
+}
+moved {
+  from = module.get-doc-fhir-lambda[0].aws_kms_alias.lambda
+  to   = module.get-doc-fhir-lambda.aws_kms_alias.lambda
+}
+moved {
+  from = module.get-doc-fhir-lambda[0].aws_iam_policy.combined_policies
+  to   = module.get-doc-fhir-lambda.aws_iam_policy.combined_policies
+}
+
+moved {
+  from = module.get-doc-fhir-lambda[0].aws_lambda_permission.lambda_permission[0]
+  to   = module.get-doc-fhir-lambda.aws_lambda_permission.lambda_permission[0]
+}
