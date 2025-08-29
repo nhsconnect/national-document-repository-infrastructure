@@ -1,8 +1,8 @@
 resource "aws_api_gateway_usage_plan" "api_key_pdm" {
   name = "${terraform.workspace}_pdm-usage-plan"
   api_stages {
-    api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-    stage  = aws_api_gateway_stage.ndr_api.stage_name
+    api_id = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
+    stage  = aws_api_gateway_stage.ndr_api_mtls.stage_name
   }
 }
 

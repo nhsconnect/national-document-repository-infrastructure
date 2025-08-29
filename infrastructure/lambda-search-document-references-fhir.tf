@@ -31,3 +31,22 @@ module "search-document-references-fhir-lambda" {
     module.ndr-app-config
   ]
 }
+
+resource "aws_api_gateway_integration" "search_doc_fhir_lambda_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
+  resource_id             = module.fhir_document_reference_mtls_gateway.gateway_resource_id
+  http_method             = "GET"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = module.search-document-references-fhir-lambda[0].invoke_arn
+}
+
+resource "aws_lambda_permission" "lambda_permission_search_mtls_api" {
+  statement_id  = "AllowAPImTLSGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = module.search-document-references-fhir-lambda[0].lambda_arn
+  principal     = "apigateway.amazonaws.com"
+  # The "/*/*" portion grants access from any method on any resource
+  # within the API Gateway REST API.
+  source_arn = "${aws_api_gateway_rest_api.ndr_doc_store_api_mtls.execution_arn}/*/*"
+}
