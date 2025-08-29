@@ -40,11 +40,11 @@ module "lambda_layer" {
 | [aws_iam_policy.lambda_layer_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_lambda_layer_version.lambda_layer](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_layer_version) | resource |
 | [archive_file.lambda_layer_placeholder](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
+| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_account_id"></a> [account\_id](#input\_account\_id) | The AWS account ID used to generate IAM policy for layer access. | `string` | n/a | yes |
 | <a name="input_layer_name"></a> [layer\_name](#input\_layer\_name) | Logical name assigned to the Lambda layer. | `string` | n/a | yes |
 ## Outputs
 

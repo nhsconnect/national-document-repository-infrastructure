@@ -1,8 +1,3 @@
-variable "account_id" {
-  description = "The AWS account ID used to generate IAM policy for layer access."
-  type        = string
-}
-
 variable "layer_name" {
   description = "Logical name assigned to the Lambda layer."
   type        = string

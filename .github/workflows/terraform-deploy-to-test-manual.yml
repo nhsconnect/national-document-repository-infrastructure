@@ -1,5 +1,5 @@
 # .github/workflows/terraform-dev
-name: 'Deploy Feature Branch to Test'
+name: "Deploy Feature Branch to Test"
 
 on:
   workflow_dispatch:
@@ -12,62 +12,68 @@ on:
 permissions:
   pull-requests: write
   id-token: write # This is required for requesting the JWT
-  contents: read  # This is required for actions/checkout
-    
+  contents: read # This is required for actions/checkout
+
 jobs:
   terraform_process:
     runs-on: ubuntu-latest
     environment: test
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v5
-      with:
-        ref: ${{ github.event.inputs.build_branch}}
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.build_branch}}
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ secrets.AWS_ASSUME_ROLE }}
-        role-skip-session-tagging: true
-        aws-region: ${{ vars.AWS_REGION }}
-        mask-aws-account-id: true
-      
-    - name: View AWS Role
-      run: aws sts get-caller-identity
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ASSUME_ROLE }}
+          role-skip-session-tagging: true
+          aws-region: ${{ vars.AWS_REGION }}
+          mask-aws-account-id: true
 
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.11.4
-        terraform_wrapper: false
-      
-    - name: Terraform Init
-      id: init
-      run: terraform init -backend-config=backend-test.conf
-      working-directory: ./infrastructure 
-      shell: bash
+      - name: View AWS Role
+        run: aws sts get-caller-identity
 
-    - name: Terraform Set Workspace
-      id: workspace
-      run:  terraform workspace select -or-create ${{ secrets.AWS_WORKSPACE }}
-      working-directory: ./infrastructure 
-      shell: bash
-      
-      # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
-      working-directory: ./infrastructure 
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.4
+          terraform_wrapper: false
 
-    - name: Terraform Plan
-      id: plan
-      run: |
-        terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan
-      working-directory: ./infrastructure
-      shell: bash
-    
-    - name: Terraform Apply 
-      run: terraform apply -auto-approve -input=false tf.plan
-      working-directory: ./infrastructure
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config=backend-test.conf
+        working-directory: ./infrastructure
+        shell: bash
+
+      - name: Terraform Set Workspace
+        id: workspace
+        run: terraform workspace select -or-create ${{ secrets.AWS_WORKSPACE }}
+        working-directory: ./infrastructure
+        shell: bash
+
+      - name: Lambda Layer Imports
+        id: lambda_layer_import
+        run: ./import_lambda_layers.sh ${{ secrets.AWS_WORKSPACE }} ${{ vars.TF_VARS_FILE }}
+        working-directory: ./scripts
+        shell: bash
+
+        # Checks that all Terraform configuration files adhere to a canonical format
+      - name: Terraform Format
+        run: terraform fmt -check
+        working-directory: ./infrastructure
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan
+        working-directory: ./infrastructure
+        shell: bash
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false tf.plan
+        working-directory: ./infrastructure

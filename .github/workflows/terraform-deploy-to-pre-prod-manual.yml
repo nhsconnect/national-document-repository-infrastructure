@@ -1,4 +1,4 @@
-name: 'Deploy to Pre-Prod'
+name: "Deploy to Pre-Prod"
 
 on:
   workflow_dispatch:
@@ -12,8 +12,8 @@ on:
 permissions:
   pull-requests: write
   id-token: write # This is required for requesting the JWT
-  contents: read  # This is required for actions/checkout
-    
+  contents: read # This is required for actions/checkout
+
 jobs:
   tag_and_release:
     runs-on: ubuntu-latest
@@ -22,75 +22,81 @@ jobs:
     permissions: write-all
 
     steps:
-    - name: Checkout main
-      if: ${{ github.event.inputs.branch_or_tag == 'main' }}
-      uses: actions/checkout@v5
-      with:
-        ref: main
-        fetch-depth: '0'
+      - name: Checkout main
+        if: ${{ github.event.inputs.branch_or_tag == 'main' }}
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: "0"
 
-    - name: Bump version and push tag
-      if: ${{ github.event.inputs.branch_or_tag == 'main' }}
-      id: versioning
-      uses: anothrNick/github-tag-action@1.64.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: false
-        DEFAULT_BUMP: patch
+      - name: Bump version and push tag
+        if: ${{ github.event.inputs.branch_or_tag == 'main' }}
+        id: versioning
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: false
+          DEFAULT_BUMP: patch
 
-    - name: View outputs
-      run: |
-        echo Deploying branch or tagged version to pre-prod: ${{ steps.versioning.outputs.tag || github.event.inputs.branch_or_tag }}
+      - name: View outputs
+        run: |
+          echo Deploying branch or tagged version to pre-prod: ${{ steps.versioning.outputs.tag || github.event.inputs.branch_or_tag }}
 
   terraform_process:
     runs-on: ubuntu-latest
-    needs: ['tag_and_release']
+    needs: ["tag_and_release"]
     environment: pre-prod
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v5
-      with:
-        ref: ${{needs.tag_and_release.outputs.version}}
-        fetch-depth: '0'
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{needs.tag_and_release.outputs.version}}
+          fetch-depth: "0"
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: ${{ secrets.AWS_ASSUME_ROLE }}
-        role-skip-session-tagging: true
-        aws-region: ${{ vars.AWS_REGION }}
-        mask-aws-account-id: true
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ASSUME_ROLE }}
+          role-skip-session-tagging: true
+          aws-region: ${{ vars.AWS_REGION }}
+          mask-aws-account-id: true
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.11.4
-        terraform_wrapper: false
-      
-    - name: Terraform Init
-      id: init
-      run: terraform init -backend-config=backend-pre-prod.conf
-      working-directory: ./infrastructure 
-      shell: bash
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.4
+          terraform_wrapper: false
 
-    - name: Terraform Set Workspace
-      id: workspace
-      run:  terraform workspace select ${{ secrets.AWS_WORKSPACE }}
-      working-directory: ./infrastructure 
-      shell: bash
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config=backend-pre-prod.conf
+        working-directory: ./infrastructure
+        shell: bash
 
-    - name: Terraform Format
-      run: terraform fmt -check
-      working-directory: ./infrastructure 
+      - name: Terraform Set Workspace
+        id: workspace
+        run: terraform workspace select ${{ secrets.AWS_WORKSPACE }}
+        working-directory: ./infrastructure
+        shell: bash
 
-    - name: Terraform Plan
-      id: plan
-      run: |
-        terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan
-      working-directory: ./infrastructure
-      shell: bash
-    
-    - name: Terraform Apply 
-      run: terraform apply -auto-approve -input=false tf.plan
-      working-directory: ./infrastructure
+      - name: Lambda Layer Imports
+        id: lambda_layer_import
+        run: ./import_lambda_layers.sh ${{ secrets.AWS_WORKSPACE }} ${{ vars.TF_VARS_FILE }}
+        working-directory: ./scripts
+        shell: bash
+
+      - name: Terraform Format
+        run: terraform fmt -check
+        working-directory: ./infrastructure
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan
+        working-directory: ./infrastructure
+        shell: bash
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false tf.plan
+        working-directory: ./infrastructure
