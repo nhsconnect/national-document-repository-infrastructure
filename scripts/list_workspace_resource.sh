@@ -471,7 +471,7 @@ function _list_sns_topics() {
 
   if [ -n "$workspace" ]; then
     echo "Filtering SNS topics by substring: $workspace"
-    topics=$(aws sns list-topics --output json | jq -r --arg SUBSTRING "$workspace" '.Topics[] | select(.TopicArn | contains($SUBSTRING)) | .TopicArn')
+    topics=$(aws sns list-topics --output json | jq -r --arg SUBSTRING "${workspace}-sns" '.Topics[] | select(.TopicArn | contains($SUBSTRING)) | .TopicArn')
   else
     echo "No workspace specified — listing all SNS topics"
     topics=$(aws sns list-topics --output json | jq -r '.Topics[].TopicArn')
@@ -485,6 +485,25 @@ function _list_sns_topics() {
   for topic_arn in $topics; do
     topic_name=$(basename "$topic_arn")
     echo "SNS topic: $topic_name"
+  done
+}
+
+function _delete_sns_topics() {
+  local workspace=$1
+  local topics
+
+  echo "Filtering SNS topics by substring: $workspace"
+  topics=$(aws sns list-topics --output json | jq -r --arg SUBSTRING "${workspace}-sns" '.Topics[] | select(.TopicArn | contains($SUBSTRING)) | .TopicArn')
+
+  if [ -z "$topics" ]; then
+    echo "No SNS topics found containing the substring: {$workspace}"
+    return 0
+  fi
+
+  for topic_arn in $topics; do
+    topic_name=$(basename "$topic_arn")
+    echo "Deleting SNS topic: $topic_name"
+    # aws sns delete-topic --topic-arn $topic_name
   done
 }
 
@@ -706,7 +725,7 @@ function _list_lambda_layers() {
 
   if [ -n "$workspace" ]; then
     echo "Listing Lambda Layers containing: $workspace"
-    layers=$(echo "$layers" | jq -r --arg SUBSTRING "$workspace" '.Layers[] | select(.LayerName | contains($SUBSTRING)) | .LayerName')
+    layers=$(echo "$layers" | jq -r --arg SUBSTRING "${workspace}_" '.Layers[] | select(.LayerName | contains($SUBSTRING)) | .LayerName')
   else
     echo "Listing all Lambda Layers"
     layers=$(echo "$layers" | jq -r '.Layers[] | .LayerName')
@@ -724,7 +743,7 @@ function _delete_lambda_layers() {
   local layers=$(aws lambda list-layers --output json)
 
   if [ -n "$workspace" ]; then
-    layers=$(echo "$layers" | jq -r --arg SUBSTRING "$workspace" '.Layers[] | select(.LayerName | contains($SUBSTRING)) | .LayerName')
+    layers=$(echo "$layers" | jq -r --arg SUBSTRING "${workspace}_" '.Layers[] | select(.LayerName | contains($SUBSTRING)) | .LayerName')
   fi
 
   [ -z "$layers" ] && echo "No Lambda Layers found containing substring: $workspace" && return 0
@@ -946,7 +965,8 @@ function _delete_sns_subscriptions() {
   [ -z "$subs" ] && echo "No SNS Subscriptions found for $workspace" && return 0
 
   for sub in $subs; do
-    echo "SNS Subscription: $sub"
+    echo "Deleting Subscription: $sub"
+    # aws sns unsubscribe --subscription-arn $sub
   done
 }
 
@@ -1028,6 +1048,7 @@ function _delete_workspace_resources() {
   _delete_cloudwatch_alarms "$TERRAFORM_WORKSPACE"
   _delete_sns_subscriptions "$TERRAFORM_WORKSPACE"
   _delete_cloudwatch_dashboards "$TERRAFORM_WORKSPACE"
+  _delete_sns_topics "$TERRAFORM_WORKSPACE"
 }
 
 # Parse args
