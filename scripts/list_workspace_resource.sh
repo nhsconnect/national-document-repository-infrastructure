@@ -7,10 +7,8 @@ function _list_tagged_resources() {
   local workspace=$1
 
   if [ -z "$workspace" ]; then
-    echo "No workspace provided. Listing all tagged resources..."
     resources=$(aws resourcegroupstaggingapi get-resources --output json)
   else
-    echo "Listing resources tagged with Workspace=$workspace"
     resources=$(aws resourcegroupstaggingapi get-resources \
       --tag-filters Key=Workspace,Values="$workspace" \
       --output json)
@@ -34,10 +32,8 @@ function _list_lambdas() {
   local workspace=$1
 
   if [ -n "$workspace" ]; then
-    echo "Filtering by workspace: $workspace"
-    FUNCTIONS=$(aws lambda list-functions | jq -r --arg SUBSTRING "$workspace" '.Functions[] | select(.FunctionName | contains($SUBSTRING)) | .FunctionName')
+    FUNCTIONS=$(aws lambda list-functions | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.Functions[] | select((.FunctionName | contains($SUBSTRING1)) or (.FunctionName | contains($SUBSTRING2))) | .FunctionName')
   else
-    echo "No workspace specified — listing all Lambda functions"
     FUNCTIONS=$(aws lambda list-functions | jq -r '.Functions[].FunctionName')
   fi
 
@@ -55,10 +51,8 @@ function _list_all_kms() {
   local workspace=$1
 
   if [ -n "$workspace" ]; then
-    echo "Filtering KMS aliases by workspace: $workspace"
-    ALIASES=$(aws kms list-aliases | jq -r --arg SUBSTRING "$workspace" '.Aliases[] | select(.AliasName | contains($SUBSTRING)) | .AliasName')
+    ALIASES=$(aws kms list-aliases | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.Aliases[] | select((.AliasName | contains($SUBSTRING1)) or (.AliasName | contains($SUBSTRING2))) | .AliasName')
   else
-    echo "No workspace specified — listing all KMS aliases"
     ALIASES=$(aws kms list-aliases | jq -r '.Aliases[].AliasName')
   fi
 
@@ -85,10 +79,8 @@ function _list_log_groups() {
   local log_groups
 
   if [ -n "$workspace" ]; then
-    echo "Filtering log groups by workspace: $workspace"
-    log_groups=$(aws logs describe-log-groups | jq -r --arg substring "$workspace" '.logGroups[] | select(.logGroupName | contains($substring)) | .logGroupName')
+    log_groups=$(aws logs describe-log-groups | jq -r --arg substring1 "${workspace}-" --arg substring2 "${workspace}_" '.logGroups[] | select((.logGroupName | contains($substring1)) or (.logGroupName | contains($substring2))) | .logGroupName')
   else
-    echo "No workspace specified — listing all log groups"
     log_groups=$(aws logs describe-log-groups | jq -r '.logGroups[].logGroupName')
   fi
 
@@ -107,19 +99,21 @@ function _delete_log_groups() {
   local log_groups
 
   # List all log groups and filter those containing the specified substring
-  log_groups=$(aws logs describe-log-groups | jq -r --arg substring "$workspace" '.logGroups[] | select(.logGroupName | contains($substring)) | .logGroupName')
+  if [ -n "$workspace" ]; then
+    log_groups=$(aws logs describe-log-groups | jq -r --arg substring1 "${workspace}-" --arg substring2 "${workspace}_" '.logGroups[] | select((.logGroupName | contains($substring1)) or (.logGroupName | contains($substring2))) | .logGroupName')
 
-  # Check if any log groups were found
-  if [ -z "$log_groups" ]; then
-    echo "No CloudWatch Logs log groups found containing the substring: $workspace"
-    return 0
+    # Check if any log groups were found
+    if [ -z "$log_groups" ]; then
+      echo "No CloudWatch Logs log groups found containing the substring: $workspace"
+      return 0
+    fi
+
+    # Loop through each log group and delete it
+    for log_group in $log_groups; do
+      echo "Deleting CloudWatch Logs log group: $log_group"
+      # aws logs delete-log-group --log-group-name "$log_group"
+    done
   fi
-
-  # Loop through each log group and delete it
-  for log_group in $log_groups; do
-    echo "Deleting CloudWatch Logs log group: $log_group"
-    aws logs delete-log-group --log-group-name "$log_group"
-  done
 }
 
 function _list_dynamo_tables() {
@@ -127,10 +121,8 @@ function _list_dynamo_tables() {
   local tables
 
   if [ -n "$workspace" ]; then
-    echo "Filtering DynamoDB tables by workspace: $workspace"
-    tables=$(aws dynamodb list-tables | jq -r --arg substring "$workspace" '.TableNames[] | select(. | contains($substring))')
+    tables=$(aws dynamodb list-tables | jq -r --arg substring1 "${workspace}-" --arg substring2 "${workspace}_" '.TableNames[] | select((. | contains($substring1)) or (. | contains($substring2)))')
   else
-    echo "No workspace specified — listing all DynamoDB tables"
     tables=$(aws dynamodb list-tables | jq -r '.TableNames[]')
   fi
 
@@ -149,10 +141,8 @@ function _list_s3_buckets() {
   local buckets
 
   if [ -n "$workspace" ]; then
-    echo "Filtering S3 buckets by workspace: $workspace"
-    buckets=$(aws s3api list-buckets | jq -r '.Buckets[].Name' | grep -- "$workspace")
+    buckets=$(aws s3api list-buckets | jq -r '.Buckets[].Name' | grep -E -- "${workspace}[_-]")
   else
-    echo "No workspace specified — listing all S3 buckets"
     buckets=$(aws s3api list-buckets | jq -r '.Buckets[].Name')
   fi
 
@@ -172,10 +162,8 @@ function _list_api_gateway() {
   local domains
 
   if [ -n "$workspace" ]; then
-    echo "Filtering API Gateway resources by workspace: $workspace"
-    apis=$(aws apigateway get-rest-apis --output json | jq -r --arg SUBSTRING "$workspace" '.items[] | select(.name | contains($SUBSTRING)) | .id')
+    apis=$(aws apigateway get-rest-apis --output json | jq -r --arg SUBSTRING1 "${workspace}-" --arg SUBSTRING2 "${workspace}_" '.items[] | select((.name | contains($SUBSTRING1)) or (.name | contains($SUBSTRING2))) | .id')
   else
-    echo "No workspace specified — listing all API Gateway resources"
     apis=$(aws apigateway get-rest-apis --output json | jq -r '.items[].id')
   fi
 
@@ -190,7 +178,7 @@ function _list_api_gateway() {
   domains=$(aws apigateway get-domain-names --output json | jq -r '.items[].domainName')
   if [ -n "$workspace" ]; then
     for domain in $domains; do
-      if [[ $domain == *"$workspace"* ]]; then
+      if [[ $domain == *"-${workspace}."* ]]; then
         echo "Domain: $domain"
       fi
     done
@@ -206,10 +194,8 @@ function _list_ssm_parameters() {
   local params
 
   if [ -n "$workspace" ]; then
-    echo "Filtering SSM Parameters by workspace: $workspace"
-    params=$(aws ssm describe-parameters --output json | jq -r --arg SUBSTRING "$workspace" '.Parameters[] | select(.Name | contains($SUBSTRING)) | .Name')
+    params=$(aws ssm describe-parameters --output json | jq -r --arg SUBSTRING "/${workspace}/" '.Parameters[] | select(.Name | contains($SUBSTRING)) | .Name')
   else
-    echo "No workspace specified — listing all SSM Parameters"
     params=$(aws ssm describe-parameters --output json | jq -r '.Parameters[].Name')
   fi
 
@@ -223,15 +209,32 @@ function _list_ssm_parameters() {
   done
 }
 
+function _delete_ssm_parameters() {
+  local workspace=$1
+  local params
+
+  if [ -n "$workspace" ]; then
+    params=$(aws ssm describe-parameters --output json | jq -r --arg SUBSTRING "/${workspace}/" '.Parameters[] | select(.Name | contains($SUBSTRING)) | .Name')
+
+    if [ -z "$params" ]; then
+      echo "No SSM Parameters found."
+      return 0
+    fi
+
+    for param in $params; do
+      echo "Deleting SSM Parameter: $param"
+      # aws ssm delete-parameter --name $param
+    done
+  fi
+}
+
 function _list_secrets() {
   local workspace=$1
   local secrets
 
   if [ -n "$workspace" ]; then
-    echo "Filtering Secrets Manager secrets by workspace: $workspace"
     secrets=$(aws secretsmanager list-secrets | jq -r --arg substring "$workspace" '.SecretList[] | select(.Name | contains($substring)) | .ARN')
   else
-    echo "No workspace specified — listing all Secrets Manager secrets"
     secrets=$(aws secretsmanager list-secrets | jq -r '.SecretList[].ARN')
   fi
 
@@ -245,16 +248,33 @@ function _list_secrets() {
   done
 }
 
+function _delete_secrets() {
+  local workspace=$1
+  local secrets
+
+  if [ -n "$workspace" ]; then
+    secrets=$(aws secretsmanager list-secrets | jq -r --arg substring "$workspace" '.SecretList[] | select(.Name | contains($substring)) | .ARN')
+
+    if [ -z "$secrets" ]; then
+      echo "No Secrets Manager secrets found."
+      return 0
+    fi
+
+    for secret in $secrets; do
+      echo "Deleting Secrets Manager: $secret"
+      # aws secretsmanager delete-secret --secret-id $secret --force-delete-without-recovery
+    done
+  fi
+}
+
 function _list_iam() {
   local workspace=$1
   local roles policies
 
   if [ -n "$workspace" ]; then
-    echo "Filtering IAM roles and policies by workspace: $workspace"
-    roles=$(aws iam list-roles --output json | jq -r --arg SUBSTRING "$workspace" '.Roles[] | select(.RoleName | contains($SUBSTRING)) | .RoleName')
-    policies=$(aws iam list-policies --scope Local --output json | jq -r --arg SUBSTRING "$workspace" '.Policies[] | select(.PolicyName | contains($SUBSTRING)) | .Arn')
+    roles=$(aws iam list-roles --output json | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.Roles[] | select((.RoleName | contains($SUBSTRING1)) or (.RoleName | contains($SUBSTRING2))) | .RoleName')
+    policies=$(aws iam list-policies --scope Local --output json | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.Policies[] | select((.PolicyName | contains($SUBSTRING1)) or (.PolicyName | contains($SUBSTRING2))) | .Arn')
   else
-    echo "No workspace specified — listing all IAM roles and local policies"
     roles=$(aws iam list-roles --output json | jq -r '.Roles[].RoleName')
     policies=$(aws iam list-policies --scope Local --output json | jq -r '.Policies[].Arn')
   fi
@@ -281,10 +301,8 @@ function _list_firehose_delivery_streams() {
   local streams
 
   if [ -n "$workspace" ]; then
-    echo "Filtering Firehose delivery streams by workspace: $workspace"
     streams=$(aws firehose list-delivery-streams --output json | jq -r --arg SUBSTRING "$workspace" '.DeliveryStreamNames[] | select(contains($SUBSTRING))')
   else
-    echo "No workspace specified — listing all Firehose delivery streams"
     streams=$(aws firehose list-delivery-streams --output json | jq -r '.DeliveryStreamNames[]')
   fi
 
@@ -303,10 +321,8 @@ function _list_sqs_queues() {
   local queues
 
   if [ -n "$workspace" ]; then
-    echo "Filtering SQS queues by workspace: $workspace"
-    queues=$(aws sqs list-queues --output json | jq -r --arg SUBSTRING "$workspace" '.QueueUrls[] | select(contains($SUBSTRING))')
+    queues=$(aws sqs list-queues --output json | jq -r --arg SUBSTRING1 "${workspace}-" --arg SUBSTRING2 "${workspace}_" '.QueueUrls[] | select(contains($SUBSTRING1) or contains($SUBSTRING1))')
   else
-    echo "No workspace specified — listing all SQS queues"
     queues=$(aws sqs list-queues --output json | jq -r '.QueueUrls[]')
   fi
 
@@ -326,10 +342,8 @@ function _list_step_functions() {
   local state_machines
 
   if [ -n "$workspace" ]; then
-    echo "Filtering Step Functions by workspace: $workspace"
     state_machines=$(aws stepfunctions list-state-machines --output json | jq -r --arg SUBSTRING "$workspace" '.stateMachines[] | select(.name | contains($SUBSTRING)) | .stateMachineArn')
   else
-    echo "No workspace specified — listing all Step Functions"
     state_machines=$(aws stepfunctions list-state-machines --output json | jq -r '.stateMachines[].stateMachineArn')
   fi
 
@@ -349,10 +363,8 @@ function _list_cloudwatch_events_rules() {
   local rules
 
   if [ -n "$workspace" ]; then
-    echo "Filtering CloudWatch Events rules by workspace: $workspace"
-    rules=$(aws events list-rules --output json | jq -r --arg SUBSTRING "$workspace" '.Rules[] | select(.Name | contains($SUBSTRING)) | .Name')
+    rules=$(aws events list-rules --output json | jq -r --arg SUBSTRING1 "${workspace}-" --arg SUBSTRING2 "${workspace}_" '.Rules[] | select((.Name | contains($SUBSTRING1)) or (.Name | contains($SUBSTRING2))) | .Name')
   else
-    echo "No workspace specified — listing all CloudWatch Events rules"
     rules=$(aws events list-rules --output json | jq -r '.Rules[].Name')
   fi
 
@@ -362,15 +374,14 @@ function _list_cloudwatch_events_rules() {
   fi
 
   for rule_name in $rules; do
-    echo "CloudWatch Events rule: $rule_name"
 
     targets=$(aws events list-targets-by-rule --rule "$rule_name" --output json | jq -r '.Targets[].Id')
 
     if [ -z "$targets" ]; then
-      echo "  No targets found for rule: $rule_name"
+      echo "No targets found for rule: $rule_name"
     else
       for target_id in $targets; do
-        echo "  Target $target_id from rule: $rule_name"
+        echo "Target $target_id from rule: $rule_name"
       done
     fi
   done
@@ -381,10 +392,8 @@ function _list_resource_groups() {
   local resource_groups
 
   if [ -n "$workspace" ]; then
-    echo "Filtering Resource Groups by substring: $workspace"
-    resource_groups=$(aws resource-groups list-groups --output json | jq -r --arg SUBSTRING "$workspace" '.GroupIdentifiers[] | select(.GroupArn | contains($SUBSTRING)) | .GroupName')
+    resource_groups=$(aws resource-groups list-groups --output json | jq -r --arg SUBSTRING1 "${workspace}-" --arg SUBSTRING2 "${workspace}_" '.GroupIdentifiers[] | select((.GroupArn | contains($SUBSTRING1)) or (.GroupArn | contains($SUBSTRING1))) | .GroupName')
   else
-    echo "No workspace specified — listing all Resource Groups"
     resource_groups=$(aws resource-groups list-groups --output json | jq -r '.GroupIdentifiers[].GroupName')
   fi
 
@@ -403,10 +412,8 @@ function _list_backup_vaults() {
   local vaults
 
   if [ -n "$workspace" ]; then
-    echo "Filtering Backup Vaults by substring: $workspace"
-    vaults=$(aws backup list-backup-vaults --output json | jq -r --arg SUBSTRING "$workspace" '.BackupVaultList[] | select(.BackupVaultName | contains($SUBSTRING)) | .BackupVaultName')
+    vaults=$(aws backup list-backup-vaults --output json | jq -r --arg SUBSTRING "${workspace}_" '.BackupVaultList[] | select(.BackupVaultName | contains($SUBSTRING)) | .BackupVaultName')
   else
-    echo "No workspace specified — listing all Backup Vaults"
     vaults=$(aws backup list-backup-vaults --output json | jq -r '.BackupVaultList[].BackupVaultName')
   fi
 
@@ -425,10 +432,8 @@ function _list_ecr_repositories() {
   local repos
 
   if [ -n "$workspace" ]; then
-    echo "Filtering ECR repositories by substring: $workspace"
-    repos=$(aws ecr describe-repositories --output json | jq -r --arg SUBSTRING "$workspace" '.repositories[] | select(.repositoryName | contains($SUBSTRING)) | .repositoryName')
+    repos=$(aws ecr describe-repositories --output json | jq -r --arg SUBSTRING "${workspace}-" '.repositories[] | select(.repositoryName | contains($SUBSTRING)) | .repositoryName')
   else
-    echo "No workspace specified — listing all ECR repositories"
     repos=$(aws ecr describe-repositories --output json | jq -r '.repositories[].repositoryName')
   fi
 
@@ -447,10 +452,8 @@ function _list_ecs_clusters() {
   local clusters
 
   if [ -n "$workspace" ]; then
-    echo "Filtering ECS clusters by substring: $workspace"
-    clusters=$(aws ecs list-clusters --output json | jq -r --arg SUBSTRING "$workspace" '.clusterArns[] | select(contains($SUBSTRING))')
+    clusters=$(aws ecs list-clusters --output json | jq -r --arg SUBSTRING "${workspace}-" '.clusterArns[] | select(contains($SUBSTRING))')
   else
-    echo "No workspace specified — listing all ECS clusters"
     clusters=$(aws ecs list-clusters --output json | jq -r '.clusterArns[]')
   fi
 
@@ -470,10 +473,8 @@ function _list_sns_topics() {
   local topics
 
   if [ -n "$workspace" ]; then
-    echo "Filtering SNS topics by substring: $workspace"
-    topics=$(aws sns list-topics --output json | jq -r --arg SUBSTRING "${workspace}-sns" '.Topics[] | select(.TopicArn | contains($SUBSTRING)) | .TopicArn')
+    topics=$(aws sns list-topics --output json | jq -r --arg SUBSTRING "${workspace}-" '.Topics[] | select(.TopicArn | contains($SUBSTRING)) | .TopicArn')
   else
-    echo "No workspace specified — listing all SNS topics"
     topics=$(aws sns list-topics --output json | jq -r '.Topics[].TopicArn')
   fi
 
@@ -492,19 +493,20 @@ function _delete_sns_topics() {
   local workspace=$1
   local topics
 
-  echo "Filtering SNS topics by substring: $workspace"
-  topics=$(aws sns list-topics --output json | jq -r --arg SUBSTRING "${workspace}-sns" '.Topics[] | select(.TopicArn | contains($SUBSTRING)) | .TopicArn')
+  if [ -n "$workspace" ]; then
+    topics=$(aws sns list-topics --output json | jq -r --arg SUBSTRING "${workspace}-" '.Topics[] | select(.TopicArn | contains($SUBSTRING)) | .TopicArn')
 
-  if [ -z "$topics" ]; then
-    echo "No SNS topics found containing the substring: {$workspace}"
-    return 0
+    if [ -z "$topics" ]; then
+      echo "No SNS topics found containing the substring: $workspace"
+      return 0
+    fi
+
+    for topic_arn in $topics; do
+      topic_name=$(basename "$topic_arn")
+      echo "Deleting SNS topic: $topic_name"
+      # aws sns delete-topic --topic-arn $topic_name
+    done
   fi
-
-  for topic_arn in $topics; do
-    topic_name=$(basename "$topic_arn")
-    echo "Deleting SNS topic: $topic_name"
-    # aws sns delete-topic --topic-arn $topic_name
-  done
 }
 
 function _list_route53_hosted_zones() {
@@ -512,10 +514,8 @@ function _list_route53_hosted_zones() {
   local zones
 
   if [ -n "$workspace" ]; then
-    echo "Filtering Route 53 hosted zones by substring: $workspace"
     zones=$(aws route53 list-hosted-zones --output json | jq -r --arg SUBSTRING "$workspace" '.HostedZones[] | select(.Name | contains($SUBSTRING)) | .Name')
   else
-    echo "No workspace specified — listing all Route 53 hosted zones"
     zones=$(aws route53 list-hosted-zones --output json | jq -r '.HostedZones[].Name')
   fi
 
@@ -599,25 +599,23 @@ function _list_wafv2_web_acls() {
     filter="select(.Name | contains(\"$workspace\"))"
   fi
 
-  echo "WAFv2 Web ACLs (Scope: REGIONAL)"
   regional_acls=$(aws wafv2 list-web-acls --scope REGIONAL --output json | jq -r ".WebACLs[] | $filter | .Name")
 
   if [ -z "$regional_acls" ]; then
-    echo "  No REGIONAL Web ACLs found${workspace:+ matching \"$workspace\"}"
+    echo "No REGIONAL Web ACLs found${workspace:+ matching \"$workspace\"}"
   else
     for acl in $regional_acls; do
-      echo "  REGIONAL Web ACL: $acl"
+      echo "REGIONAL Web ACL: $acl"
     done
   fi
 
-  echo "WAFv2 Web ACLs (Scope: CLOUDFRONT)"
   cloudfront_acls=$(aws wafv2 list-web-acls --scope CLOUDFRONT --region us-east-1 --output json | jq -r ".WebACLs[] | $filter | .Name")
 
   if [ -z "$cloudfront_acls" ]; then
-    echo "  No CLOUDFRONT Web ACLs found${workspace:+ matching \"$workspace\"}"
+    echo "No CLOUDFRONT Web ACLs found${workspace:+ matching \"$workspace\"}"
   else
     for acl in $cloudfront_acls; do
-      echo "  CLOUDFRONT Web ACL: $acl"
+      echo "CLOUDFRONT Web ACL: $acl"
     done
   fi
 }
@@ -669,7 +667,7 @@ function _list_cloudwatch_alarms() {
   if [ -z "$SUBSTRING" ]; then
     alarms=$(aws cloudwatch describe-alarms --output json | jq -r '.MetricAlarms[].AlarmName')
   else
-    alarms=$(aws cloudwatch describe-alarms --output json | jq -r --arg SUBSTRING "$SUBSTRING" '.MetricAlarms[] | select(.AlarmName | contains($SUBSTRING)) | .AlarmName')
+    alarms=$(aws cloudwatch describe-alarms --output json | jq -r --arg SUBSTRING1 "${SUBSTRING}-" --arg SUBSTRING2 "${SUBSTRING}_" '.MetricAlarms[] | select((.AlarmName | contains($SUBSTRING1)) or (.AlarmName | contains($SUBSTRING2))) | .AlarmName')
   fi
 
   if [ -z "$alarms" ]; then
@@ -685,18 +683,20 @@ function _list_cloudwatch_alarms() {
 function _delete_cloudwatch_alarms() {
   local workspace=$1
 
-  alarms=$(aws cloudwatch describe-alarms --output json | jq -r --arg SUBSTRING "$workspace" '.MetricAlarms[] | select(.AlarmName | contains($SUBSTRING)) | .AlarmName')
+  if [ -n "$workspace" ]; then
+    alarms=$(aws cloudwatch describe-alarms --output json | jq -r --arg SUBSTRING1 "${SUBSTRING}-" --arg SUBSTRING2 "${SUBSTRING}_" '.MetricAlarms[] | select((.AlarmName | contains($SUBSTRING1)) or (.AlarmName | contains($SUBSTRING2))) | .AlarmName')
 
-  if [ -z "$alarms" ]; then
-    echo "No CloudWatch alarms containing the substring: $workspace"
-    return 0
+    if [ -z "$alarms" ]; then
+      echo "No CloudWatch alarms containing the substring: $workspace"
+      return 0
+    fi
+
+    echo "Deleting the following CloudWatch alarms:"
+    for alarm in $alarms; do
+      echo "$alarm"
+    done
+    # aws cloudwatch delete-alarms --alarm-names $alarms
   fi
-
-  echo "Deleting the following CloudWatch alarms:"
-  for alarm in $alarms; do
-    echo "$alarm"
-  done
-  aws cloudwatch delete-alarms --alarm-names $alarms
 }
 
 function _list_appconfig() {
@@ -706,7 +706,7 @@ function _list_appconfig() {
   if [ -z "$SUBSTRING" ]; then
     apps=$(aws appconfig list-applications --output json | jq -r '.Items[].Name')
   else
-    apps=$(aws appconfig list-applications --output json | jq -r --arg SUBSTRING "$SUBSTRING" '.Items[] | select(.Name | contains($SUBSTRING)) | .Name')
+    apps=$(aws appconfig list-applications --output json | jq -r --arg SUBSTRING "RepositoryConfiguration-${SUBSTRING}" '.Items[] | select(.Name == $SUBSTRING) | .Name')
   fi
 
   if [ -z "$apps" ]; then
@@ -724,10 +724,8 @@ function _list_lambda_layers() {
   local layers=$(aws lambda list-layers --output json)
 
   if [ -n "$workspace" ]; then
-    echo "Listing Lambda Layers containing: $workspace"
-    layers=$(echo "$layers" | jq -r --arg SUBSTRING "${workspace}_" '.Layers[] | select(.LayerName | contains($SUBSTRING)) | .LayerName')
+    layers=$(echo "$layers" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.Layers[] | select((.LayerName | contains($SUBSTRING1)) or (.LayerName | contains($SUBSTRING2))) | .LayerName')
   else
-    echo "Listing all Lambda Layers"
     layers=$(echo "$layers" | jq -r '.Layers[] | .LayerName')
   fi
 
@@ -743,20 +741,18 @@ function _delete_lambda_layers() {
   local layers=$(aws lambda list-layers --output json)
 
   if [ -n "$workspace" ]; then
-    layers=$(echo "$layers" | jq -r --arg SUBSTRING "${workspace}_" '.Layers[] | select(.LayerName | contains($SUBSTRING)) | .LayerName')
-  fi
+    layers=$(echo "$layers" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.Layers[] | select((.LayerName | contains($SUBSTRING1)) or (.LayerName | contains($SUBSTRING2))) | .LayerName')
 
-  [ -z "$layers" ] && echo "No Lambda Layers found containing substring: $workspace" && return 0
+    [ -z "$layers" ] && echo "No Lambda Layers found containing substring: $workspace" && return 0
 
-  for layer in $layers; do
-    echo "Deleting versions for Lambda Layer: $layer"
-    versions=$(aws lambda list-layer-versions --layer-name "$layer" --output json | jq -r '.LayerVersions[].Version')
-    for v in $versions; do
-      echo "  - Deleting $layer version $v"
-      aws lambda delete-layer-version --layer-name "$layer" --version-number "$v"
+    for layer in $layers; do
+      versions=$(aws lambda list-layer-versions --layer-name "$layer" --output json | jq -r '.LayerVersions[].Version')
+      for v in $versions; do
+        echo "  - Deleting $layer version $v"
+        # aws lambda delete-layer-version --layer-name "$layer" --version-number "$v"
+      done
     done
-  done
-
+  fi
 }
 
 function _list_cloudwatch_dashboards() {
@@ -764,10 +760,8 @@ function _list_cloudwatch_dashboards() {
   local dashboards=$(aws cloudwatch list-dashboards --output json)
 
   if [ -n "$workspace" ]; then
-    echo "Listing CloudWatch Dashboards containing: $workspace"
     dashboards=$(echo "$dashboards" | jq -r --arg SUBSTRING "$workspace" '.DashboardEntries[] | select(.DashboardName | contains($SUBSTRING)) | .DashboardName')
   else
-    echo "Listing all CloudWatch Dashboards"
     dashboards=$(echo "$dashboards" | jq -r '.DashboardEntries[] | .DashboardName')
   fi
 
@@ -802,10 +796,8 @@ function _list_iam_instance_profiles() {
   local profiles=$(aws iam list-instance-profiles --output json)
 
   if [ -n "$workspace" ]; then
-    echo "Listing IAM Instance Profiles containing: $workspace"
     profiles=$(echo "$profiles" | jq -r --arg SUBSTRING "$workspace" '.InstanceProfiles[] | select(.InstanceProfileName | contains($SUBSTRING)) | .InstanceProfileName')
   else
-    echo "Listing all IAM Instance Profiles"
     profiles=$(echo "$profiles" | jq -r '.InstanceProfiles[] | .InstanceProfileName')
   fi
 
@@ -819,12 +811,9 @@ function _list_iam_instance_profiles() {
 function _list_vpc_endpoints() {
   local workspace=$1
   local endpoints=$(aws ec2 describe-vpc-endpoints --output json)
-
   if [ -n "$workspace" ]; then
-    echo "Listing VPC Endpoints containing: $workspace"
-    endpoints=$(echo "$endpoints" | jq -r --arg SUBSTRING "$workspace" '.VpcEndpoints[] | select(.VpcEndpointId | contains($SUBSTRING) or .ServiceName | contains($SUBSTRING) or .Tags[]?.Value | contains($SUBSTRING)) | .VpcEndpointId')
+    endpoints=$(echo "$endpoints" | jq -r --arg SUBSTRING "$workspace" '.VpcEndpoints[] | select((.VpcEndpointId   | contains($SUBSTRING)) or (.ServiceName     | contains($SUBSTRING)) or ((.Tags[]? | .Value) // "" | contains($SUBSTRING))) | .VpcEndpointId')
   else
-    echo "Listing all VPC Endpoints"
     endpoints=$(echo "$endpoints" | jq -r '.VpcEndpoints[] | .VpcEndpointId')
   fi
 
@@ -840,10 +829,8 @@ function _list_efs_file_systems() {
   local filesystems=$(aws efs describe-file-systems --output json)
 
   if [ -n "$workspace" ]; then
-    echo "Listing EFS File Systems containing: $workspace"
     filesystems=$(echo "$filesystems" | jq -r --arg SUBSTRING "$workspace" '.FileSystems[] | select(.Name | contains($SUBSTRING) or .FileSystemId | contains($SUBSTRING)) | .FileSystemId')
   else
-    echo "Listing all EFS File Systems"
     filesystems=$(echo "$filesystems" | jq -r '.FileSystems[] | .FileSystemId')
   fi
 
@@ -859,10 +846,8 @@ function _list_elbs() {
   local elbs=$(aws elbv2 describe-load-balancers --output json)
 
   if [ -n "$workspace" ]; then
-    echo "Listing ELBs containing: $workspace"
-    elbs=$(echo "$elbs" | jq -r --arg SUBSTRING "$workspace" '.LoadBalancers[] | select(.LoadBalancerName | contains($SUBSTRING)) | .LoadBalancerName')
+    elbs=$(echo "$elbs" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.LoadBalancers[] | select((.LoadBalancerName | contains($SUBSTRING1)) or (.LoadBalancerName | contains($SUBSTRING2))) | .LoadBalancerName')
   else
-    echo "Listing all ELBs"
     elbs=$(echo "$elbs" | jq -r '.LoadBalancers[] | .LoadBalancerName')
   fi
 
@@ -878,10 +863,8 @@ function _list_target_groups() {
   local tgs=$(aws elbv2 describe-target-groups --output json)
 
   if [ -n "$workspace" ]; then
-    echo "Listing Target Groups containing: $workspace"
-    tgs=$(echo "$tgs" | jq -r --arg SUBSTRING "$workspace" '.TargetGroups[] | select(.TargetGroupName | contains($SUBSTRING)) | .TargetGroupName')
+    tgs=$(echo "$tgs" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.TargetGroups[] | select((.TargetGroupName | contains($SUBSTRING1)) or (.TargetGroupName | contains($SUBSTRING2))) | .TargetGroupName')
   else
-    echo "Listing all Target Groups"
     tgs=$(echo "$tgs" | jq -r '.TargetGroups[] | .TargetGroupName')
   fi
 
@@ -895,15 +878,11 @@ function _list_target_groups() {
 function _list_cognito_pools() {
   local workspace=$1
 
-  echo "⚠️ Note: Cognito APIs are regional — you may need to loop over regions."
-
   user_pools=$(aws cognito-idp list-user-pools --max-results 60 --output json)
 
   if [ -n "$workspace" ]; then
-    echo "Listing Cognito User Pools containing: $workspace"
-    user_pools=$(echo "$user_pools" | jq -r --arg SUBSTRING "$workspace" '.UserPools[] | select(.Name | contains($SUBSTRING)) | .Name')
+    user_pools=$(echo "$user_pools" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.UserPools[] | select((.Name | contains($SUBSTRING1)) or (.Name | contains($SUBSTRING2))) | .Name')
   else
-    echo "Listing all Cognito User Pools"
     user_pools=$(echo "$user_pools" | jq -r '.UserPools[] | .Name')
   fi
 
@@ -914,7 +893,7 @@ function _list_cognito_pools() {
   identity_pools=$(aws cognito-identity list-identity-pools --max-results 60 --output json)
 
   if [ -n "$workspace" ]; then
-    identity_pools=$(echo "$identity_pools" | jq -r --arg SUBSTRING "$workspace" '.IdentityPools[] | select(.IdentityPoolName | contains($SUBSTRING)) | .IdentityPoolName')
+    identity_pools=$(echo "$identity_pools" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.IdentityPools[] | select((.IdentityPoolName | contains($SUBSTRING1)) or (.IdentityPoolName | contains($SUBSTRING1))) | .IdentityPoolName')
   else
     identity_pools=$(echo "$identity_pools" | jq -r '.IdentityPools[] | .IdentityPoolName')
   fi
@@ -946,7 +925,7 @@ function _list_sns_subscriptions() {
   local subs=$(aws sns list-subscriptions --output json)
 
   if [ -n "$workspace" ]; then
-    subs=$(echo "$subs" | jq -r --arg SUBSTRING "$workspace-sns" ' .Subscriptions[] | select((.SubscriptionArn | contains($SUBSTRING)) or (.TopicArn | contains($SUBSTRING))) | .SubscriptionArn')
+    subs=$(echo "$subs" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" ' .Subscriptions[] | select((.SubscriptionArn | contains($SUBSTRING1)) or (.TopicArn | contains($SUBSTRING1)) or (.SubscriptionArn | contains($SUBSTRING2)) or (.TopicArn | contains($SUBSTRING2))) | .SubscriptionArn')
   else
     subs=$(echo "$subs" | jq -r '.Subscriptions[] | .SubscriptionArn')
   fi
@@ -961,13 +940,16 @@ function _list_sns_subscriptions() {
 function _delete_sns_subscriptions() {
   local workspace=$1
   local subs=$(aws sns list-subscriptions --output json)
-  subs=$(echo "$subs" | jq -r --arg SUBSTRING "$workspace-sns" ' .Subscriptions[] | select((.SubscriptionArn | contains($SUBSTRING)) or (.TopicArn | contains($SUBSTRING))) | .SubscriptionArn')
-  [ -z "$subs" ] && echo "No SNS Subscriptions found for $workspace" && return 0
+  if [ -n "$workspace" ]; then
+    subs=$(echo "$subs" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" ' .Subscriptions[] | select((.SubscriptionArn | contains($SUBSTRING1)) or (.TopicArn | contains($SUBSTRING1)) or (.SubscriptionArn | contains($SUBSTRING2)) or (.TopicArn | contains($SUBSTRING2))) | .SubscriptionArn')
 
-  for sub in $subs; do
-    echo "Deleting Subscription: $sub"
-    # aws sns unsubscribe --subscription-arn $sub
-  done
+    [ -z "$subs" ] && echo "No SNS Subscriptions found for $workspace" && return 0
+
+    for sub in $subs; do
+      echo "Deleting Subscription: $sub"
+      # aws sns unsubscribe --subscription-arn $sub
+    done
+  fi
 }
 
 function _list_lambda_event_source_mappings() {
@@ -975,7 +957,7 @@ function _list_lambda_event_source_mappings() {
   local mappings=$(aws lambda list-event-source-mappings --output json)
 
   if [ -n "$workspace" ]; then
-    mappings=$(echo "$mappings" | jq -r --arg SUBSTRING "$workspace" '.EventSourceMappings[] | select(.FunctionArn | contains($SUBSTRING)) | .UUID')
+    mappings=$(echo "$mappings" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.EventSourceMappings[] | select((.FunctionArn | contains($SUBSTRING1)) or (.FunctionArn | contains($SUBSTRING2))) | .UUID')
   else
     mappings=$(echo "$mappings" | jq -r '.EventSourceMappings[] | .UUID')
   fi
@@ -987,8 +969,24 @@ function _list_lambda_event_source_mappings() {
   done
 }
 
+function _delete_lambda_event_source_mappings() {
+  local workspace=$1
+  local mappings=$(aws lambda list-event-source-mappings --output json)
+
+  if [ -n "$workspace" ]; then
+    mappings=$(echo "$mappings" | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.EventSourceMappings[] | select((.FunctionArn | contains($SUBSTRING1)) or (.FunctionArn | contains($SUBSTRING2))) | .UUID')
+
+    [ -z "$mappings" ] && echo "No Lambda Event Source Mappings found." && return 0
+
+    for mapping in $mappings; do
+      echo "Deleting Lambda Event Source Mapping UUID: $mapping"
+      # aws lambda delete-event-source-mapping --uuid $mapping
+    done
+  fi
+}
+
 function _list_workspace_resources() {
-  _list_tagged_resources "$TERRAFORM_WORKSPACE"
+  # _list_tagged_resources "$TERRAFORM_WORKSPACE"
   _list_lambdas "$TERRAFORM_WORKSPACE"
   _list_all_kms "$TERRAFORM_WORKSPACE"
   _list_log_groups "$TERRAFORM_WORKSPACE"
@@ -1049,6 +1047,9 @@ function _delete_workspace_resources() {
   _delete_sns_subscriptions "$TERRAFORM_WORKSPACE"
   _delete_cloudwatch_dashboards "$TERRAFORM_WORKSPACE"
   _delete_sns_topics "$TERRAFORM_WORKSPACE"
+  _delete_ssm_parameters "$TERRAFORM_WORKSPACE"
+  _delete_secrets "$TERRAFORM_WORKSPACE"
+  _delete_lambda_event_source_mappings "$TERRAFORM_WORKSPACE"
 }
 
 # Parse args
@@ -1065,9 +1066,16 @@ for arg in "$@"; do
   esac
 done
 
-# Run correct function
+# Always list resources first
+_list_workspace_resources
+
+# If deletion was requested, ask for confirmation
 if $do_delete; then
-  _delete_workspace_resources
-else
-  _list_workspace_resources
+  echo
+  read -r -p "Do you want to delete these resources? Type YES to confirm: " answer
+  if [ "$answer" = "YES" ]; then
+    _delete_workspace_resources
+  else
+    echo "Deletion cancelled."
+  fi
 fi
