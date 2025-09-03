@@ -5,10 +5,27 @@ resource "aws_api_gateway_resource" "get_document_reference" {
   path_part   = "{id}"
 }
 
+resource "aws_api_gateway_resource" "get_document_reference_mtls" {
+  rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
+  parent_id   = module.fhir_document_reference_mtls_gateway.gateway_resource_id
+  path_part   = "{id}"
+}
+
 resource "aws_api_gateway_method" "get_document_reference" {
   count            = 1
   rest_api_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id      = aws_api_gateway_resource.get_document_reference[0].id
+  http_method      = "GET"
+  authorization    = "NONE"
+  api_key_required = true
+  request_parameters = {
+    "method.request.path.id" = true
+  }
+}
+
+resource "aws_api_gateway_method" "get_document_reference_mtls" {
+  rest_api_id      = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
+  resource_id      = aws_api_gateway_resource.get_document_reference_mtls.id
   http_method      = "GET"
   authorization    = "NONE"
   api_key_required = true
@@ -49,3 +66,21 @@ module "get-doc-fhir-lambda" {
   depends_on = [aws_api_gateway_method.get_document_reference]
 }
 
+resource "aws_api_gateway_integration" "get_doc_fhir_lambda_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
+  resource_id             = aws_api_gateway_resource.get_document_reference_mtls.id
+  http_method             = "GET"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = module.get-doc-fhir-lambda[0].invoke_arn
+}
+
+resource "aws_lambda_permission" "lambda_permission_get_mtls_api" {
+  statement_id  = "AllowAPImTLSGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = module.get-doc-fhir-lambda[0].lambda_arn
+  principal     = "apigateway.amazonaws.com"
+  # The "/*/*" portion grants access from any method on any resource
+  # within the API Gateway REST API.
+  source_arn = "${aws_api_gateway_rest_api.ndr_doc_store_api_mtls.execution_arn}/*/*"
+}

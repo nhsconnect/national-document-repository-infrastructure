@@ -20,6 +20,12 @@ variable "certificate_subdomain_name_prefix" {
   default     = "api-"
 }
 
+variable "certificate_subdomain_name_prefix_mtls" {
+  description = "Prefix to add to subdomains on certification configurations, dev envs use api-{env}, prod envs use api.{env}."
+  type        = string
+  default     = "mtls-"
+}
+
 # Bucket Variables
 variable "docstore_bucket_name" {
   description = "The name of the S3 bucket to store ARF documents."
@@ -61,6 +67,12 @@ variable "truststore_bucket_name" {
   type        = string
   description = "The name of the S3 bucket to store trusted CA's for MTLS"
   default     = "ndr-truststore"
+}
+
+variable "ca_pem_filename" {
+  type        = string
+  description = "Filename of the CA Truststore pem file stored in the core Truststore s3 bucket"
+  default     = "ndr-truststore.pem"
 }
 
 # DynamoDB Table Variables
@@ -218,6 +230,9 @@ locals {
 
   api_gateway_subdomain_name   = contains(["prod"], terraform.workspace) ? "${var.certificate_subdomain_name_prefix}" : "${var.certificate_subdomain_name_prefix}${terraform.workspace}"
   api_gateway_full_domain_name = contains(["prod"], terraform.workspace) ? "${var.certificate_subdomain_name_prefix}${var.domain}" : "${var.certificate_subdomain_name_prefix}${terraform.workspace}.${var.domain}"
+
+  mtls_api_gateway_subdomain_name   = contains(["prod"], terraform.workspace) ? "${var.certificate_subdomain_name_prefix_mtls}" : "${var.certificate_subdomain_name_prefix_mtls}${terraform.workspace}"
+  mtls_api_gateway_full_domain_name = contains(["prod"], terraform.workspace) ? "${var.certificate_subdomain_name_prefix_mtls}${var.domain}" : "${var.certificate_subdomain_name_prefix_mtls}${terraform.workspace}.${var.domain}"
 
   current_region     = data.aws_region.current.name
   current_account_id = data.aws_caller_identity.current.account_id
