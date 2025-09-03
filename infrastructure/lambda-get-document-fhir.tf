@@ -1,14 +1,12 @@
 resource "aws_api_gateway_resource" "get_document_reference" {
-  count       = 1
   rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  parent_id   = module.fhir_document_reference_gateway[0].gateway_resource_id
+  parent_id   = module.fhir_document_reference_gateway.gateway_resource_id
   path_part   = "{id}"
 }
 
 resource "aws_api_gateway_method" "get_document_reference" {
-  count            = 1
   rest_api_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id      = aws_api_gateway_resource.get_document_reference[0].id
+  resource_id      = aws_api_gateway_resource.get_document_reference.id
   http_method      = "GET"
   authorization    = "NONE"
   api_key_required = true
@@ -19,7 +17,6 @@ resource "aws_api_gateway_method" "get_document_reference" {
 
 
 module "get-doc-fhir-lambda" {
-  count   = 1
   source  = "./modules/lambda"
   name    = "GetDocumentReference"
   handler = "handlers.get_fhir_document_reference_handler.lambda_handler"
@@ -31,7 +28,7 @@ module "get-doc-fhir-lambda" {
   ]
   kms_deletion_window = var.kms_deletion_window
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id         = aws_api_gateway_resource.get_document_reference[0].id
+  resource_id         = aws_api_gateway_resource.get_document_reference.id
   http_methods        = ["GET"]
   api_execution_arn   = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
@@ -40,7 +37,7 @@ module "get-doc-fhir-lambda" {
     APPCONFIG_CONFIGURATION    = module.ndr-app-config.app_config_configuration_profile_id
     WORKSPACE                  = terraform.workspace
     ENVIRONMENT                = var.environment
-    PRESIGNED_ASSUME_ROLE      = aws_iam_role.get_fhir_doc_presign_url_role[0].arn
+    PRESIGNED_ASSUME_ROLE      = aws_iam_role.get_fhir_doc_presign_url_role.arn
     LLOYD_GEORGE_DYNAMODB_NAME = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
     OIDC_CALLBACK_URL          = contains(["prod"], terraform.workspace) ? "https://${var.domain}/auth-callback" : "https://${terraform.workspace}.${var.domain}/auth-callback"
     CLOUDFRONT_URL             = module.cloudfront-distribution-lg.cloudfront_url
