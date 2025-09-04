@@ -799,19 +799,20 @@ function _list_cloudwatch_dashboards() {
 function _delete_cloudwatch_dashboards() {
   local workspace=$1
   if [ -z "$workspace" ]; then
-    echo "Error: Workspace substring must be provided. Refusing to delete all dashboards."
+    echo -e "${RED}Error: Workspace substring must be provided. Refusing to delete all dashboards.${NC}"
     return 1
   fi
 
   local dashboards=$(aws cloudwatch list-dashboards --output json)
   dashboards=$(echo "$dashboards" | jq -r --arg SUBSTRING "$workspace" '.DashboardEntries[] | select(.DashboardName | contains($SUBSTRING)) | .DashboardName')
 
-  [ -z "$dashboards" ] && echo "No CloudWatch Dashboards found for deletion." && return 0
+  [ -z "$dashboards" ] && echo -e "${RED}No CloudWatch Dashboards found for deletion.${NC}" && return 0
 
-  echo "Deleting the following CloudWatch Dashboards:"
+  echo -e "${GREEN}Deleting the following CloudWatch Dashboards:"
   for dashboard in $dashboards; do
-    echo "$dashboard"
+    echo -e "$dashboard"
   done
+  echo -e " ${NC}"
   aws cloudwatch delete-dashboards --dashboard-names $dashboards
 }
 
