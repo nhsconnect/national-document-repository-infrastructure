@@ -2,6 +2,7 @@
 
 TERRAFORM_WORKSPACE=""
 do_delete=false
+dry_run=false
 
 function _list_tagged_resources() {
   local workspace=$1
@@ -112,6 +113,15 @@ function _delete_log_groups() {
   # Check if any log groups were found
   if [ -z "$log_groups" ]; then
     echo "No CloudWatch Logs log groups found containing the substring: $workspace"
+    return 0
+  fi
+
+  # If this is a dry run, just list what would be deleted
+  if [ "$dry_run" = true ]; then
+    echo "Would delete the following CloudWatch Logs log groups:"
+    for log_group in $log_groups; do
+      echo "  - $log_group"
+    done
     return 0
   fi
 
@@ -673,6 +683,15 @@ function _delete_cloudwatch_alarms() {
     return 0
   fi
 
+  # If this is a dry run, just list what would be deleted
+  if [ "$dry_run" = true ]; then
+    echo "Would delete the following CloudWatch alarms:"
+    for alarm in $alarms; do
+      echo "  - $alarm"
+    done
+    return 0
+  fi
+
   echo "Deleting the following CloudWatch alarms:"
   for alarm in $alarms; do
     echo "$alarm"
@@ -729,6 +748,19 @@ function _delete_lambda_layers() {
 
   [ -z "$layers" ] && echo "No Lambda Layers found containing substring: $workspace" && return 0
 
+  # If this is a dry run, just list what would be deleted
+  if [ "$dry_run" = true ]; then
+    echo "Would delete the following Lambda Layers and their versions:"
+    for layer in $layers; do
+      echo "  - Lambda Layer: $layer"
+      versions=$(aws lambda list-layer-versions --layer-name "$layer" --output json | jq -r '.LayerVersions[].Version')
+      for v in $versions; do
+        echo "    - Version $v"
+      done
+    done
+    return 0
+  fi
+
   for layer in $layers; do
     echo "Deleting versions for Lambda Layer: $layer"
     versions=$(aws lambda list-layer-versions --layer-name "$layer" --output json | jq -r '.LayerVersions[].Version')
@@ -770,6 +802,15 @@ function _delete_cloudwatch_dashboards() {
   dashboards=$(echo "$dashboards" | jq -r --arg SUBSTRING "$workspace" '.DashboardEntries[] | select(.DashboardName | contains($SUBSTRING)) | .DashboardName')
 
   [ -z "$dashboards" ] && echo "No CloudWatch Dashboards found for deletion." && return 0
+
+  # If this is a dry run, just list what would be deleted
+  if [ "$dry_run" = true ]; then
+    echo "Would delete the following CloudWatch Dashboards:"
+    for dashboard in $dashboards; do
+      echo "  - $dashboard"
+    done
+    return 0
+  fi
 
   echo "Deleting the following CloudWatch Dashboards:"
   for dashboard in $dashboards; do
@@ -945,8 +986,18 @@ function _delete_sns_subscriptions() {
   subs=$(echo "$subs" | jq -r --arg SUBSTRING "$workspace-sns" ' .Subscriptions[] | select((.SubscriptionArn | contains($SUBSTRING)) or (.TopicArn | contains($SUBSTRING))) | .SubscriptionArn')
   [ -z "$subs" ] && echo "No SNS Subscriptions found for $workspace" && return 0
 
+  # If this is a dry run, just list what would be deleted
+  if [ "$dry_run" = true ]; then
+    echo "Would delete the following SNS Subscriptions:"
+    for sub in $subs; do
+      echo "  - $sub"
+    done
+    return 0
+  fi
+
   for sub in $subs; do
-    echo "SNS Subscription: $sub"
+    echo "Deleting SNS Subscription: $sub"
+    # aws sns unsubscribe --subscription-arn "$sub"
   done
 }
 
@@ -1023,11 +1074,34 @@ function _delete_workspace_resources() {
     ;;
   esac
 
+  # First, show what would be deleted (dry run)
+  echo "==================== DRY RUN - Resources to be deleted ===================="
+  dry_run=true
   _delete_log_groups "$TERRAFORM_WORKSPACE"
   _delete_lambda_layers "$TERRAFORM_WORKSPACE"
   _delete_cloudwatch_alarms "$TERRAFORM_WORKSPACE"
   _delete_sns_subscriptions "$TERRAFORM_WORKSPACE"
   _delete_cloudwatch_dashboards "$TERRAFORM_WORKSPACE"
+  echo "============================================================================="
+  echo ""
+
+  # Ask for confirmation
+  read -p "Enter 'yes' to proceed with deletion, or enter any other string to cancel: " confirm
+  if [[ "$confirm" != "yes" ]]; then
+    echo "Deletion cancelled."
+    exit 0
+  fi
+
+  # Proceed with actual deletion
+  echo ""
+  echo "==================== PROCEEDING WITH DELETION ===================="
+  dry_run=false
+  _delete_log_groups "$TERRAFORM_WORKSPACE"
+  _delete_lambda_layers "$TERRAFORM_WORKSPACE"
+  _delete_cloudwatch_alarms "$TERRAFORM_WORKSPACE"
+  _delete_sns_subscriptions "$TERRAFORM_WORKSPACE"
+  _delete_cloudwatch_dashboards "$TERRAFORM_WORKSPACE"
+  echo "==================== DELETION COMPLETE ===================="
 }
 
 # Parse args
