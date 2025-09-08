@@ -51,6 +51,24 @@ function _list_lambdas() {
   done
 }
 
+function _delete_lambdas() {
+  local workspace=$1
+
+  if [ -n "$workspace" ]; then
+    FUNCTIONS=$(aws lambda list-functions | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.Functions[] | select((.FunctionName | contains($SUBSTRING1)) or (.FunctionName | contains($SUBSTRING2))) | .FunctionName')
+
+    if [ -z "$FUNCTIONS" ]; then
+      echo -e "${RED}No Lambda functions found.${NC}"
+      return 0
+    fi
+
+    for FUNCTION_NAME in $FUNCTIONS; do
+      echo -e "${GREEN}Deleting Lambda function: ${FUNCTION_NAME} ${NC}"
+      aws lambda delete-function --function-name $FUNCTION_NAME
+    done
+  fi
+}
+
 function _list_all_kms() {
   local workspace=$1
 
@@ -296,6 +314,61 @@ function _list_iam() {
   else
     for policy_arn in $policies; do
       echo -e "${GREEN}IAM policy: ${policy_arn} ${NC}"
+    done
+  fi
+}
+
+function _delete_iam() {
+  local workspace=$1
+  local roles policies
+
+  if [ -n "$workspace" ]; then
+    roles=$(aws iam list-roles --output json | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.Roles[] | select((.RoleName | contains($SUBSTRING1)) or (.RoleName | contains($SUBSTRING2))) | .RoleName')
+    policies=$(aws iam list-policies --scope Local --output json | jq -r --arg SUBSTRING1 "${workspace}_" --arg SUBSTRING2 "${workspace}-" '.Policies[] | select((.PolicyName | contains($SUBSTRING1)) or (.PolicyName | contains($SUBSTRING2))) | .Arn')
+
+    if [ -z "$roles" ]; then
+      echo -e "${RED}No IAM roles found.${NC}"
+      return 0
+    fi
+
+    if [ -z "$policies" ]; then
+      echo -e "${RED}No IAM policies found.${NC}"
+    else
+      for policy_arn in $policies; do
+        echo -e "${GREEN}Detaching and Deleting IAM policy: ${policy_arn} ${NC}"
+        aws iam detach-role-policy --role-name MyRole --policy-arn $policy_arn
+        aws iam delete-policy --policy-arn $policy_arn
+      done
+    fi
+
+    for role in $roles; do
+      echo -e "${GREEN}Deleting IAM role: ${role} ${NC}"
+      inline_policies=$(aws iam list-role-policies --role-name "$role" --query "PolicyNames" --output text)
+      if [[ -n "$inline_policies" ]]; then
+        for pol in $inline_policies; do
+          echo -e "${GREEN} - Deleting inline policy: $pol ${NC}"
+          aws iam delete-role-policy --role-name "$role" --policy-name "$pol"
+        done
+      fi
+
+      managed_policies=$(aws iam list-attached-role-policies --role-name "$role" --query "AttachedPolicies[].PolicyArn" --output text)
+      if [[ -n "$managed_policies" ]]; then
+        for polarn in $managed_policies; do
+          echo -e "${GREEN} - Detaching managed policy: $polarn ${NC}"
+          aws iam detach-role-policy --role-name "$role" --policy-arn "$polarn"
+        done
+      fi
+
+      profiles=$(aws iam list-instance-profiles-for-role --role-name "$role" --query "InstanceProfiles[].InstanceProfileName" --output text)
+      if [[ -n "$profiles" ]]; then
+        for profile in $profiles; do
+          echo -e "${GREEN} - Removing role from instance profile: $profile ${NC}"
+          aws iam remove-role-from-instance-profile --instance-profile-name "$profile" --role-name "$role"
+        done
+      fi
+
+      echo -e "${GREEN} - Deleting role: $role ${NC}"
+      aws iam delete-role --role-name "$role"
     done
   fi
 }
@@ -1068,6 +1141,8 @@ function _delete_workspace_resources() {
 
   _delete_log_groups "$TERRAFORM_WORKSPACE"
   _delete_lambda_layers "$TERRAFORM_WORKSPACE"
+  _delete_lambdas "$TERRAFORM_WORKSPACE"
+  _delete_iam "$TERRAFORM_WORKSPACE"
   _delete_cloudwatch_alarms "$TERRAFORM_WORKSPACE"
   _delete_sns_subscriptions "$TERRAFORM_WORKSPACE"
   _delete_cloudwatch_dashboards "$TERRAFORM_WORKSPACE"
