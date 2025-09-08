@@ -158,6 +158,25 @@ function _list_dynamo_tables() {
   done
 }
 
+function _delete_dynamo_tables() {
+  local workspace=$1
+  local tables
+
+  if [ -n "$workspace" ]; then
+    tables=$(aws dynamodb list-tables | jq -r --arg substring1 "${workspace}-" --arg substring2 "${workspace}_" '.TableNames[] | select((. | contains($substring1)) or (. | contains($substring2)))')
+
+    if [ -z "$tables" ]; then
+      echo -e "${RED}No DynamoDB tables found.${NC}"
+      return 0
+    fi
+
+    for table in $tables; do
+      echo -e "${GREEN}Deleting DynamoDB table: ${table} ${NC}"
+      aws dynamodb delete-table --table-name $table
+    done
+  fi
+}
+
 function _list_s3_buckets() {
   local workspace=$1
   local buckets
@@ -1150,6 +1169,7 @@ function _delete_workspace_resources() {
   _delete_ssm_parameters "$TERRAFORM_WORKSPACE"
   _delete_secrets "$TERRAFORM_WORKSPACE"
   _delete_lambda_event_source_mappings "$TERRAFORM_WORKSPACE"
+  _delete_dynamo_tables "$TERRAFORM_WORKSPACE"
   _delete_resource_groups "$TERRAFORM_WORKSPACE"
 }
 
