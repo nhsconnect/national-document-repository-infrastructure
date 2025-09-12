@@ -193,7 +193,6 @@ resource "aws_iam_policy" "lambda_toggle_bulk_upload_policy" {
   policy = data.aws_iam_policy_document.lambda_toggle_bulk_upload_document.json
 }
 
-
 data "aws_iam_policy_document" "assume_role_policy_for_ods_report_lambda" {
   statement {
     actions = ["sts:AssumeRole"]
