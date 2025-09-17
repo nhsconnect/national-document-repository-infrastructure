@@ -42,15 +42,9 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy_mtls" {
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api_mtls,
     aws_api_gateway_resource.get_document_reference_mtls,
-    module.get-doc-fhir-lambda,
-    aws_api_gateway_integration.get_doc_fhir_lambda_integration,
-    aws_lambda_permission.lambda_permission_get_mtls_api,
-    module.post-document-references-fhir-lambda,
-    aws_api_gateway_integration.post_doc_fhir_lambda_integration,
-    aws_lambda_permission.lambda_permission_post_mtls_api,
-    module.search-document-references-fhir-lambda,
-    aws_api_gateway_integration.search_doc_fhir_lambda_integration,
-    aws_lambda_permission.lambda_permission_search_mtls_api,
+    module.get_document_reference_lambda,
+    module.post_document_references_lambda,
+    module.search_document_references_lambda,
   ]
 
   lifecycle {
@@ -131,3 +125,4 @@ module "mtls_api_endpoint_url_ssm_parameter" {
   owner               = var.owner
   environment         = var.environment
 }
+
