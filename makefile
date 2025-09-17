@@ -19,7 +19,7 @@ generate-terraform-docs: ## Generate terraform documentation
 
 # Installing
 .PHONY:build-sandbox
-build-sandbox: ## Build a sandbox using either the branch as the workspace name or pass in a name for the workspace e.g. make build-sandbox WORKSPACE=my-workspace
+build-sandbox: ## Build a sandbox using either the branch as the workspace name, sanitised, or pass in a name for the workspace e.g. make build-sandbox WORKSPACE=my-workspace . By default only a plan will run unless APPLY=true is used.
 	WORKSPACE=$(WORKSPACE) APPLY=$(APPLY) ./scripts/build_sandbox.sh
 
 # Linting
