@@ -1,6 +1,6 @@
 module "search_document_references_lambda" {
   source  = "./modules/lambda"
-  name    = "SearchDocumentReferences"
+  name    = "SearchDocumentReferenceFhir"
   handler = "handlers.search_document_reference_fhir_handler.lambda_handler"
   iam_role_policy_documents = [
     module.document_reference_dynamodb_table.dynamodb_read_policy_document,

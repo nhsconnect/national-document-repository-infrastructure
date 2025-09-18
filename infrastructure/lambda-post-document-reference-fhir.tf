@@ -1,6 +1,6 @@
-module "post_document_references_lambda" {
+module "post_document_reference_lambda" {
   source  = "./modules/lambda"
-  name    = "PostDocumentReferences"
+  name    = "PostDocumentReferenceFhir"
   handler = "handlers.post_document_reference_fhir_handler.lambda_handler"
   iam_role_policy_documents = [
     module.document_reference_dynamodb_table.dynamodb_write_policy_document,
