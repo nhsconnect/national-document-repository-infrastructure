@@ -1,32 +1,29 @@
-module "search_document_references_lambda" {
+module "post_document_reference_lambda" {
   source  = "./modules/lambda"
-  name    = "SearchDocumentReferenceFhir"
-  handler = "handlers.search_document_reference_fhir_handler.lambda_handler"
+  name    = "PostDocumentReferenceFhir"
+  handler = "handlers.post_document_reference_fhir_handler.lambda_handler"
   iam_role_policy_documents = [
-    module.document_reference_dynamodb_table.dynamodb_read_policy_document,
     module.document_reference_dynamodb_table.dynamodb_write_policy_document,
-    module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
-    module.ndr-lloyd-george-store.s3_read_policy_document,
-    module.ndr-document-store.s3_read_policy_document,
-    module.ndr-app-config.app_config_policy
+    module.ndr-bulk-staging-store.s3_write_policy_document,
+    module.ndr-app-config.app_config_policy,
+    aws_iam_policy.ssm_access_policy.policy
   ]
   kms_deletion_window = var.kms_deletion_window
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
   resource_id         = module.fhir_document_reference_mtls_gateway.gateway_resource_id
-  http_methods        = ["GET"]
+  http_methods        = ["POST"]
   api_execution_arn   = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION           = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT           = module.ndr-app-config.app_config_environment_id
     APPCONFIG_CONFIGURATION         = module.ndr-app-config.app_config_configuration_profile_id
-    DYNAMODB_TABLE_LIST             = "[\u0022${terraform.workspace}_${var.docstore_dynamodb_table_name}\u0022, \u0022${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}\u0022]"
+    DOCUMENT_STORE_DYNAMODB_NAME    = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
+    LLOYD_GEORGE_DYNAMODB_NAME      = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
+    STAGING_STORE_BUCKET_NAME       = "${terraform.workspace}-${var.staging_store_bucket_name}"
     DOCUMENT_RETRIEVE_ENDPOINT_APIM = "${local.apim_api_url}/DocumentReference"
+    PDS_FHIR_IS_STUBBED             = local.is_sandbox
     WORKSPACE                       = terraform.workspace
+    PRESIGNED_ASSUME_ROLE           = aws_iam_role.create_post_presign_url_role.arn
   }
-  depends_on = [
-    aws_api_gateway_rest_api.ndr_doc_store_api,
-    module.search-document-references-gateway,
-    module.ndr-app-config
-  ]
 }
