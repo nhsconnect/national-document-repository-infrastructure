@@ -37,3 +37,15 @@ variable "owner" {
   description = "Owner tag used to identify the team or individual responsible for the resource."
   type        = string
 }
+
+variable "key_id" {
+  type        = string
+  default     = null
+  description = "KMS Key ID or ARN to encrypt the SecureString parameter"
+}
+
+variable "ignore_changes" {
+  type    = list(string)
+  default = []
+  description = "List of resource attributes to ignore changes for"
+}
