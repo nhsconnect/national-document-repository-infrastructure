@@ -8,7 +8,7 @@ module "ssm_param_external_client_cert" {
   type                 = "SecureString"
   description          = "Externally signed client certificate for mTLS"
   value                = "REPLACE_ME"
-  key_id               = module.sns_encryption_key.key_id
+  key_id               = module.sns_encryption_key.id
   ignore_value_changes = true
 }
 
@@ -21,6 +21,6 @@ module "ssm_param_external_client_key" {
   type                 = "SecureString"
   description          = "Externally signed client certificate for mTLS"
   value                = "REPLACE_ME"
-  key_id               = module.sns_encryption_key.key_id
+  key_id               = module.sns_encryption_key.id
   ignore_value_changes = true
 }
