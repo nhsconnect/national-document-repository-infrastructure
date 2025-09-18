@@ -44,8 +44,8 @@ variable "key_id" {
   description = "KMS Key ID or ARN to encrypt the SecureString parameter"
 }
 
-variable "ignore_changes" {
-  type        = list(string)
-  default     = []
-  description = "List of resource attributes to ignore changes for"
+variable "ignore_value_changes" {
+  type        = bool
+  default     = false
+  description = "Whether to ignore changes to the value field"
 }
