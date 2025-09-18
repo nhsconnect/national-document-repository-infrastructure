@@ -45,7 +45,7 @@ variable "key_id" {
 }
 
 variable "ignore_changes" {
-  type    = list(string)
-  default = []
+  type        = list(string)
+  default     = []
   description = "List of resource attributes to ignore changes for"
 }
