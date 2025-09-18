@@ -19,7 +19,7 @@ resource "aws_api_gateway_method" "get_document_reference_mtls" {
 module "get_document_reference_lambda" {
   source  = "./modules/lambda"
   name    = "GetDocumentReference"
-  handler = "handlers.get_document_reference_handler_fhir.lambda_handler"
+  handler = "handlers.get_document_reference_fhir_handler.lambda_handler"
   iam_role_policy_documents = [
     module.ndr-app-config.app_config_policy,
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
