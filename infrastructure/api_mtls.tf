@@ -43,7 +43,7 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy_mtls" {
     aws_api_gateway_rest_api.ndr_doc_store_api_mtls,
     aws_api_gateway_resource.get_document_reference_mtls,
     module.get_document_reference_lambda,
-    module.post_document_references_lambda,
+    module.post_document_reference_lambda,
     module.search_document_references_lambda,
   ]
 
