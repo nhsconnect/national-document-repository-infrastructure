@@ -37,3 +37,15 @@ variable "owner" {
   description = "Owner tag used to identify the team or individual responsible for the resource."
   type        = string
 }
+
+variable "key_id" {
+  type        = string
+  default     = null
+  description = "KMS Key ID or ARN to encrypt the SecureString parameter"
+}
+
+variable "ignore_value_changes" {
+  type        = bool
+  default     = false
+  description = "Whether to ignore changes to the value field"
+}
