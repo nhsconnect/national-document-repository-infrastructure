@@ -57,64 +57,6 @@ resource "aws_lambda_permission" "bulk_upload_report_schedule_permission" {
   ]
 }
 
-resource "aws_cloudwatch_event_rule" "data_collection_schedule" {
-  name                = "${terraform.workspace}_data_collection_schedule"
-  description         = "Schedule for Data Collection Lambda"
-  schedule_expression = "cron(0 20 ? * SAT *)"
-}
-
-resource "aws_cloudwatch_event_target" "data_collection_schedule_event" {
-  rule      = aws_cloudwatch_event_rule.data_collection_schedule.name
-  target_id = "data_collection_schedule"
-
-  arn = module.data-collection-lambda.lambda_arn
-  depends_on = [
-    module.data-collection-lambda,
-    aws_cloudwatch_event_rule.data_collection_schedule
-  ]
-}
-
-resource "aws_lambda_permission" "data_collection_schedule_permission" {
-  statement_id  = "AllowExecutionFromCloudWatch"
-  action        = "lambda:InvokeFunction"
-  function_name = module.data-collection-lambda.function_name
-  principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.data_collection_schedule.arn
-  depends_on = [
-    module.data-collection-lambda,
-    aws_cloudwatch_event_rule.data_collection_schedule
-  ]
-}
-
-resource "aws_cloudwatch_event_rule" "statistical_report_schedule" {
-  name                = "${terraform.workspace}_statistical_report_schedule"
-  description         = "Schedule for Statistical Report Lambda"
-  schedule_expression = "cron(0 8 ? * MON *)"
-}
-
-resource "aws_cloudwatch_event_target" "statistical_report_schedule_event" {
-  rule      = aws_cloudwatch_event_rule.statistical_report_schedule.name
-  target_id = "statistical_report_schedule"
-
-  arn = module.statistical-report-lambda.lambda_arn
-  depends_on = [
-    module.statistical-report-lambda,
-    aws_cloudwatch_event_rule.statistical_report_schedule
-  ]
-}
-
-resource "aws_lambda_permission" "statistical_report_schedule_permission" {
-  statement_id  = "AllowExecutionFromCloudWatch"
-  action        = "lambda:InvokeFunction"
-  function_name = module.statistical-report-lambda.function_name
-  principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.statistical_report_schedule.arn
-  depends_on = [
-    module.statistical-report-lambda,
-    aws_cloudwatch_event_rule.statistical_report_schedule
-  ]
-}
-
 resource "aws_scheduler_schedule" "data_collection_ecs" {
   count       = local.is_sandbox ? 0 : 1
   name_prefix = "${terraform.workspace}_data_collection_ecs"
