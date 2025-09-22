@@ -1,4 +1,4 @@
-module "post_document_reference_lambda" {
+module "post_document_reference_fhir_lambda" {
   source  = "./modules/lambda"
   name    = "PostDocumentReferenceFhir"
   handler = "handlers.post_document_reference_fhir_handler.lambda_handler"
