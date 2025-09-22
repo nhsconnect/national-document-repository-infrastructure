@@ -15,7 +15,7 @@ resource "aws_api_gateway_method" "get_document_reference_mtls" {
 }
 
 
-module "get_document_reference_lambda" {
+module "get_document_reference_fhir_lambda" {
   source  = "./modules/lambda"
   name    = "GetDocumentReferenceFhir"
   handler = "handlers.get_document_reference_fhir_handler.lambda_handler"
