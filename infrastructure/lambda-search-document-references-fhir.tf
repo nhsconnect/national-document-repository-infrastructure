@@ -1,4 +1,4 @@
-module "search_document_references_lambda" {
+module "search_document_reference_fhir_lambda" {
   source  = "./modules/lambda"
   name    = "SearchDocumentReferenceFhir"
   handler = "handlers.search_document_reference_fhir_handler.lambda_handler"
