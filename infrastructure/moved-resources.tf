@@ -93,3 +93,9 @@ moved {
   from = module.post-document-references-fhir-lambda
   to   = module.post_document_references_fhir_lambda
 }
+
+moved {
+  from = module.get-doc-fhir-lambda
+  to   = module.get_document_reference_fhir_lambda
+}
+
