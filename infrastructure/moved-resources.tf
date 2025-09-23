@@ -66,7 +66,7 @@ moved {
 }
 
 moved {
-  from = module.post_document_references_fhir_lambda.aws_iam_role.lambda_execution_role
+  from = module.post-document-references-fhir-lambda.aws_iam_role.lambda_execution_role
   to   = module.post_document_references_fhir_lambda.aws_iam_role.lambda_execution_role
 }
 
