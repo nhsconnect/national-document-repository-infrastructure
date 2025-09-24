@@ -166,6 +166,9 @@ data "aws_iam_policy_document" "merged_policy" {
 resource "aws_iam_policy" "combined_policies" {
   name   = "${terraform.workspace}_${var.name}_combined_policy"
   policy = data.aws_iam_policy_document.merged_policy.json
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "default_policies" {
