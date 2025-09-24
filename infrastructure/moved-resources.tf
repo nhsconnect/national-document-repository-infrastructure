@@ -25,11 +25,6 @@ moved {
 }
 
 #NDR-233
-# moved {
-#   from = module.search-document-references-fhir-lambda
-#   to   = module.search_document_reference_fhir_lambda
-# }
-
 moved {
   from = module.search-document-references-fhir-lambda.aws_iam_role.lambda_execution_role
   to   = module.search_document_references_fhir_lambda.aws_iam_role.lambda_execution_role
@@ -60,11 +55,6 @@ moved {
   to   = module.search_document_references_fhir_lambda.aws_lambda_permission.lambda_permission[0]
 }
 
-# moved {
-#   from = module.post-document-references-fhir-lambda
-#   to   = module.post_document_references_fhir_lambda
-# }
-
 moved {
   from = module.post-document-references-fhir-lambda.aws_iam_role.lambda_execution_role
   to   = module.post_document_references_fhir_lambda.aws_iam_role.lambda_execution_role
@@ -94,11 +84,6 @@ moved {
   from = module.post-document-references-fhir-lambda.aws_lambda_permission.lambda_permission[0]
   to   = module.post_document_references_fhir_lambda.aws_lambda_permission.lambda_permission[0]
 }
-
-# moved {
-#   from = module.get-doc-fhir-lambda
-#   to   = module.get_document_reference_fhir_lambda
-# }
 
 moved {
   from = module.get-doc-fhir-lambda.aws_iam_role.lambda_execution_role
