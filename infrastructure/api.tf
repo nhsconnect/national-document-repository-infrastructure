@@ -39,7 +39,6 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
   depends_on = [
     aws_api_gateway_rest_api.ndr_doc_store_api,
     aws_api_gateway_authorizer.repo_authoriser,
-    aws_api_gateway_resource.get_document_reference,
     module.access-audit-gateway,
     module.access-audit-lambda,
     module.back-channel-logout-gateway,
@@ -54,8 +53,6 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
     module.document-manifest-job-lambda,
     module.feature-flags-gateway,
     module.feature-flags-lambda,
-    module.fhir_document_reference_gateway,
-    module.get-doc-fhir-lambda,
     module.get-report-by-ods-gateway,
     module.get-report-by-ods-lambda,
     module.lloyd-george-stitch-gateway,
@@ -72,7 +69,6 @@ resource "aws_api_gateway_deployment" "ndr_api_deploy" {
     module.update-upload-state-lambda,
     module.document-status-check-gateway,
     module.document-status-check-lambda,
-    module.post-document-references-fhir-lambda,
     module.virus_scan_result_gateway,
     module.virus_scan_result_lambda
   ]
