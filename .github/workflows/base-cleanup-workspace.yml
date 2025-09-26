@@ -44,7 +44,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          repository: 'nhsconnect/national-document-repository-infrastructure'
+          repository: 'NHSDigital/national-document-repository-infrastructure'
           ref: ${{ inputs.git_ref }}
           fetch-depth: '0'
 

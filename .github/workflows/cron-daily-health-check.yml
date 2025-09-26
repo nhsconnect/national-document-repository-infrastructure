@@ -75,14 +75,14 @@ jobs:
 
   lambda_test_job:
     name: Run Lambda Unit Tests
-    uses: nhsconnect/national-document-repository/.github/workflows/base-lambdas-reusable-test.yml@main
+    uses: NHSDigital/national-document-repository/.github/workflows/base-lambdas-reusable-test.yml@main
     with:
       python_version: "3.11"
       build_branch: main
       
   react_testing_job:
     name: Run UI Unit Tests
-    uses: nhsconnect/national-document-repository/.github/workflows/base-vitest-test.yml@main
+    uses: NHSDigital/national-document-repository/.github/workflows/base-vitest-test.yml@main
     with:
       build_branch: main
 
@@ -92,7 +92,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          repository: nhsconnect/national-document-repository
+          repository: NHSDigital/national-document-repository
 
       - name: Cypress install
         run: npm install --legacy-peer-deps
@@ -150,7 +150,7 @@ jobs:
   publish_all_lambda_layers:
     name: Publish all Lambda Layers
     needs: ['set_workspace', 'terraform_process']
-    uses: nhsconnect/national-document-repository/.github/workflows/base-lambda-layer-reusable-publish-all.yml@main
+    uses: NHSDigital/national-document-repository/.github/workflows/base-lambda-layer-reusable-publish-all.yml@main
     with:
       build_branch: main
       sandbox: ${{ needs.set_workspace.outputs.workspace }}
@@ -161,7 +161,7 @@ jobs:
         
   deploy_all_lambdas:
     name: Deploy all Lambdas
-    uses: nhsconnect/national-document-repository/.github/workflows/base-lambdas-reusable-deploy-all.yml@main
+    uses: NHSDigital/national-document-repository/.github/workflows/base-lambdas-reusable-deploy-all.yml@main
     needs: ['set_workspace', 'publish_all_lambda_layers']
     with:
       build_branch: main
@@ -174,7 +174,7 @@ jobs:
 
   deploy_ui:
     name: Deploy UI
-    uses: nhsconnect/national-document-repository/.github/workflows/base-deploy-ui.yml@main
+    uses: NHSDigital/national-document-repository/.github/workflows/base-deploy-ui.yml@main
     needs: ['terraform_process', 'set_workspace']
     with:
       build_branch: main
