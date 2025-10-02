@@ -7,6 +7,8 @@ module "search-document-references-fhir-lambda" {
     module.document_reference_dynamodb_table.dynamodb_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.pdm_dynamodb_table.dynamodb_read_policy_document,
+    module.pdm_dynamodb_table.dynamodb_write_policy_document,
     module.ndr-lloyd-george-store.s3_read_policy_document,
     module.ndr-document-store.s3_read_policy_document,
     module.ndr-app-config.app_config_policy
