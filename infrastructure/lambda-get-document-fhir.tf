@@ -40,8 +40,10 @@ module "get-doc-fhir-lambda" {
   iam_role_policy_documents = [
     module.ndr-app-config.app_config_policy,
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
+    module.pdm_dynamodb_table.dynamodb_read_policy_document,
     aws_iam_policy.ssm_access_policy.policy,
     module.ndr-lloyd-george-store.s3_read_policy_document,
+    module.pdm-document-store.s3_read_policy_document,
   ]
   kms_deletion_window = var.kms_deletion_window
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id

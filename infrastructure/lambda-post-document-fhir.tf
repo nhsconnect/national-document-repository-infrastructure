@@ -5,6 +5,7 @@ module "post-document-references-fhir-lambda" {
   iam_role_policy_documents = [
     module.document_reference_dynamodb_table.dynamodb_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
+    module.pdm_dynamodb_table.dynamodb_write_policy_document,
     module.ndr-bulk-staging-store.s3_write_policy_document,
     module.ndr-app-config.app_config_policy,
     aws_iam_policy.ssm_access_policy.policy
