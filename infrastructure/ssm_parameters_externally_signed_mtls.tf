@@ -1,6 +1,6 @@
 # Creating Params to hold a copy of externally signed client cert and key
 module "ssm_param_external_client_cert" {
-  # count       = var.externally_signed_certs ? 1 : 0
+  count                = local.is_sandbox ? 0 : 1
   source               = "./modules/ssm_parameter"
   environment          = var.environment
   owner                = var.owner
@@ -13,7 +13,7 @@ module "ssm_param_external_client_cert" {
 }
 
 module "ssm_param_external_client_key" {
-  # count       = var.externally_signed_certs ? 1 : 0
+  count                = local.is_sandbox ? 0 : 1
   source               = "./modules/ssm_parameter"
   environment          = var.environment
   owner                = var.owner
