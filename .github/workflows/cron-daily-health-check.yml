@@ -5,9 +5,10 @@ on:
     - cron: 30 4 * * 1-5
 
 permissions:
+  actions: read   # Required for anchore/sbom-action
+  contents: write # Required for anchore/sbom-action
   pull-requests: write
-  id-token: write 
-  contents: read
+  id-token: write
 
 jobs:
   set_workspace:
