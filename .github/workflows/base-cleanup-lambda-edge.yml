@@ -30,12 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - name: Display passed variables
-        run: |
-          echo Sandbox name: ${{ inputs.sandbox_name }}
-          echo Git branch/tag/sha: ${{ inputs.git_ref }}
-          echo Environment: ${{ inputs.environment }}
-
       - name: Checkout
         uses: actions/checkout@v5
         with:
@@ -43,7 +37,7 @@ jobs:
           ref: ${{ inputs.git_ref }}
           fetch-depth: '0'
 
-      - name: Set up Python 3.11
+      - name: Setup Python 3.11
         uses: actions/setup-python@v6
         with:
           python-version: 3.11

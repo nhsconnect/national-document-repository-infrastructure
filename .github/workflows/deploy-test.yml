@@ -13,15 +13,14 @@ on:
 permissions:
   pull-requests: write
   id-token: write # This is required for requesting the JWT
-  contents: read # This is required for actions/checkout
+  contents: read  # This is required for actions/checkout
 
 jobs:
-  terraform_process:
+  terraform_plan_apply:
+    name: Terraform Plan/Apply (ndr-test)
     runs-on: ubuntu-latest
     environment: test
-
     steps:
-      # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v5
         with:
@@ -35,9 +34,6 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           mask-aws-account-id: true
 
-      - name: View AWS Role
-        run: aws sts get-caller-identity
-
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -45,30 +41,29 @@ jobs:
           terraform_version: 1.13.3
           terraform_wrapper: false
 
-      - name: Terraform Init
+      - name: terraform init
         id: init
         run: terraform init -backend-config=backend-test.conf
         working-directory: ./infrastructure
         shell: bash
 
-      - name: Terraform Set Workspace
+      - name: terraform workspace select
         id: workspace
         run: terraform workspace select -or-create ${{ secrets.AWS_WORKSPACE }}
         working-directory: ./infrastructure
         shell: bash
 
-        # Checks that all Terraform configuration files adhere to a canonical format
-      - name: Terraform Format
+      - name: terraform fmt
         run: terraform fmt -check
         working-directory: ./infrastructure
 
-      - name: Terraform Plan
+      - name: terraform plan
         id: plan
         run: |
           terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan
         working-directory: ./infrastructure
         shell: bash
 
-      - name: Terraform Apply
+      - name: terraform apply
         run: terraform apply -auto-approve -input=false tf.plan
         working-directory: ./infrastructure

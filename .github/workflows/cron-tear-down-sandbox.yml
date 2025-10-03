@@ -1,4 +1,4 @@
-name: 'Z-CRON: Tear down - Sandbox'
+name: 'Z-CRON: Tear down - Sandboxes'
 
 on:
   schedule:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   destroy_process:
-    name: Destroy Sandbox Environments
+    name: Destroy Sandboxes
     runs-on: ubuntu-latest
     environment: development
     steps:
@@ -28,7 +28,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           mask-aws-account-id: true
 
-      - name: Set up Python
+      - name: Setup Python 3.11
         uses: actions/setup-python@v6
         with:
           python-version: 3.11

@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   set_workspace:
+    name: Set Workspace (ndrd)
     runs-on: ubuntu-latest
     outputs:
       workspace: ${{ steps.set-output.outputs.workspace }}
@@ -19,7 +20,8 @@ jobs:
         id: set-output
         run: echo 'workspace=ndrd' >> $GITHUB_OUTPUT      
 
-  terraform_process:
+  terraform_plan_apply:
+    name: Terraform Plan/Apply (ndrd)
     runs-on: ubuntu-latest
     environment: development
     needs: ['set_workspace']
@@ -37,56 +39,54 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           mask-aws-account-id: true
 
-      - name: View AWS Role
-        run: aws sts get-caller-identity
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.13.3
           terraform_wrapper: false
 
-      - name: Terraform Init
+      - name: terraform init
         id: init
         run: terraform init -backend-config=backend.conf
         working-directory: ./infrastructure
         shell: bash
 
-      - name: Terraform Set Workspace
+      - name: terraform workspace select
         id: workspace
         run: terraform workspace select -or-create ${{ needs.set_workspace.outputs.workspace }}
         working-directory: ./infrastructure
         shell: bash
 
-      - name: Terraform Format
+      - name: terraform fmt
         run: terraform fmt -check
         working-directory: ./infrastructure
 
-      - name: Terraform Plan
+      - name: terraform plan
         id: plan
         run: |
           terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan
         working-directory: ./infrastructure
         shell: bash
 
-      - name: Terraform Apply
+      - name: terraform apply
         run: terraform apply -auto-approve -input=false tf.plan
         working-directory: ./infrastructure
 
-  lambda_test_job:
+  run_lambda_unit_tests:
     name: Run Lambda Unit Tests
     uses: nhsconnect/national-document-repository/.github/workflows/base-lambdas-reusable-test.yml@main
     with:
       python_version: "3.11"
       build_branch: main
       
-  react_testing_job:
+  run_ui_unit_tests:
     name: Run UI Unit Tests
     uses: nhsconnect/national-document-repository/.github/workflows/base-vitest-test.yml@main
     with:
       build_branch: main
 
-  cypress-run-job:
+  run_cypress_tests:
+    name: Run Cypress Tests
     runs-on: ubuntu-22.04 
     steps:
       - name: Checkout
@@ -94,11 +94,11 @@ jobs:
         with:
           repository: nhsconnect/national-document-repository
 
-      - name: Cypress install
+      - name: npm install
         run: npm install --legacy-peer-deps
         working-directory: ./app
 
-      - name: Configure React environment vars
+      - name: Configure React Environment Vars
         env:
           ENDPOINT_DOC_STORE_API: http://localhost:3000
           AWS_REGION: test region
@@ -111,7 +111,7 @@ jobs:
             ./react-environment-config.sh
         working-directory: ./app
 
-      - name: Cypress build
+      - name: Cypress Build
         uses: cypress-io/github-action@v6
         with:
           install: false
@@ -119,10 +119,10 @@ jobs:
           build: npm run build
           working-directory: ./app
       
-      - name: Install NPM serve    
+      - name: npm install serve -g
         run: npm install serve -g
 
-      - name: Cypress run
+      - name: Run Cypress Tests (Chrome)
         uses: cypress-io/github-action@v6
         with:
           install: false
@@ -133,23 +133,25 @@ jobs:
           CYPRESS_BASE_URL: http://localhost:3000
           CYPRESS_grepTags: 'regression'
   
-      - uses: actions/upload-artifact@v4
+      - name: Upload Artifacts (Screenshots)
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots-chrome
           path: /home/runner/work/national-document-repository/national-document-repository/app/cypress/screenshots
           if-no-files-found: ignore
-          
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload Artifacts (Videos)
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-videos-chrome
           path: /home/runner/work/national-document-repository/national-document-repository/app/cypress/videos
           if-no-files-found: ignore
 
-  publish_all_lambda_layers:
-    name: Publish all Lambda Layers
-    needs: ['set_workspace', 'terraform_process']
+  publish_lambda_layers:
+    name: Publish Lambda Layers
+    needs: ['set_workspace', 'terraform_plan_apply']
     uses: nhsconnect/national-document-repository/.github/workflows/base-lambda-layer-reusable-publish-all.yml@main
     with:
       build_branch: main
@@ -159,10 +161,10 @@ jobs:
     secrets:
         AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
         
-  deploy_all_lambdas:
-    name: Deploy all Lambdas
+  deploy_lambdas:
+    name: Deploy Lambdas
     uses: nhsconnect/national-document-repository/.github/workflows/base-lambdas-reusable-deploy-all.yml@main
-    needs: ['set_workspace', 'publish_all_lambda_layers']
+    needs: ['set_workspace', 'publish_lambda_layers']
     with:
       build_branch: main
       sandbox: ${{ needs.set_workspace.outputs.workspace }}
@@ -175,7 +177,7 @@ jobs:
   deploy_ui:
     name: Deploy UI
     uses: nhsconnect/national-document-repository/.github/workflows/base-deploy-ui.yml@main
-    needs: ['terraform_process', 'set_workspace']
+    needs: ['terraform_plan_apply', 'set_workspace']
     with:
       build_branch: main
       sandbox: ${{ needs.set_workspace.outputs.workspace }}
@@ -185,8 +187,8 @@ jobs:
 
   destroy_test_environment:
     if: always()
-    name: Destroy the Sandbox Environment from previous job
-    needs: [ 'set_workspace', 'deploy_ui', 'deploy_all_lambdas' ]
+    name: Destroy Sandbox (ndrd) 
+    needs: ['set_workspace', 'deploy_ui', 'deploy_lambdas']
     uses: ./.github/workflows/tear-down-sandbox.yml
     with:
       git_ref: main

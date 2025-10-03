@@ -56,8 +56,8 @@ jobs:
     secrets:
       AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
 
-  cleanup_versions_process:
-    name: Cleanup Versions Process
+  cleanup_versions:
+    name: Cleanup Versions
     uses: ./.github/workflows/base-cleanup-workspace.yml
     with:
       git_ref: ${{ inputs.git_ref }}
@@ -66,19 +66,18 @@ jobs:
     secrets:
       AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
 
-  terraform_destroy_process:
-    name: Terraform Destroy Process
+  terraform_destroy:
+    name: Terraform Destroy
     runs-on: ubuntu-latest
     needs: [remove_edge_associations] # Ensure this runs after Lambda@Edge removal
     environment: ${{ inputs.environment }}
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v5
         with:
           ref: ${{ inputs.git_ref }}
 
-      - name: Set up Python
+      - name: Setup Python 3.11
         uses: actions/setup-python@v6
         with:
           python-version: 3.11
@@ -95,28 +94,25 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           mask-aws-account-id: true
 
-      - name: View AWS Role
-        run: aws sts get-caller-identity
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.13.3
 
-      - name: Terraform Init
+      - name: terraform init
         run: terraform init -backend-config=${{ vars.TF_BACKEND_FILE }}
         working-directory: ./infrastructure
 
-      - name: Set Terraform Workspace
+      - name: terraform workspace select
         run: terraform workspace select ${{ inputs.sandbox_name }}
         working-directory: ./infrastructure
 
-      - name: Terraform Destroy
+      - name: terraform destroy
         run: terraform destroy -auto-approve -var-file="${{ vars.TF_VARS_FILE }}"
         working-directory: ./infrastructure
 
-      - name: Run Terraform Workspace Cleanup Script
+      - name: Run Cleanup Script (Terraform Workspace)
         run: ./venv/bin/python3 -u scripts/cleanup_terraform_states.py ${{ inputs.sandbox_name }}
 
-      - name: Run Log Group Cleanup Script
+      - name: Run Cleanup Script (Log Group)
         run: ./venv/bin/python3 -u scripts/cleanup_log_groups.py ${{ inputs.sandbox_name }}

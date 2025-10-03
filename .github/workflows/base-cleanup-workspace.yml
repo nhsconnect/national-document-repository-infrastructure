@@ -25,21 +25,10 @@ permissions:
   contents: read # This is required for actions/checkout
 
 jobs:
-  view_action_parameters:
-    name: View Deploy all input variables
-    runs-on: ubuntu-latest
-    steps:
-      - name: Display client passed variables
-        run: |
-          echo Sandbox name: ${{ inputs.sandbox_name }}
-          echo Git branch/tag/sha: ${{ inputs.git_ref }}
-          echo Environment: ${{ inputs.environment }}
-
   cleanup_process:
-    name: Run Cleanup Versions script
+    name: Run Cleanup Versions Script
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -48,12 +37,12 @@ jobs:
           ref: ${{ inputs.git_ref }}
           fetch-depth: '0'
 
-      - name: Set up Python 3.11
+      - name: Setup Python 3.11
         uses: actions/setup-python@v6
         with:
           python-version: 3.11
 
-      - name: Make virtual environment
+      - name: Make Virtual Environment
         run: |
           python3 -m venv ./venv
           ./venv/bin/pip3 install --upgrade pip
@@ -67,6 +56,6 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           mask-aws-account-id: true
 
-      - name: Run Version Cleanup Script
+      - name: Run Cleanup Versions Script
         run: |
           ./venv/bin/python3 scripts/cleanup_versions.py ${{ inputs.sandbox_name }}

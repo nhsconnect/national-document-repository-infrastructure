@@ -17,12 +17,12 @@ permissions:
   contents: read # This is required for actions/checkout
 
 jobs:
-  tag_and_release:
+  tag_main:
+    name: Tag main
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.versioning.outputs.tag || github.event.inputs.branch_or_tag }}
     permissions: write-all
-
     steps:
       - name: Checkout main
         if: ${{ github.event.inputs.branch_or_tag == 'main' }}
@@ -42,18 +42,18 @@ jobs:
 
       - name: View outputs
         run: |
-          echo Deploying branch or tagged version to pre-prod: ${{ steps.versioning.outputs.tag || github.event.inputs.branch_or_tag }}
+          echo Tag to deploy: ${{ steps.versioning.outputs.tag || github.event.inputs.branch_or_tag }}
 
-  terraform_process:
+  terraform_plan_apply:
+    name: Terraform Plan/Apply (pre-prod)
     runs-on: ubuntu-latest
-    needs: ["tag_and_release"]
+    needs: ["tag_main"]
     environment: pre-prod
-
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          ref: ${{needs.tag_and_release.outputs.version}}
+          ref: ${{ needs.tag_main.outputs.version }}
           fetch-depth: "0"
 
       - name: Configure AWS Credentials
@@ -70,29 +70,29 @@ jobs:
           terraform_version: 1.13.3
           terraform_wrapper: false
 
-      - name: Terraform Init
+      - name: terraform init
         id: init
         run: terraform init -backend-config=backend-pre-prod.conf
         working-directory: ./infrastructure
         shell: bash
 
-      - name: Terraform Set Workspace
+      - name: terraform workspace select
         id: workspace
         run: terraform workspace select ${{ secrets.AWS_WORKSPACE }}
         working-directory: ./infrastructure
         shell: bash
 
-      - name: Terraform Format
+      - name: terraform fmt
         run: terraform fmt -check
         working-directory: ./infrastructure
 
-      - name: Terraform Plan
+      - name: terraform plan
         id: plan
         run: |
           terraform plan -input=false -no-color -var-file="${{vars.TF_VARS_FILE}}" -out tf.plan
         working-directory: ./infrastructure
         shell: bash
 
-      - name: Terraform Apply
+      - name: terraform apply
         run: terraform apply -auto-approve -input=false tf.plan
         working-directory: ./infrastructure
