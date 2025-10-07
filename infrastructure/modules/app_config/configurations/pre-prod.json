@@ -14,6 +14,9 @@
         },
         "lloydGeorgeValidationStrictModeEnabled": {
             "name": "lloydGeorgeValidationStrictModeEnabled"
+        },
+        "addDocumentEnabled": {
+            "name": "addDocumentEnabled"
         }
     },
     "values": {
@@ -31,6 +34,9 @@
         },
         "lloydGeorgeValidationStrictModeEnabled": {
             "enabled": "true"
+        },
+        "addDocumentEnabled": {
+            "enabled": "false"
         }
     },
     "version": "1"
