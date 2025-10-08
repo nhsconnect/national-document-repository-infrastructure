@@ -20,8 +20,8 @@ jobs:
     secrets:
       AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
 
-  cleanup_versions_process:
-    name: Cleanup Versions Process
+  cleanup_versions:
+    name: Cleanup Versions
     uses: ./.github/workflows/base-cleanup-workspace.yml
     with:
       git_ref: main
@@ -31,16 +31,15 @@ jobs:
       AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
 
   terraform_destroy_process:
+    name: Destroy Test Environment
     runs-on: ubuntu-latest
     environment: test
-    needs: [cleanup_versions_process]
+    needs: [cleanup_versions]
     strategy:
       matrix:
         # Can't use an env var here unfortunately, we will have to update here with new sandbox environments
         sandbox-name: [ndr-test]
-
     steps:
-      # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v5
         with:
@@ -54,23 +53,19 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           mask-aws-account-id: true
 
-      - name: View AWS Role
-        run: aws sts get-caller-identity
-
-      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.13.3
           terraform_wrapper: false
 
-      - name: Terraform Init
+      - name: terraform init
         id: init
         run: terraform init -backend-config=backend-test.conf
         working-directory: ./infrastructure
         shell: bash
 
-      - name: Terraform Set Workspace
+      - name: terraform workspace select
         id: workspace
         run: terraform workspace select ${{ matrix.sandbox-name }}
         working-directory: ./infrastructure
@@ -101,7 +96,7 @@ jobs:
               --region eu-west-2
           done
 
-      - name: Terraform Destroy
+      - name: terraform destroy
         id: destroy
         run: terraform destroy -auto-approve -var-file="${{ vars.TF_VARS_FILE }}"
         working-directory: ./infrastructure

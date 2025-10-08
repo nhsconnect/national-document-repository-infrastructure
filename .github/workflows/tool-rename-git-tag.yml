@@ -25,7 +25,6 @@ jobs:
   tag_renaming_process:
     runs-on: ubuntu-latest
     permissions: write-all
-
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -40,9 +39,9 @@ jobs:
       
       - name: Check SHA value
         run: |
-          echo Branch SHA: ${{steps.get-sha.outputs.BRANCH_SHA}}
+          echo Branch SHA: ${{ steps.get-sha.outputs.BRANCH_SHA }}
           
-      - name: Create tag
+      - name: Overwrite tag
         uses: actions/github-script@v8
         with:
           script: |
@@ -50,6 +49,6 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/${{github.event.inputs.new_tag}}',
-              sha:'${{steps.get-sha.outputs.BRANCH_SHA}}'
+              ref: 'refs/tags/${{ github.event.inputs.new_tag }}',
+              sha: '${{ steps.get-sha.outputs.BRANCH_SHA }}'
             })
