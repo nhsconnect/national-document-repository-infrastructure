@@ -1,8 +1,3 @@
-moved {
-  from = module.document_reference_gateway
-  to   = module.create_document_reference_gateway
-}
-
 #PRME-125
 moved {
   from = module.upload_confirm_result_gateway
@@ -81,4 +76,10 @@ moved {
 moved {
   from = module.get-doc-fhir-lambda[0].aws_lambda_permission.lambda_permission[0]
   to   = module.get-doc-fhir-lambda.aws_lambda_permission.lambda_permission[0]
+}
+
+#PRMP-166
+moved {
+  from = module.create_document_reference_gateway
+  to   = module.document_reference_gateway
 }

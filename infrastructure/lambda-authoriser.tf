@@ -46,7 +46,7 @@ module "authoriser-alarm" {
 module "authoriser-alarm-topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  topic_name            = "create_doc-alarms-topic"
+  topic_name            = "authoriser-alarms-topic"
   topic_protocol        = "lambda"
   topic_endpoint        = module.authoriser-lambda.lambda_arn
   delivery_policy = jsonencode({

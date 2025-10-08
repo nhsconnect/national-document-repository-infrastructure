@@ -1,21 +1,21 @@
-module "create_doc_alarm" {
+module "update_doc_alarm" {
   source               = "./modules/lambda_alarms"
-  lambda_function_name = module.create-doc-ref-lambda.function_name
-  lambda_timeout       = module.create-doc-ref-lambda.timeout
-  lambda_name          = "create_document_reference_handler"
+  lambda_function_name = module.update-doc-ref-lambda.function_name
+  lambda_timeout       = module.update-doc-ref-lambda.timeout
+  lambda_name          = "update_document_reference_handler"
   namespace            = "AWS/Lambda"
-  alarm_actions        = [module.create_doc_alarm_topic.arn]
-  ok_actions           = [module.create_doc_alarm_topic.arn]
-  depends_on           = [module.create-doc-ref-lambda, module.create_doc_alarm_topic]
+  alarm_actions        = [module.update_doc_alarm_topic.arn]
+  ok_actions           = [module.update_doc_alarm_topic.arn]
+  depends_on           = [module.update-doc-ref-lambda, module.update_doc_alarm_topic]
 }
 
 
-module "create_doc_alarm_topic" {
+module "update_doc_alarm_topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  topic_name            = "create_doc-alarms-topic"
+  topic_name            = "update_doc-alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.create-doc-ref-lambda.lambda_arn
+  topic_endpoint        = module.update-doc-ref-lambda.lambda_arn
   depends_on            = [module.sns_encryption_key]
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -39,10 +39,10 @@ module "create_doc_alarm_topic" {
   })
 }
 
-module "create-doc-ref-lambda" {
+module "update-doc-ref-lambda" {
   source  = "./modules/lambda"
-  name    = "CreateDocRefLambda"
-  handler = "handlers.create_document_reference_handler.lambda_handler"
+  name    = "UpdateDocRefLambda"
+  handler = "handlers.update_document_reference_handler.lambda_handler"
   iam_role_policy_documents = [
     module.ndr-bulk-staging-store.s3_read_policy_document,
     module.ndr-bulk-staging-store.s3_write_policy_document,
@@ -62,7 +62,7 @@ module "create-doc-ref-lambda" {
   kms_deletion_window = var.kms_deletion_window
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
   resource_id         = module.document_reference_gateway.gateway_resource_id
-  http_methods        = ["POST"]
+  http_methods        = ["PUT"]
   memory_size         = 512
 
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
@@ -77,7 +77,7 @@ module "create-doc-ref-lambda" {
     STITCH_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_metadata_dynamodb_table_name}"
     PDS_FHIR_IS_STUBBED           = local.is_sandbox,
     WORKSPACE                     = terraform.workspace
-    PRESIGNED_ASSUME_ROLE         = aws_iam_role.create_post_presign_url_role.arn
+    PRESIGNED_ASSUME_ROLE         = aws_iam_role.update_put_presign_url_role.arn
   }
   depends_on = [
     module.document_reference_gateway,
