@@ -216,7 +216,7 @@ jobs:
     name: Deploy Lambdas on NDR Functional Repo
     needs: ['terraform_process']
     if: github.ref == 'refs/heads/main'
-    uses: nhsconnect/national-document-repository/.github/workflows/lambdas-dev-to-main-ci.yml@main
+    uses: NHSDigital/national-document-repository/.github/workflows/lambdas-dev-to-main-ci.yml@main
     secrets:
       AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}
   
@@ -224,6 +224,6 @@ jobs:
     name: Deploy UI on NDR Functional Repo
     needs: ['terraform_process']
     if: github.ref == 'refs/heads/main'
-    uses: nhsconnect/national-document-repository/.github/workflows/ui-dev-to-main-ci.yml@main
+    uses: NHSDigital/national-document-repository/.github/workflows/ui-dev-to-main-ci.yml@main
     secrets:
       AWS_ASSUME_ROLE: ${{ secrets.AWS_ASSUME_ROLE }}

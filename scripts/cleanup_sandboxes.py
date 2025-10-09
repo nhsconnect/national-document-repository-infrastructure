@@ -4,7 +4,7 @@ from botocore.exceptions import ClientError
 
 
 def trigger_delete_workflow(token: str, sandbox: str):
-    owner = "nhsconnect"
+    owner = "NHSDigital"
     repo = "national-document-repository-infrastructure"
     workflow = "tear-down-sandbox.yml"
 
