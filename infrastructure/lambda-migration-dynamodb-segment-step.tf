@@ -6,8 +6,7 @@ module "migration-dynamodb-segment-step-lambda" {
   memory_size    = 1769
   iam_role_policy_documents = [
     module.migration-dynamodb-segment-store.s3_read_policy_document,
-    module.migration-dynamodb-segment-store.s3_write_policy_document,
-    module.ndr-app-config.app_config_policy
+    module.migration-dynamodb-segment-store.s3_write_policy_document
   ]
   kms_deletion_window = var.kms_deletion_window
 
