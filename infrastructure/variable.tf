@@ -33,6 +33,12 @@ variable "docstore_bucket_name" {
   default     = "ndr-document-store"
 }
 
+variable "migration_dynamodb_segment_store_bucket_name" {
+  description = "The name of the S3 bucket to store the segments for DynamoDB migration."
+  type        = string
+  default     = "migration_dynamodb_segment_store"
+}
+
 variable "zip_store_bucket_name" {
   description = "The name of the S3 bucket used as a zip store."
   type        = string
