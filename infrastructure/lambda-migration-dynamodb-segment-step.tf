@@ -1,6 +1,6 @@
 module "migration-dynamodb-segment-step-lambda" {
   source         = "./modules/lambda"
-  name           = "MigrationDynamodbSegmentStepLambda"
+  name           = "MigrationDynamodbSegmentLambda"
   handler        = "handlers.migration_dynamodb_segment_step.lambda_handler"
   lambda_timeout = 900
   memory_size    = 1769
