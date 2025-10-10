@@ -73,6 +73,24 @@ module "ndr-lloyd-george-store" {
   ]
 }
 
+module "migration-dynamodb-segment-store" {
+  source                    = "./modules/s3/"
+  access_logs_enabled       = local.is_production
+  access_logs_bucket_id     = local.access_logs_bucket_id
+  bucket_name               = var.migration_dynamodb_segment_store_bucket_name
+  enable_cors_configuration = true
+  enable_bucket_versioning  = true
+  environment               = var.environment
+  owner                     = var.owner
+  force_destroy             = local.is_force_destroy
+  cors_rules = [
+    {
+      allowed_methods = ["GET", "PUT", "POST"]
+      allowed_origins = [contains(["prod"], terraform.workspace) ? "https://${var.domain}" : "https://${terraform.workspace}.${var.domain}"]
+    }
+  ]
+}
+
 module "statistical-reports-store" {
   source                    = "./modules/s3/"
   access_logs_enabled       = local.is_production
