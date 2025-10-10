@@ -1,7 +1,7 @@
-module "post-document-references-fhir-lambda" {
+module "post_document_reference_fhir_lambda" {
   source  = "./modules/lambda"
-  name    = "PostDocumentReferencesFHIR"
-  handler = "handlers.post_fhir_document_reference_handler.lambda_handler"
+  name    = "PostDocumentReferenceFhir"
+  handler = "handlers.post_document_reference_fhir_handler.lambda_handler"
   iam_role_policy_documents = [
     module.document_reference_dynamodb_table.dynamodb_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
@@ -11,10 +11,10 @@ module "post-document-references-fhir-lambda" {
     aws_iam_policy.ssm_access_policy.policy
   ]
   kms_deletion_window = var.kms_deletion_window
-  rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id         = module.fhir_document_reference_gateway[0].gateway_resource_id
+  rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
+  resource_id         = module.fhir_document_reference_mtls_gateway.gateway_resource_id
   http_methods        = ["POST"]
-  api_execution_arn   = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
+  api_execution_arn   = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.execution_arn
   lambda_environment_variables = {
     APPCONFIG_APPLICATION           = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT           = module.ndr-app-config.app_config_environment_id
@@ -33,26 +33,3 @@ module "post-document-references-fhir-lambda" {
     module.lloyd_george_reference_dynamodb_table,
   ]
 }
-
-resource "aws_api_gateway_integration" "post_doc_fhir_lambda_integration" {
-  rest_api_id             = aws_api_gateway_rest_api.ndr_doc_store_api_mtls.id
-  resource_id             = module.fhir_document_reference_mtls_gateway.gateway_resource_id
-  http_method             = "POST"
-  integration_http_method = "POST"
-  type                    = "AWS_PROXY"
-  uri                     = module.post-document-references-fhir-lambda.invoke_arn
-
-  depends_on = [module.fhir_document_reference_mtls_gateway]
-
-}
-
-resource "aws_lambda_permission" "lambda_permission_post_mtls_api" {
-  statement_id  = "AllowAPImTLSGatewayInvoke"
-  action        = "lambda:InvokeFunction"
-  function_name = module.post-document-references-fhir-lambda.lambda_arn
-  principal     = "apigateway.amazonaws.com"
-  # The "/*/*" portion grants access from any method on any resource
-  # within the API Gateway REST API.
-  source_arn = "${aws_api_gateway_rest_api.ndr_doc_store_api_mtls.execution_arn}/*/*"
-}
-
