@@ -26,7 +26,7 @@ resource "aws_api_gateway_method" "get_document_reference_mtls" {
   resource_id      = aws_api_gateway_resource.get_document_reference_mtls.id
   http_method      = "GET"
   authorization    = "NONE"
-  api_key_required = true
+  api_key_required = false
   request_parameters = {
     "method.request.path.id" = true
   }
