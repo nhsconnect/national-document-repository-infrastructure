@@ -1,7 +1,7 @@
-module "migration-dynamodb-segment-step-lambda" {
+module "migration-dynamodb-segment-lambda" {
   source         = "./modules/lambda"
   name           = "MigrationDynamodbSegmentLambda"
-  handler        = "handlers.migration_dynamodb_segment_step.lambda_handler"
+  handler        = "handlers.migration_dynamodb_segment_handler.lambda_handler"
   lambda_timeout = 900
   memory_size    = 1769
   iam_role_policy_documents = [
@@ -11,9 +11,6 @@ module "migration-dynamodb-segment-step-lambda" {
   kms_deletion_window = var.kms_deletion_window
 
   lambda_environment_variables = {
-    APPCONFIG_APPLICATION         = module.ndr-app-config.app_config_application_id
-    APPCONFIG_ENVIRONMENT         = module.ndr-app-config.app_config_environment_id
-    APPCONFIG_CONFIGURATION       = module.ndr-app-config.app_config_configuration_profile_id
     WORKSPACE                     = terraform.workspace
     MIGRATION_SEGMENT_BUCKET_NAME = "${terraform.workspace}-${var.migration_dynamodb_segment_store_bucket_name}"
   }
