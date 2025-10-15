@@ -251,14 +251,14 @@ data "aws_iam_policy_document" "assume_role_policy_for_update_lambda" {
     principals {
       type = "AWS"
       identifiers = compact([
-        module.update-doc-ref-lambda.lambda_execution_role_arn
+        module.update_doc_ref_lambda.lambda_execution_role_arn
       ])
     }
   }
 }
 
 resource "aws_iam_role" "update_put_presign_url_role" {
-  name               = "${terraform.workspace}update_put_presign_url_role"
+  name               = "${terraform.workspace}_update_put_presign_url_role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy_for_update_lambda.json
 }
 
