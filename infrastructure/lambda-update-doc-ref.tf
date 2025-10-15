@@ -1,3 +1,20 @@
+resource "aws_api_gateway_resource" "update_document_reference_with_id" {
+  rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  parent_id   = module.document_reference_gateway.gateway_resource_id
+  path_part   = "{id}"
+}
+
+resource "aws_api_gateway_method" "update_document_reference_with_id" {
+  rest_api_id      = aws_api_gateway_rest_api.ndr_doc_store_api.id
+  resource_id      = aws_api_gateway_resource.update_document_reference_with_id.id
+  http_method      = "PUT"
+  authorization    = "CUSTOM"
+  authorizer_id    = aws_api_gateway_authorizer.repo_authoriser.id
+  request_parameters = {
+    "method.request.path.id" = true
+  }
+}
+
 module "update_doc_alarm" {
   source               = "./modules/lambda_alarms"
   lambda_function_name = module.update-doc-ref-lambda.function_name
@@ -8,7 +25,6 @@ module "update_doc_alarm" {
   ok_actions           = [module.update_doc_alarm_topic.arn]
   depends_on           = [module.update-doc-ref-lambda, module.update_doc_alarm_topic]
 }
-
 
 module "update_doc_alarm_topic" {
   source                = "./modules/sns"
@@ -61,7 +77,7 @@ module "update-doc-ref-lambda" {
   ]
   kms_deletion_window = var.kms_deletion_window
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id         = module.document_reference_gateway.gateway_resource_id
+  resource_id         = aws_api_gateway_resource.update_document_reference_with_id.id
   http_methods        = ["PUT"]
   memory_size         = 512
 
