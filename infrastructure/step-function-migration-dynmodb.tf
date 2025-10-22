@@ -20,14 +20,6 @@ variable "segment_bucket_name" {
 }
 
 ############################
-# Data Sources
-############################
-
-data "aws_region" "current" {}
-
-data "aws_caller_identity" "current" {}
-
-############################
 # IAM Role for Step Functions
 ############################
 
@@ -211,7 +203,6 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
             }
           }
         },
-
         End = true
       }
     }
