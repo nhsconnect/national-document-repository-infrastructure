@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "sfn_permissions" {
     actions = ["lambda:InvokeFunction"]
     resources = [
       module.migration-dynamodb-segment-lambda.lambda_arn,
-      module.dynamodb_migration_lambda.lambda_arn
+      # module.dynamodb_migration_lambda.lambda_arn
     ]
   }
 
@@ -141,26 +141,31 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
             Mode          = "DISTRIBUTED",
             ExecutionType = "STANDARD"
           },
-          StartAt = "Run DynamoDB Migration",
+          StartAt = "Placeholder",
           States = {
-            "Run DynamoDB Migration" = {
-              Type     = "Task",
-              Resource = "arn:aws:states:::lambda:invoke",
-              Parameters = {
-                "FunctionName" = module.dynamodb_migration_lambda.lambda_arn,
-                "Payload" = {
-                  "segment.$"         = "$.segment",
-                  "totalSegments.$"   = "$.totalSegments",
-                  "tableArn.$"        = "$.tableArn",
-                  "migrationScript.$" = "$.migrationScript",
-                  "run_migration.$"   = "$.run_migration",
-                  "execution_Id.$"    = "$.execution_Id"
-                }
-              },
-              ResultSelector = { "migrationResult.$" = "$.Payload" },
-              ResultPath     = "$.MigrationResult",
-              End            = true
+            "Placeholder" = {
+              Type    = "Pass",
+              Comment = "TODO: Replace with Run DynamoDB Migration when module.dynamodb_migration_lambda exists",
+              End     = true
             }
+            # "Run DynamoDB Migration" = {
+            #   Type     = "Task",
+            #   Resource = "arn:aws:states:::lambda:invoke",
+            #   Parameters = {
+            #     FunctionName = module.dynamodb_migration_lambda.lambda_arn,
+            #     "Payload" = {
+            #       "segment.$"         = "$.segment",
+            #       "totalSegments.$"   = "$.totalSegments",
+            #       "tableArn.$"        = "$.tableArn",
+            #       "migrationScript.$" = "$.migrationScript",
+            #       "run_migration.$"   = "$.run_migration",
+            #       "execution_Id.$"    = "$.execution_Id"
+            #     }
+            #   },
+            #   ResultSelector = { "migrationResult.$" = "$.Payload" },
+            #   ResultPath     = "$.MigrationResult",
+            #   End            = true
+            # }
           }
         },
         End = true
