@@ -121,6 +121,9 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
 
         ItemReader = {
           Resource = "arn:aws:states:::s3:getObject",
+          ReaderConfig = {
+            InputType = "JSON"
+          },
           Parameters = {
             "Bucket.$" = "$.SegmentSource.bucket",
             "Key.$"    = "$.SegmentSource.key"
