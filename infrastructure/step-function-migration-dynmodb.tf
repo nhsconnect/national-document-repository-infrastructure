@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "sfn_permissions" {
       "s3:ListBucket"
     ]
     resources = [
-      module.migration-dynamodb-segment-lambda.s3_bucket_arn
+      "arn:aws:s3:::${terraform.workspace}-${var.migration_dynamodb_segment_store_bucket_name}"
     ]
   }
 
@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "sfn_permissions" {
       "s3:PutObject"
     ]
     resources = [
-      "${module.migration-dynamodb-segment-lambda.s3_bucket_arn}/*"
+      "arn:aws:s3:::${terraform.workspace}-${var.migration_dynamodb_segment_store_bucket_name}/*"
     ]
   }
 
