@@ -103,8 +103,8 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
           "FunctionName" = module.migration-dynamodb-segment-lambda.lambda_arn,
           "Payload" = {
             "totalSegments.$" = "$.totalSegments",
-            "table_arn.$"     = "$.tableArn",
-            "execution_Id.$"  = "$$.Execution.Id"
+            "tableArn.$"      = "$.tableArn",
+            "executionId.$"   = "$$.Execution.Id"
           }
         },
         ResultSelector = {
