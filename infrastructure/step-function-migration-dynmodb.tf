@@ -44,8 +44,7 @@ data "aws_iam_policy_document" "sfn_permissions" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:GetObject",
-      "s3:PutObject"
+      "s3:GetObject"
     ]
     resources = [
       "arn:aws:s3:::${terraform.workspace}-${var.migration_dynamodb_segment_store_bucket_name}/*"
