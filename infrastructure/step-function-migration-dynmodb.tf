@@ -38,8 +38,8 @@ data "aws_iam_policy_document" "sfn_permissions" {
       "s3:ListBucket"
     ]
     resources = [
-      "arn:aws:s3:::${module.migration-dynamodb-segment-lambda.segment_bucket_name}",
-      "arn:aws:s3:::${module.migration-dynamodb-segment-lambda.segment_bucket_name}/*"
+      "arn:aws:s3:::${module.migration-dynamodb-segment-lambda.name}",
+      "arn:aws:s3:::${module.migration-dynamodb-segment-lambda.name}/*"
     ]
   }
 
