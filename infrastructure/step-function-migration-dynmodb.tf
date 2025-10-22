@@ -17,6 +17,7 @@ variable "segment_bucket_kms_key_arn" {
 variable "segment_bucket_name" {
   description = "S3 bucket name where segment files are stored"
   type        = string
+  default     = ""
 }
 
 ############################
