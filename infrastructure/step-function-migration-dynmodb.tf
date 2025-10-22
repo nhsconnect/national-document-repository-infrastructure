@@ -29,17 +29,26 @@ data "aws_iam_policy_document" "sfn_permissions" {
     ]
   }
 
-  # S3 access for segment files (bucket name comes from the segment lambda module output)
+  # S3 bucket-level permissions
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:ListBucket"
+    ]
+    resources = [
+      module.migration-dynamodb-segment-lambda.s3_bucket_arn
+    ]
+  }
+
+  # S3 object-level permissions
   statement {
     effect = "Allow"
     actions = [
       "s3:GetObject",
-      "s3:PutObject",
-      "s3:ListBucket"
+      "s3:PutObject"
     ]
     resources = [
-      "arn:aws:s3:::${module.migration-dynamodb-segment-lambda.function_name}",
-      "arn:aws:s3:::${module.migration-dynamodb-segment-lambda.function_name}/*"
+      "${module.migration-dynamodb-segment-lambda.s3_bucket_arn}/*"
     ]
   }
 
