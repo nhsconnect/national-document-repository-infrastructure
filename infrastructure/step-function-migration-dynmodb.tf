@@ -1,26 +1,4 @@
 ############################
-# Variables
-############################
-
-variable "max_concurrency" {
-  description = "Maximum number of concurrent Map iterations"
-  type        = number
-  default     = 50
-}
-
-variable "segment_bucket_kms_key_arn" {
-  description = "Optional KMS key ARN if the S3 segment file is encrypted"
-  type        = string
-  default     = ""
-}
-
-variable "segment_bucket_name" {
-  description = "S3 bucket name where segment files are stored"
-  type        = string
-  default     = ""
-}
-
-############################
 # IAM Role for Step Functions
 ############################
 
@@ -28,7 +6,6 @@ data "aws_iam_policy_document" "sfn_assume" {
   statement {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
-
     principals {
       type        = "Service"
       identifiers = ["states.amazonaws.com"]
@@ -42,7 +19,7 @@ resource "aws_iam_role" "sfn_role" {
 }
 
 data "aws_iam_policy_document" "sfn_permissions" {
-  # Allow the Step Function to invoke both Lambdas
+  # Invoke both Lambdas
   statement {
     effect  = "Allow"
     actions = ["lambda:InvokeFunction"]
@@ -52,7 +29,7 @@ data "aws_iam_policy_document" "sfn_permissions" {
     ]
   }
 
-  # Allow reading and writing segment files from/to specific S3 bucket
+  # S3 access for segment files (bucket name comes from the segment lambda module output)
   statement {
     effect = "Allow"
     actions = [
@@ -61,13 +38,12 @@ data "aws_iam_policy_document" "sfn_permissions" {
       "s3:ListBucket"
     ]
     resources = [
-      "arn:aws:s3:::${var.segment_bucket_name}",
-      "arn:aws:s3:::${var.segment_bucket_name}/*"
+      "arn:aws:s3:::${module.migration-dynamodb-segment-lambda.segment_bucket_name}",
+      "arn:aws:s3:::${module.migration-dynamodb-segment-lambda.segment_bucket_name}/*"
     ]
   }
 
-  # Required for Distributed Map child executions
-  # Use a wildcard pattern based on workspace to avoid circular dependency
+  # Distributed Map child executions
   statement {
     effect = "Allow"
     actions = [
@@ -86,7 +62,7 @@ data "aws_iam_policy_document" "sfn_permissions" {
     ]
   }
 
-  # CloudWatch Logs permissions for Step Function execution history
+  # CloudWatch Logs delivery
   statement {
     effect = "Allow"
     actions = [
@@ -100,20 +76,6 @@ data "aws_iam_policy_document" "sfn_permissions" {
       "logs:DescribeLogGroups"
     ]
     resources = ["*"]
-  }
-
-  # Optional — allow decrypting S3 object if it's KMS-encrypted
-  dynamic "statement" {
-    for_each = var.segment_bucket_kms_key_arn != "" ? [1] : []
-    content {
-      effect = "Allow"
-      actions = [
-        "kms:Decrypt",
-        "kms:GenerateDataKey",
-        "kms:DescribeKey"
-      ]
-      resources = [var.segment_bucket_kms_key_arn]
-    }
   }
 }
 
@@ -155,9 +117,8 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
 
       "Segment Map (Distributed)" = {
         Type           = "Map",
-        MaxConcurrency = var.max_concurrency,
+        MaxConcurrency = 50,
 
-        # Distributed Map reads the JSON array directly from S3
         ItemReader = {
           Resource = "arn:aws:states:::s3:getObject",
           Parameters = {
@@ -166,7 +127,6 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
           }
         },
 
-        # Input passed to each item
         ItemSelector = {
           "segment.$"         = "$$.Map.Item.Value",
           "totalSegments.$"   = "$.totalSegments",
@@ -176,7 +136,6 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
           "execution_Id.$"    = "$$.Execution.Id"
         },
 
-        # Distributed worker: DynamoDBMigrationLambda
         ItemProcessor = {
           ProcessorConfig = {
             Mode          = "DISTRIBUTED",
