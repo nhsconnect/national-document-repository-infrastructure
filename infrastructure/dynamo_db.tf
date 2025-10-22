@@ -89,6 +89,10 @@ module "lloyd_george_reference_dynamodb_table" {
     {
       name = "CurrentGpOds"
       type = "S"
+    },
+    {
+      name = "S3FileKey"
+      type = "S"
     }
   ]
 
@@ -106,6 +110,11 @@ module "lloyd_george_reference_dynamodb_table" {
     {
       name            = "OdsCodeIndex"
       hash_key        = "CurrentGpOds"
+      projection_type = "ALL"
+    },
+    {
+      name            = "S3FileKeyIndex"
+      hash_key        = "S3FileKey"
       projection_type = "ALL"
     }
   ]
