@@ -166,7 +166,7 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
               Type     = "Task",
               Resource = "arn:aws:states:::lambda:invoke",
               Parameters = {
-                FunctionName = module.dynamodb_migration_lambda.lambda_arn,
+                FunctionName = module.dynamodb-migration-lambda.lambda_arn,
                 "Payload" = {
                   "segment.$"         = "$.segment",
                   "totalSegments.$"   = "$.totalSegments",
