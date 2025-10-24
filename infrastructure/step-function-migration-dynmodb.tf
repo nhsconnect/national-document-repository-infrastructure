@@ -101,6 +101,9 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
   name     = "${terraform.workspace}_migration_dynamodb_step_function"
   role_arn = aws_iam_role.sfn_role.arn
 
+  # Optionally enforce dependency:
+  depends_on = [module.dynamodb_migration_lambda]
+
   definition = jsonencode({
     StartAt = "Segment Creator",
     States = {
