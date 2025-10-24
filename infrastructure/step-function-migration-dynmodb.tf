@@ -155,7 +155,7 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
             Mode          = "DISTRIBUTED",
             ExecutionType = "STANDARD"
           },
-          StartAt = "Placeholder",
+          StartAt = "Run DynamoDB Migration",
           States = {
             # "Placeholder" = {
             #   Type    = "Pass",
