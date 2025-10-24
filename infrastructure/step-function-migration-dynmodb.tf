@@ -209,8 +209,3 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
   })
 }
 
-# Add a CloudWatch Log Group for Step Function logs
-resource "aws_cloudwatch_log_group" "sfn_migration_dynamodb" {
-  name              = "/aws/vendedlogs/states/${terraform.workspace}_migration_dynamodb_step_function"
-  retention_in_days = 14
-}
