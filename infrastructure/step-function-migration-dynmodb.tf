@@ -102,7 +102,7 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
   role_arn = aws_iam_role.sfn_role.arn
 
   # Optionally enforce dependency:
-  depends_on = [module.dynamodb-migration-lambda]
+  depends_on = [module.migration-dynamodb-lambda]
 
   logging_configuration {
     level                  = "ALL"
@@ -175,7 +175,7 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
               Type     = "Task",
               Resource = "arn:aws:states:::lambda:invoke",
               Parameters = {
-                FunctionName = module.dynamodb-migration-lambda.lambda_arn,
+                FunctionName = module.migration-dynamodb-lambda.lambda_arn,
                 "Payload" = {
                   "segment.$"         = "$.segment",
                   "totalSegments.$"   = "$.totalSegments",
