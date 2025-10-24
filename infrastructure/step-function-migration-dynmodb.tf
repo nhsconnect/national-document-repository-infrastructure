@@ -86,7 +86,10 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
   role_arn = aws_iam_role.sfn_role.arn
 
   # Optionally enforce dependency:
-  depends_on = [module.migration-dynamodb-lambda]
+  depends_on = [
+    module.migration-dynamodb-segment-lambda,
+    module.migration-dynamodb-lambda
+  ]
 
   definition = jsonencode({
     StartAt = "Segment Creator",
@@ -185,4 +188,4 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
   })
 }
 
- 
+
