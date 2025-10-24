@@ -104,6 +104,14 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
   # Optionally enforce dependency:
   depends_on = [module.dynamodb-migration-lambda]
 
+  logging_configuration {
+    level                  = "ALL"
+    include_execution_data = true
+    log_destination = {
+      cloudwatch_logs_log_group = aws_cloudwatch_log_group.sfn_migration_dynamodb.arn
+    }
+  }
+
   definition = jsonencode({
     StartAt = "Segment Creator",
     States = {
@@ -127,8 +135,14 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
       },
 
       "Segment Map (Distributed)" = {
-        Type           = "Map",
-        MaxConcurrency = 50,
+        Type                       = "Map",
+        MaxConcurrency             = 50,
+        ToleratedFailureCount      = 0,   # Allow 0 failures (default, Map fails on any error)
+        ToleratedFailurePercentage = 0.0, # Allow 0% failures (default)
+
+        # To allow some failures, increase these values, e.g.:
+        # ToleratedFailureCount = 5,
+        # ToleratedFailurePercentage = 10.0,
 
         ItemReader = {
           Resource = "arn:aws:states:::s3:getObject",
@@ -157,11 +171,6 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
           },
           StartAt = "Run DynamoDB Migration",
           States = {
-            # "Placeholder" = {
-            #   Type    = "Pass",
-            #   Comment = "TODO: Replace with Run DynamoDB Migration when module.dynamodb_migration_lambda exists",
-            #   End     = true
-            # }
             "Run DynamoDB Migration" = {
               Type     = "Task",
               Resource = "arn:aws:states:::lambda:invoke",
@@ -178,7 +187,19 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
               },
               ResultSelector = { "migrationResult.$" = "$.Payload" },
               ResultPath     = "$.MigrationResult",
-              End            = true
+              End            = true,
+              Catch = [
+                {
+                  ErrorEquals = ["States.ALL"],
+                  ResultPath  = "$.error",
+                  Next        = "Handle Migration Error"
+                }
+              ]
+            },
+            "Handle Migration Error" = {
+              Type  = "Fail",
+              Cause = "Migration Lambda failed",
+              Error = "LambdaError"
             }
           }
         },
@@ -186,4 +207,10 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
       }
     }
   })
+}
+
+# Add a CloudWatch Log Group for Step Function logs
+resource "aws_cloudwatch_log_group" "sfn_migration_dynamodb" {
+  name              = "/aws/vendedlogs/states/${terraform.workspace}_migration_dynamodb_step_function"
+  retention_in_days = 14
 }
