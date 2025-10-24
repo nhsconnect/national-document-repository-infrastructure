@@ -69,22 +69,6 @@ data "aws_iam_policy_document" "sfn_permissions" {
       "arn:aws:states:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:mapRun:${terraform.workspace}_migration_dynamodb_step_function/*"
     ]
   }
-
-  # CloudWatch Logs delivery
-  statement {
-    effect = "Allow"
-    actions = [
-      "logs:CreateLogDelivery",
-      "logs:GetLogDelivery",
-      "logs:UpdateLogDelivery",
-      "logs:DeleteLogDelivery",
-      "logs:ListLogDeliveries",
-      "logs:PutResourcePolicy",
-      "logs:DescribeResourcePolicies",
-      "logs:DescribeLogGroups"
-    ]
-    resources = ["*"]
-  }
 }
 
 resource "aws_iam_role_policy" "sfn_policy" {
@@ -103,14 +87,6 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
 
   # Optionally enforce dependency:
   depends_on = [module.migration-dynamodb-lambda]
-
-  logging_configuration {
-    level                  = "ALL"
-    include_execution_data = true
-    log_destination = {
-      cloudwatch_logs_log_group = aws_cloudwatch_log_group.sfn_migration_dynamodb.arn
-    }
-  }
 
   definition = jsonencode({
     StartAt = "Segment Creator",
@@ -209,3 +185,4 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
   })
 }
 
+ 
