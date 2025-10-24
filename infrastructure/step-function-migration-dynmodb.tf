@@ -24,8 +24,8 @@ data "aws_iam_policy_document" "sfn_permissions" {
     effect  = "Allow"
     actions = ["lambda:InvokeFunction"]
     resources = [
-      module.dynamodb-migration-segment-lambda.lambda_arn,
-      module.dynamodb_migration_lambda.lambda_arn
+      module.migration-dynamodb-segment-lambda.lambda_arn,
+      module.migration-dynamodb-lambda.lambda_arn
     ]
   }
 
