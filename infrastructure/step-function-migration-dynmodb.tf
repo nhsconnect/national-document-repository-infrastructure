@@ -154,29 +154,29 @@ resource "aws_sfn_state_machine" "migration_dynamodb" {
           },
           StartAt = "Placeholder",
           States = {
-            "Placeholder" = {
-              Type    = "Pass",
-              Comment = "TODO: Replace with Run DynamoDB Migration when module.dynamodb_migration_lambda exists",
-              End     = true
-            }
-            # "Run DynamoDB Migration" = {
-            #   Type     = "Task",
-            #   Resource = "arn:aws:states:::lambda:invoke",
-            #   Parameters = {
-            #     FunctionName = module.dynamodb_migration_lambda.lambda_arn,
-            #     "Payload" = {
-            #       "segment.$"         = "$.segment",
-            #       "totalSegments.$"   = "$.totalSegments",
-            #       "tableArn.$"        = "$.tableArn",
-            #       "migrationScript.$" = "$.migrationScript",
-            #       "run_migration.$"   = "$.run_migration",
-            #       "execution_Id.$"    = "$.execution_Id"
-            #     }
-            #   },
-            #   ResultSelector = { "migrationResult.$" = "$.Payload" },
-            #   ResultPath     = "$.MigrationResult",
-            #   End            = true
+            # "Placeholder" = {
+            #   Type    = "Pass",
+            #   Comment = "TODO: Replace with Run DynamoDB Migration when module.dynamodb_migration_lambda exists",
+            #   End     = true
             # }
+            "Run DynamoDB Migration" = {
+              Type     = "Task",
+              Resource = "arn:aws:states:::lambda:invoke",
+              Parameters = {
+                FunctionName = module.dynamodb_migration_lambda.lambda_arn,
+                "Payload" = {
+                  "segment.$"         = "$.segment",
+                  "totalSegments.$"   = "$.totalSegments",
+                  "tableArn.$"        = "$.tableArn",
+                  "migrationScript.$" = "$.migrationScript",
+                  "run_migration.$"   = "$.run_migration",
+                  "execution_Id.$"    = "$.execution_Id"
+                }
+              },
+              ResultSelector = { "migrationResult.$" = "$.Payload" },
+              ResultPath     = "$.MigrationResult",
+              End            = true
+            }
           }
         },
         End = true
