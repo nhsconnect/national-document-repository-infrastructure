@@ -26,9 +26,8 @@ module "migration-dynamodb-lambda" {
     APPCONFIG_CONFIGURATION = module.ndr-app-config.app_config_configuration_profile_id
   }
 
-  lambda_timeout                 = 900
-  memory_size                    = 1024
-  reserved_concurrent_executions = 200
+  lambda_timeout = 900
+  memory_size    = 1024
 
   depends_on = [
     module.lloyd_george_reference_dynamodb_table,
