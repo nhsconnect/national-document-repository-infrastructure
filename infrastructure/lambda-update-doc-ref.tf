@@ -1,15 +1,3 @@
-resource "aws_api_gateway_method" "update_document_reference_with_id" {
-  rest_api_id   = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id   = module.document_reference_id_gateway.gateway_resource_id.id
-  http_method   = "PUT"
-  authorization = "CUSTOM"
-  authorizer_id = aws_api_gateway_authorizer.repo_authoriser.id
-
-  request_parameters = {
-    "method.request.path.id" = true
-  }
-}
-
 module "update_doc_ref_alarm" {
   source               = "./modules/lambda_alarms"
   lambda_function_name = module.update_doc_ref_lambda.function_name
@@ -20,6 +8,7 @@ module "update_doc_ref_alarm" {
   ok_actions           = [module.update_doc_ref_alarm_topic.arn]
   depends_on           = [module.update_doc_ref_lambda, module.update_doc_ref_alarm_topic]
 }
+
 
 module "update_doc_ref_alarm_topic" {
   source                = "./modules/sns"
