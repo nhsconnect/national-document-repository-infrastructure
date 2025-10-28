@@ -1,12 +1,6 @@
-resource "aws_api_gateway_resource" "update_document_reference_with_id" {
-  rest_api_id = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  parent_id   = module.document_reference_gateway.gateway_resource_id
-  path_part   = "{id}"
-}
-
 resource "aws_api_gateway_method" "update_document_reference_with_id" {
   rest_api_id   = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id   = aws_api_gateway_resource.update_document_reference_with_id.id
+  resource_id   = module.document_reference_id_gateway.gateway_resource_id.id
   http_method   = "PUT"
   authorization = "CUSTOM"
   authorizer_id = aws_api_gateway_authorizer.repo_authoriser.id
@@ -73,7 +67,7 @@ module "update_doc_ref_lambda" {
   ]
   kms_deletion_window = var.kms_deletion_window
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id         = aws_api_gateway_resource.update_document_reference_with_id.id
+  resource_id         = module.document_reference_id_gateway.gateway_resource_id.id
   http_methods        = ["PUT"]
   memory_size         = 512
 
