@@ -56,7 +56,7 @@ module "update_doc_ref_lambda" {
   ]
   kms_deletion_window = var.kms_deletion_window
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id         = module.document_reference_id_gateway.gateway_resource_id.id
+  resource_id         = module.document_reference_id_gateway.gateway_resource_id
   http_methods        = ["PUT"]
   memory_size         = 512
 
