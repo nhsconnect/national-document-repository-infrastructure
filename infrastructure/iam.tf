@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "assume_role_policy_for_create_lambda" {
       type = "AWS"
       identifiers = compact([
         module.create-doc-ref-lambda.lambda_execution_role_arn,
-        local.is_production ? null : module.post-document-references-fhir-lambda.lambda_execution_role_arn
+        module.post-document-references-fhir-lambda.lambda_execution_role_arn
       ])
     }
   }
