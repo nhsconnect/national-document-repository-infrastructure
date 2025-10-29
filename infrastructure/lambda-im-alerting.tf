@@ -39,6 +39,7 @@ module "im-alerting-lambda" {
     ALARM_HISTORY_DYNAMODB_NAME = module.alarm_state_history_table.table_name
     SLACK_CHANNEL_ID            = data.aws_ssm_parameter.slack_alerting_channel_id.value
     SLACK_BOT_TOKEN             = data.aws_ssm_parameter.slack_alerting_bot_token.value
+    VIRUS_SCANNER_TOPIC_ARN     = local.is_production ? module.cloud_storage_security[0].proactive_notifications_topic_arn : ""
   }
   is_gateway_integration_needed = false
   is_invoked_from_gateway       = false
