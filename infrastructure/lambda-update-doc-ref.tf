@@ -1,21 +1,21 @@
-module "create_doc_alarm" {
+module "update_doc_ref_alarm" {
   source               = "./modules/lambda_alarms"
-  lambda_function_name = module.create-doc-ref-lambda.function_name
-  lambda_timeout       = module.create-doc-ref-lambda.timeout
-  lambda_name          = "create_document_reference_handler"
+  lambda_function_name = module.update_doc_ref_lambda.function_name
+  lambda_timeout       = module.update_doc_ref_lambda.timeout
+  lambda_name          = "update_document_reference_handler"
   namespace            = "AWS/Lambda"
-  alarm_actions        = [module.create_doc_alarm_topic.arn]
-  ok_actions           = [module.create_doc_alarm_topic.arn]
-  depends_on           = [module.create-doc-ref-lambda, module.create_doc_alarm_topic]
+  alarm_actions        = [module.update_doc_ref_alarm_topic.arn]
+  ok_actions           = [module.update_doc_ref_alarm_topic.arn]
+  depends_on           = [module.update_doc_ref_lambda, module.update_doc_ref_alarm_topic]
 }
 
 
-module "create_doc_alarm_topic" {
+module "update_doc_ref_alarm_topic" {
   source                = "./modules/sns"
   sns_encryption_key_id = module.sns_encryption_key.id
-  topic_name            = "create_doc-alarms-topic"
+  topic_name            = "update_doc-alarms-topic"
   topic_protocol        = "lambda"
-  topic_endpoint        = module.create-doc-ref-lambda.lambda_arn
+  topic_endpoint        = module.update_doc_ref_lambda.lambda_arn
   depends_on            = [module.sns_encryption_key]
   delivery_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -39,21 +39,16 @@ module "create_doc_alarm_topic" {
   })
 }
 
-module "create-doc-ref-lambda" {
+module "update_doc_ref_lambda" {
   source  = "./modules/lambda"
-  name    = "CreateDocRefLambda"
-  handler = "handlers.create_document_reference_handler.lambda_handler"
+  name    = "UpdateDocRefLambda"
+  handler = "handlers.update_document_reference_handler.lambda_handler"
   iam_role_policy_documents = [
-    module.ndr-bulk-staging-store.s3_read_policy_document,
     module.ndr-bulk-staging-store.s3_write_policy_document,
     module.ndr-lloyd-george-store.s3_write_policy_document,
     module.ndr-lloyd-george-store.s3_read_policy_document,
     module.ndr-document-store.s3_read_policy_document,
     module.ndr-document-store.s3_write_policy_document,
-    module.document_reference_dynamodb_table.dynamodb_write_policy_document,
-    module.document_reference_dynamodb_table.dynamodb_read_policy_document,
-    module.stitch_metadata_reference_dynamodb_table.dynamodb_read_policy_document,
-    module.stitch_metadata_reference_dynamodb_table.dynamodb_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_write_policy_document,
     module.lloyd_george_reference_dynamodb_table.dynamodb_read_policy_document,
     aws_iam_policy.ssm_access_policy.policy,
@@ -61,23 +56,23 @@ module "create-doc-ref-lambda" {
   ]
   kms_deletion_window = var.kms_deletion_window
   rest_api_id         = aws_api_gateway_rest_api.ndr_doc_store_api.id
-  resource_id         = module.document_reference_gateway.gateway_resource_id
-  http_methods        = ["POST"]
+  resource_id         = module.document_reference_id_gateway.gateway_resource_id
+  http_methods        = ["PUT"]
   memory_size         = 512
 
   api_execution_arn = aws_api_gateway_rest_api.ndr_doc_store_api.execution_arn
   lambda_environment_variables = {
-    STAGING_STORE_BUCKET_NAME     = "${terraform.workspace}-${var.staging_store_bucket_name}"
+    STAGING_STORE_BUCKET_NAME     = module.ndr-bulk-staging-store.bucket_id
     APPCONFIG_APPLICATION         = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT         = module.ndr-app-config.app_config_environment_id
     APPCONFIG_CONFIGURATION       = module.ndr-app-config.app_config_configuration_profile_id
-    DOCUMENT_STORE_BUCKET_NAME    = "${terraform.workspace}-${var.docstore_bucket_name}"
-    DOCUMENT_STORE_DYNAMODB_NAME  = "${terraform.workspace}_${var.docstore_dynamodb_table_name}"
-    LLOYD_GEORGE_DYNAMODB_NAME    = "${terraform.workspace}_${var.lloyd_george_dynamodb_table_name}"
-    STITCH_METADATA_DYNAMODB_NAME = "${terraform.workspace}_${var.stitch_metadata_dynamodb_table_name}"
+    DOCUMENT_STORE_BUCKET_NAME    = module.ndr-document-store.bucket_id
+    DOCUMENT_STORE_DYNAMODB_NAME  = module.document_reference_dynamodb_table.table_name
+    LLOYD_GEORGE_DYNAMODB_NAME    = module.lloyd_george_reference_dynamodb_table.table_name
+    STITCH_METADATA_DYNAMODB_NAME = module.stitch_metadata_reference_dynamodb_table.table_name
     PDS_FHIR_IS_STUBBED           = local.is_sandbox,
     WORKSPACE                     = terraform.workspace
-    PRESIGNED_ASSUME_ROLE         = aws_iam_role.create_post_presign_url_role.arn
+    PRESIGNED_ASSUME_ROLE         = aws_iam_role.update_put_presign_url_role.arn
   }
   depends_on = [
     module.document_reference_gateway,
@@ -85,9 +80,8 @@ module "create-doc-ref-lambda" {
     module.document_reference_dynamodb_table,
     module.lloyd_george_reference_dynamodb_table,
     module.ndr-bulk-staging-store,
+    module.ndr-document-store,
     module.ndr-app-config,
-    module.lloyd_george_reference_dynamodb_table,
-    module.document_reference_dynamodb_table,
     module.stitch_metadata_reference_dynamodb_table
   ]
 }

@@ -14,6 +14,12 @@
         },
         "lloydGeorgeValidationStrictModeEnabled": {
             "name": "lloydGeorgeValidationStrictModeEnabled"
+        },
+        "uploadDocumentIteration2Enabled": {
+            "name": "uploadDocumentIteration2Enabled"
+        },
+        "uploadDocumentIteration3Enabled": {
+            "name": "uploadDocumentIteration3Enabled"
         }
     },
     "values": {
@@ -30,6 +36,12 @@
             "enabled": "false"
         },
         "lloydGeorgeValidationStrictModeEnabled": {
+            "enabled": "true"
+        },
+        "uploadDocumentIteration2Enabled": {
+            "enabled": "true"
+        },
+        "uploadDocumentIteration3Enabled": {
             "enabled": "true"
         }
     },

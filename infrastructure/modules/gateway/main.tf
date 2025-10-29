@@ -13,13 +13,14 @@ resource "aws_api_gateway_method" "preflight_method" {
 }
 
 resource "aws_api_gateway_method" "proxy_method" {
-  for_each         = toset(var.http_methods)
-  rest_api_id      = var.api_gateway_id
-  resource_id      = aws_api_gateway_resource.gateway_resource.id
-  http_method      = each.key
-  authorization    = var.authorization
-  authorizer_id    = var.authorizer_id
-  api_key_required = var.api_key_required
+  for_each           = toset(var.http_methods)
+  rest_api_id        = var.api_gateway_id
+  resource_id        = aws_api_gateway_resource.gateway_resource.id
+  http_method        = each.key
+  authorization      = var.authorization
+  authorizer_id      = var.authorizer_id
+  api_key_required   = var.api_key_required
+  request_parameters = var.request_parameters
 }
 
 resource "aws_api_gateway_method_response" "preflight_method_response" {
