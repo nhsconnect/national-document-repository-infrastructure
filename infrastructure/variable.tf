@@ -161,15 +161,20 @@ variable "alarm_state_history_table_name" {
   default     = "AlarmStateHistory"
 }
 
+variable "document_review_table_name" {
+  description = "The name of the DynamoDB table to store document review records."
+  type        = string
+  default     = "DocumentReview"
+}
 # VPC Variables
 
 variable "standalone_vpc_tag" {
-  description = "This is the tag assigned to the standalone VPC that should be created manaully before the first run of the infrastructure."
+  description = "This is the tag assigned to the standalone VPC that should be created manually before the first run of the infrastructure."
   type        = string
 }
 
 variable "standalone_vpc_ig_tag" {
-  description = "This is the tag assigned to the standalone VPC internet gateway that should be created manaully before the first run of the infrastructure."
+  description = "This is the tag assigned to the standalone VPC internet gateway that should be created manually before the first run of the infrastructure."
   type        = string
 }
 
