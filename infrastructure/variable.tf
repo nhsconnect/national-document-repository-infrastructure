@@ -81,6 +81,12 @@ variable "ca_pem_filename" {
   default     = "ndr-truststore.pem"
 }
 
+variable "document_pending_review_bucket_name" {
+  type        = string
+  description = "The S3 bucket name to store documents pending review"
+  default     = "document-pending-review-store"
+}
+
 # DynamoDB Table Variables
 
 variable "pdm_dynamodb_table_name" {

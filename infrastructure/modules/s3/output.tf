@@ -25,3 +25,7 @@ output "s3_read_policy_document" {
 output "s3_write_policy_document" {
   value = data.aws_iam_policy_document.s3_write_policy.json
 }
+
+output "bucket_regional_domain_name" {
+  value = aws_s3_bucket.bucket.bucket_regional_domain_name
+}

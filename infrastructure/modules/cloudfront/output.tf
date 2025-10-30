@@ -1,8 +1,8 @@
 output "cloudfront_url" {
-  value = aws_cloudfront_distribution.distribution.domain_name
+  value = var.has_secondary_bucket ? aws_cloudfront_distribution.distribution_with_secondary_bucket[0].domain_name : aws_cloudfront_distribution.distribution[0].domain_name
 }
 
 output "cloudfront_arn" {
   description = "The ARN of the CloudFront Distribution"
-  value       = aws_cloudfront_distribution.distribution.arn
+  value       = var.has_secondary_bucket ? aws_cloudfront_distribution.distribution_with_secondary_bucket[0].arn : aws_cloudfront_distribution.distribution[0].arn
 }
