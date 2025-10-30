@@ -39,6 +39,11 @@ variable "migration_dynamodb_segment_store_bucket_name" {
   default     = "migration-dynamodb-segment-store"
 }
 
+variable "migration_failed_items_store_bucket_name" {
+  description = "The name of the S3 bucket to store failed items during DynamoDB migration."
+  type        = string
+  default     = "migration-failed-items-store"
+}
 variable "zip_store_bucket_name" {
   description = "The name of the S3 bucket used as a zip store."
   type        = string

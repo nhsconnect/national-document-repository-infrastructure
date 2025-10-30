@@ -24,6 +24,7 @@ module "migration-dynamodb-lambda" {
     APPCONFIG_APPLICATION   = module.ndr-app-config.app_config_application_id
     APPCONFIG_ENVIRONMENT   = module.ndr-app-config.app_config_environment_id
     APPCONFIG_CONFIGURATION = module.ndr-app-config.app_config_configuration_profile_id
+    FAILED_ITEMS_SQS_URL    = module.migration_failed_items_sqs.sqs_url
   }
 
   lambda_timeout                 = 900
@@ -35,5 +36,6 @@ module "migration-dynamodb-lambda" {
     module.bulk_upload_report_dynamodb_table,
     module.ndr-app-config,
     aws_iam_policy.ssm_access_policy,
+    module.migration_failed_items_sqs
   ]
 }
