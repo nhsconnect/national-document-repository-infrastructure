@@ -72,3 +72,26 @@ module "bulk-upload-metadata-processor-alarm-topic" {
 
   depends_on = [module.bulk-upload-metadata-processor-lambda, module.sns_encryption_key]
 }
+
+resource "aws_lambda_permission" "bulk_upload_metadata_processor_lambda" {
+  statement_id  = "AllowS3Invoke"
+  action        = "lambda:InvokeFunction"
+  function_name = module.bulk-upload-metadata-processor-lambda.function_name
+  principal     = "s3.amazonaws.com"
+  source_arn    = module.ndr-bulk-staging-store.bucket_arn
+}
+
+resource "aws_s3_bucket_notification" "bulk_upload_metadata_processor_lambda_trigger" {
+  bucket = module.ndr-bulk-staging-store.bucket_id
+
+  lambda_function {
+    lambda_function_arn = module.bulk-upload-metadata-processor-lambda.lambda_arn
+    events              = ["s3:ObjectCreated:*"]
+    filter_prefix       = "expedite/"
+    filter_suffix       = ".pdf"
+  }
+
+  depends_on = [
+    aws_lambda_permission.bulk_upload_metadata_processor_lambda
+  ]
+}
