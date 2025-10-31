@@ -45,3 +45,9 @@ variable "api_key_required" {
   type        = bool
   default     = false
 }
+
+variable "request_parameters" {
+  description = "Request parameters for the API Gateway method."
+  type        = map(string)
+  default     = {}
+}
