@@ -285,3 +285,10 @@ variable "kms_deletion_window" {
   type        = number
   default     = 30
 }
+
+variable "configs_bucket_name" {
+  description = "The name of the S3 bucket to store configuration files."
+  type        = string
+  default     = "configs"
+}
+

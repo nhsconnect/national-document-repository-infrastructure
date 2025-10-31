@@ -26,7 +26,8 @@ resource "aws_backup_selection" "s3_continuous_backup" {
   resources = [
     module.ndr-document-store.bucket_arn,
     module.ndr-lloyd-george-store.bucket_arn,
-    module.statistical-reports-store.bucket_arn
+    module.statistical-reports-store.bucket_arn,
+    module.ndr-configs-store.bucket_arn
   ]
 }
 

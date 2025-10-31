@@ -1,0 +1,13 @@
+{
+  "owner": "Current USB aliases",
+  "file_path": "File Path",
+  "page_count": "PageCount",
+  "gp_practice_code": "Practice Code",
+  "nhs_number": "NHS Number",
+  "section": "Folder",
+  "sub_section": "Subfolder",
+  "scan_date": "Scan Date",
+  "scan_id": "Scan Id",
+  "user_id": "User",
+  "upload": "Upload Date"
+}
