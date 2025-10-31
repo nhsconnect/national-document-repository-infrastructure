@@ -76,6 +76,7 @@ module "api_gateway_resource" {
 | <a name="input_http_methods"></a> [http\_methods](#input\_http\_methods) | List of allowed HTTP methods for the resource (e.g., ["GET", "POST"]). | `list(string)` | n/a | yes |
 | <a name="input_origin"></a> [origin](#input\_origin) | Allowed origin for CORS requests (e.g., '*', or specific domain). | `string` | `"'*'"` | no |
 | <a name="input_parent_id"></a> [parent\_id](#input\_parent\_id) | ID of the parent API Gateway resource (e.g., root path or another nested resource). | `string` | n/a | yes |
+| <a name="input_request_parameters"></a> [request\_parameters](#input\_request\_parameters) | Request parameters for the API Gateway method. | `map(string)` | `{}` | no |
 | <a name="input_require_credentials"></a> [require\_credentials](#input\_require\_credentials) | Sets the value of 'Access-Control-Allow-Credentials' which controls whether auth cookies are needed. | `bool` | n/a | yes |
 ## Outputs
 
